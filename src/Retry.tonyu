@@ -1,0 +1,21 @@
+includes MainProcLibs;
+
+\retry(){
+    $stage = -1;
+    $frame = 0;
+    $difficulty = 0;
+    $stageList = [];
+    $bossList = [];
+    $boss = -1;
+    $bossDifficulty = "";
+    $norma = $normaMax;
+    
+    loadPage( Start );
+}
+
+\retryText(){
+    new Label{
+        x=$W * 0.5, y=$H * 0.5, text="タッチして続ける",
+        size=30, fillStyle="red",
+    };
+}

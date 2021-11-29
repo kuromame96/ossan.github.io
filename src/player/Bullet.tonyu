@@ -1,0 +1,13 @@
+extends BodyActor;
+
+sp = $H * 0.02;
+p = $pat_base+18;
+scaleX = $W * 0.002;
+
+while( true ){
+    y += -sp;
+    
+    if( x < 0 || y < $H * 0.15 || x > $W || y > $H ) die();
+    
+    update();
+}

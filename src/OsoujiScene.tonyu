@@ -1,0 +1,64 @@
+includes MainProcLibs;
+init();
+
+BGGW = new Actor{ 
+    x=$W * 0.5, y=$H * 0.5,
+    p=$pat_osouji_scene_bg_gw,
+    scaleX=$scrScale,
+    zOrder=10,
+};
+BG = new BGBase{ 
+    BGImg=$pat_osouji_scene_bg, 
+    scaleX=$scrScale,
+    zOrder=9,
+};
+
+timeSale = new TimeSale;
+
+ceiling.die();
+leftWall.y = -( $H * 0.9 );
+rightWall.y = -( $H * 0.9 );
+leftWall.x = -( $W * 0.2 );
+rightWall.x = $W * 1.2;
+floor = new Floor{x=$W, y=$H, scaleX=$W * 0.1, scaleY=1, alpha=255};
+
+player = new Player{ speed: $W * 0.02, bodyFlag=true };
+uketuke = new Uketuke{
+    x=$W * 0.5, y=-( $H * 0.2 ),
+};
+uketukeFollowMotion = new OffsetFollowMotion{
+    target = uketuke,
+    offsetX = 0, offsetY = $H * 0.2,
+};
+if( $difficulty === 0 ) kyakuLen=5;
+if( $difficulty === 1 ) kyakuLen=10;
+if( $difficulty === 2 ) kyakuLen=20;
+
+kyakuList = [];
+for( i=0; kyakuLen > i; i++ ){
+    kyaku = new BodyActor{
+        x=rnd( $W ), y=rnd( $H * 0.5, $H ),
+        p=$pat_otherningen, scaleX=$W * 0.001,
+        manualRotation=true
+    };
+    kyakuList.push( kyaku );
+}
+
+$sound.playBGM( $se_k_131, true );
+
+while( true ){
+    nextScene( player.apeealEnd );
+    
+    if( uketuke.horiNageItemOut && player.apeealTime >= 0 ){
+        player.apeealTime = -1;
+    }
+    if( timeSale.time < 0 && player.apeealTime >= 0 ){
+        player.apeealTime = -1;
+    }
+    
+    uketuke.x = $W * 0.5;
+    
+    BG.extend( uketukeFollowMotion.next() );
+    
+    update();
+}

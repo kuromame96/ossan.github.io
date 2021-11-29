@@ -1,0 +1,87 @@
+includes MainProcLibs;
+new T2World{gravity:0};
+init();
+
+BG = new Actor{
+    x=$W * 0.5, y=$H * 0.5,
+    p=$pat_osouji_scene_bg_gw,
+    zOrder=10, 
+};
+
+ceiling.scaleY *= 7;
+ceiling.y = 0;
+new Floor{x=$W, y=$H, scaleX=$W * 0.1, scaleY=1, alpha=0}; 
+
+if( $difficulty === 0 ) {
+    badItemScale = $scrScale * 1.2;
+    sp = $W * 0.0025;
+};
+if( $difficulty === 1 ) {
+    badItemScale = $scrScale * 0.8;
+    sp = $W * 0.005;
+};
+if( $difficulty === 2 ) {
+    badItemScale = $scrScale * 0.55;
+    sp = $W * 0.01;
+};
+
+player = new Player{
+    speed: $W * 0.008, scaleX: $W * 0.001,
+    gunMode: false, jump: false, notMove=true,
+};
+
+sentaku = new SentakuKi{x=$W * 0.5, y=$H * 0.25};
+roundTripMotion = new RoundTripMotion{ firstX=$W * 0.5, firstY=$H * 0.25, sp=1 };
+
+badItemList = [];
+badItemList[ 0 ] = new SentakuItem{
+    x=$W * 0.2, y=$H * 0.5, moveX=$W * 0.2, moveY=$H * 0.5,
+    itemType=0, badItem=true, density=0.1, restitution=0.1,
+    scaleX=badItemScale, sp=sp, sentakuKi=sentaku, player=player,
+};
+badItemList[ 1 ] = new SentakuItem{
+    x=$W * 0.5, y=$H * 0.5, moveX=$W * 0.5, moveY=$H * 0.5,
+    itemType=1, badItem=true, density=0.1, restitution=0.1,
+    scaleX=badItemScale, sp=sp, sentakuKi=sentaku, player=player,
+};
+badItemList[ 2 ] = new SentakuItem{
+    x=$W * 0.8, y=$H * 0.5, moveX=$W * 0.8, moveY=$H * 0.5,
+    itemType=2, badItem=true, density=0.1, restitution=0.1,
+    scaleX=badItemScale, sp=sp, sentakuKi=sentaku, player=player,
+};
+
+gun = new Gun{x=$W * 0.5, y=0};
+
+if( $difficulty <= 1 ){
+    sentaku.scaleX = $W * 0.0008;
+}else{
+    sentaku.scaleX = $W * 0.0003;
+}
+
+$sound.playBGM( $se_k_130, true );
+
+while( true ){
+    if( player.crashTo( gun ) ){
+        $sound.playSE( $se_kamaeru );
+        gun.die();
+        player.gunMode = true;
+    }
+    bullet = ceiling.crashTo( Bullet );
+    if( bullet ) bullet.die();
+    
+    badItemList.map(\( item ){
+        if( item.y < -( $W * 0.2 ) && player.apeealTime >= -1 ) {
+            player.apeealTime = -1;
+        };
+    });
+    
+    if( $difficulty > 0 ){
+        sentaku.extend( roundTripMotion.next() );
+    }
+    
+    frame++;
+    
+    nextScene( player.apeealEnd );
+    
+    update();
+}

@@ -1,0 +1,25 @@
+extends Items;
+super.main();
+
+dir; // "Left" or "Right"
+firstX = x;
+firstY = y;
+
+\hirei( a, posX ){
+    return a * posX * posX;
+}
+
+while( true ){
+    if( dir === 0 ) {
+        x += -( $W * 0.005 );
+        y = hirei( 0.03, ( x + -( firstX ) + 50 ) ) + firstY;
+    };
+    if( dir === 1 ) {
+        x += $W * 0.005;
+        y = hirei( 0.03, ( x + -( firstX ) - 50 ) ) + firstY;
+    };
+    
+    
+    
+    update();
+}

@@ -1,0 +1,54 @@
+extends Items;
+super.main();
+
+dir;
+spAdd = 0;dethMovingSp = 0;
+wait = 0;waitEnd = 50;
+dieWait = 0;dieWaitEnd = 50;
+sp = $W * 0.01;
+x = dir === "Left" ? $W * 1.2 : -( $W * 0.2 );
+y = $H * 0.8;
+soundPlay = false;
+
+warn = new Warning{ y=y, scaleX=scaleX, dir=dir };
+
+while( true ){
+    spAdd += 0.1;
+    wait += 1;
+    
+    // if( wait > waitEnd ){
+    //     if( !warn.isDead() ) warn.die();
+    //     x += sp;
+    // }
+    
+    if( dir === "Left"){
+        if( wait > waitEnd ){
+            if( !warn.isDead() ) warn.die();
+            x += -sp;
+            if( !soundPlay ){
+                $sound.playSE( $se_dash );
+                soundPlay = true;
+            };
+        }
+    }
+    
+    if( dir === "Right" ){
+        if( wait > waitEnd ){
+            if( !warn.isDead() ) warn.die();
+            x += sp;
+            if( !soundPlay ){
+                $sound.playSE( $se_dash );
+                soundPlay = true;
+            };
+        }
+    }
+    
+    if( x > $W * 1.2 ){
+        die();
+    }
+    if( x < $W * -0.2 ){
+        die();
+    }
+    
+    update();
+}

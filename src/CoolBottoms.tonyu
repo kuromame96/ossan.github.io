@@ -1,0 +1,3 @@
+extends FollItem;
+
+p = $pat_zubon;

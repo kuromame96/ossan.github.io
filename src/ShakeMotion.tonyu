@@ -1,0 +1,18 @@
+firstX;firstY;
+angle = 1;
+radCos = $W * rnd( 2, 5 ) * 0.01;
+radSin = $W * rnd( 2, 5 ) * 0.01;
+
+\next(){
+    angle += 50;
+    pos = { x=0, y=0 };
+    
+    if( firstX && firstY ){
+        radCos = $W * rnd( 2, 5 ) * 0.01;
+        radSin = $W * rnd( 2, 5 ) * 0.01;
+        pos.x = firstX + cos( angle ) * radCos;
+        pos.y = firstY + sin( angle ) * radSin;  
+    }
+    
+    return pos;
+}

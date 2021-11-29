@@ -1,0 +1,199 @@
+includes MainProcLibs;
+init();
+
+scr = 1.5;
+frame = 0;
+attackTime = 0;
+goBackToFirstPos = false;
+attackArm = 0;
+firstRadius = $scrScale * 100;
+firstLeftArmPosX = -( $W * 0.1 );
+firstRightArmPosX = $W * 1.1;
+itemType = -1;
+bg = new BGBase{
+    BGImg=$pat_bigface_scene_bg,
+    scaleX=$scrScale,
+};
+BGGW = new Actor{ 
+    x=$W * 0.5, y=$H * 0.5,
+    p=$pat_osouji_scene_bg_gw,
+    scaleX=$scrScale,
+    zOrder=100,
+};
+
+$sound.playBGM( $se_k_94, true );
+
+player = new Player{
+    speed: $W * 0.008, scaleX: $W * 0.001,
+    gunMode: false, jump: false,
+};
+
+bigFace = new BigFace{ x=$W * 0.5, y=$H * 0.3, img=$pat_bigface, scaleX: $scrScale * scr };
+
+nowBadItem;
+goodItemList = [];
+goodItemMotList = [];
+badItemBulletList = [];
+for( i=2; i < 5; i++ ){
+    item = new Items{
+        x=$W * 0.5, y=$H * i * 0.1, scaleX=$scrScale,
+        itemType=i-2, badItem=false, zOrder=100,
+    };
+    item.alpha = 0;
+    goodItemList.push( item );
+}
+for( i=0; i < 3; i++ ){
+    goodItemMotList.push(new FollMotion{ firstY=goodItemList[i].y });
+}
+
+leftArm = new Actor{ 
+    x=firstLeftArmPosX, y=0,
+    p=$pat_bigface_hand+0, scaleX: $scrScale * scr * 1.2,
+    rotation=45
+};
+rightArm = new Actor{
+    x=firstRightArmPosX, y=$H * 0.7,
+    p=$pat_bigface_hand+0, scaleX: -( $scrScale * scr * 1.2 ), scaleY: $scrScale * scr * 1.2,
+    rotation=-45
+};
+
+leftRoundTripMotion = new RotMotion{ 
+    firstX=-( $W * 0.1 ), firstY=$H * 0.7,
+    sp=$scrScale * 10, radius=$scrScale * 100,
+    angle=1,
+};
+rightRoundTripMotion = new RotMotion{ 
+    firstX=$W * 1.1, firstY=$H * 0.7,
+    sp=$scrScale * 10, radius=$scrScale * 100,
+    angle=180,
+};
+
+rotMotion = new RotMotion{ 
+    firstX=$W * 0.1, firstY=$H * 0.9,
+    sp=$scrScale * 10, radius=$scrScale * 200,
+    angle=1,
+};
+
+\attackUpdate( mot, sp, arm, aarm ){
+    if( attackArm !== aarm ) return;
+    if( !goBackToFirstPos ){
+        newPos = mot.next();
+        mot.radius += sp;
+        arm.extend( newPos );
+        
+        if( mot.radius > 250 ){
+            goBackToFirstPos = true;
+        }
+    }else{
+        newPos = mot.next();
+        mot.radius += -sp;
+        arm.extend( newPos );
+        
+        if( mot.radius < firstRadius ){
+            attackTime = 0;
+            attackArm = 0;
+            bigFace.attack = false;
+            goBackToFirstPos = false;
+            mot.radius = firstRadius;
+            nowBadItem.die();
+            nowBadItem = undefined;
+            if( aarm === -1 ) arm.x = firstLeftArmPosX;
+            if( aarm === 1 ) arm.x = firstRightArmPosX;
+        }
+    }
+}
+
+\itemBulletUpdate( base, pl, maxBullet ){
+    if( frame % 24 ) return;
+    
+    $sound.playSE( $se_out, 128, 0, 1.5 );
+    
+    if( badItemBulletList.length > maxBullet ){
+        attackTime = 0;
+        bigFace.attack = false;
+        badItemBulletList = [];
+        
+        return;
+    };
+    
+    badItemBulletList.push(new ItemBullet{
+        firstX=base.x - 30, firstY=base.y + 80,
+        itemType=0, badItem=true, target={x=pl.x, y=pl.y + 500},
+    });
+}
+
+while( true ){
+    frame++;
+    
+    nextScene( player.apeealEnd );
+    
+    if( itemType > 2 ){
+        goodItemList.map(\( item ){
+            if( item.alpha === 0 ) item.alpha = 255;
+        });
+        bg.y += 10;
+        bigFace.y += 10;
+        leftArm.y += 10;
+        rightArm.y += 10;
+        goodItemMotList.map(\( m, i ){
+            goodItemList[i].extend( m.next() );
+        });
+        update();
+        
+        continue;
+    }
+    
+    if( attackArm !== -1 ){
+        leftArm.y = leftRoundTripMotion.next().y;
+        leftArm.p = $pat_bigface_hand+0;
+    }else{
+        leftArm.p = $pat_bigface_hand+1;
+    }
+    if( attackArm !== 1 ){
+        rightArm.y = rightRoundTripMotion.next().y;
+        rightArm.p = $pat_bigface_hand+0;
+    }else{
+        rightArm.p = $pat_bigface_hand+1;
+    }
+    
+    if( attackTime === 1 ){
+        bigFace.attack = true;
+        if( $bossDifficulty === 0 ) attackArm = -1;
+        if( $bossDifficulty === 1 ) attackArm = rnd(0, 2) ? 1 : -1;
+        if( $bossDifficulty === 2 ) attackArm = rnd(-1, 2);
+        
+        if( itemType <= 2 ) itemType++;
+        
+        if( attackArm === -1 ) leftRoundTripMotion.angle = 180;
+        if( attackArm === 1 ) rightRoundTripMotion.angle = 180;
+        
+        if( attackArm !== 0 && itemType <= 2 ){
+            nowBadItem = new Items{
+                x=$W * 0.5, y=$H * 0.5,
+                itemType, badItem=true, scaleX=$scrScale,
+                zOrder=-1,
+            };  
+            nowBadItem.itemType = itemType;
+        }
+    }
+    
+    if( attackTime === 18 ) $sound.playSE( $se_suburi, 128, 0, 0.5 );
+    
+    if( attackTime > 24 ){
+        if( attackArm === -1 ) attackUpdate( leftRoundTripMotion, 2, leftArm, -1 );
+        if( attackArm === 1 ) attackUpdate( rightRoundTripMotion, 2, rightArm, 1 );
+        if( attackArm === 0 ) itemBulletUpdate( bigFace, player, 5 );
+    }
+    
+    if( attackTime > 0 && itemType <= 2 ){
+        attackTime++;
+        if( attackArm === -1 ) nowBadItem.extend({ x=leftArm.x + 60, y=leftArm.y + -50 });
+        if( attackArm === 1 ) nowBadItem.extend({ x=rightArm.x + -60, y=rightArm.y + -50 });
+    }
+    
+    if( !( frame % 60 ) && !bigFace.attack ){
+        attackTime = 1;
+    }
+    
+    update();
+}

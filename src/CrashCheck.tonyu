@@ -1,0 +1,14 @@
+\check( baseAct, targetAct ){
+    result = false;
+    if( !baseAct.isDead() ){
+        crashAct = baseAct.crashTo( targetAct );
+        if( crashAct ){
+            result = true;
+            crashAct.die();
+        }
+    }
+    return result;
+}
+
+
+

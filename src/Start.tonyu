@@ -1,0 +1,8 @@
+includes MainProcLibs;
+init();
+
+// obj = new TestObject;
+
+// obj.setHP( 200 );
+
+nextScene( true );

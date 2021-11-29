@@ -1,0 +1,13 @@
+frame = 0;
+imgList = [ 
+$pat_rogo0, $pat_rogo0, $pat_rogo0, $pat_rogo0,
+$pat_rogo1, $pat_rogo1, $pat_rogo1, $pat_rogo1,
+$pat_rogo2, $pat_rogo2, $pat_rogo2, $pat_rogo2,
+$pat_rogo3, $pat_rogo3, $pat_rogo3, $pat_rogo3,
+$pat_rogo4, $pat_rogo4, $pat_rogo4, $pat_rogo4, 
+];
+while( true ){
+    frame++;
+    p = imgList[ frame % 20 ];
+    update();
+}

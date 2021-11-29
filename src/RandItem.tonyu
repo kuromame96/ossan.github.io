@@ -1,0 +1,8 @@
+item = new FollItem{ 
+    x = itemX, y = itemY, scaleX = itemScaleX, 
+    itemType, badItem,
+};
+
+update();
+
+print( item.y );

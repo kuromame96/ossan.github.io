@@ -1,0 +1,21 @@
+native Math;
+dir;
+frame = 0;
+p=$pat_warning;
+
+x = dir === "Left" ? $W * 0.9 : $W * 0.1;
+scaleX = dir === "Left" ? -scaleX : scaleX;
+scaleY = Math.abs( scaleX );
+
+while( true ){
+    frame++;
+    
+    if( frame % 4 === 0 ){
+        show();
+        $sound.playSE( $se_pa );
+    }else if( frame % 4 !== 0 ){
+        hide();
+    };
+    
+    update();
+}

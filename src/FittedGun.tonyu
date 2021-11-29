@@ -1,0 +1,11 @@
+p = $pat_gun;
+rotation = -60;
+followTarget;
+scaleX = $scrScale * 0.35;
+
+while( true ){
+    x = followTarget.x - 60;
+    y = followTarget.y - 110;
+    
+    update();
+}

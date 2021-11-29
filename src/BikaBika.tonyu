@@ -1,0 +1,12 @@
+p=$pat_bikabika;
+scaleX=scrScale;
+rotMotion=new RotMotion{
+    firstX=x,firstY=y,
+    sp=0.001,radius=$W * 0.1,
+    angle=1,
+};
+
+while( true ){
+    rotation += 0.001;
+    scaleX = rotMotion.next().x * 0.005;
+}

@@ -1,0 +1,19 @@
+time = 720;
+timeOver = false;
+label = new Label{ 
+    x=$W * 0.5, y=$H * 0.5,  
+    text="タイムセール終了まで: ",
+    size=$scrScale * 80, fillStyle = "red",
+};
+
+while( true ){
+    time--;
+    if( time > 0 ){
+        label.text = "タイムセール終了まで: " + time;
+    }else{
+        timeOver = true;
+        label.die();
+    }
+    
+    update();
+}

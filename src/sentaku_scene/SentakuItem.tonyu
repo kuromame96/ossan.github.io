@@ -1,0 +1,57 @@
+extends Items;
+super.main();
+
+sp;
+frame=0;
+futtobi = false;
+houriKomare = 0;
+moveX;moveY;
+radius = 300;
+angle = 0;
+YHirei = 0;
+YTobioriFirstPos = 0;
+sentakuKi;
+player;
+
+\moving(){
+    if( futtobi ) return;
+    
+    x = moveX + cos( angle ) * radius;
+    if( $difficulty === 2 ){
+        y = moveY + sin( angle * 2 ) * ( radius / 10 );
+    }
+}
+
+\crash(){
+    if( !futtobi ) return;
+    
+    rotation += $W * 0.05;
+    y += -( $W * 0.01 + frame );
+}
+
+while( true ){
+    
+    bullet = crashTo( Bullet );
+    if( bullet ) {
+        futtobi = true;
+        bullet.die();
+    };
+    
+    moving();
+    crash();
+    
+    if( crashTo( SentakuKi ) ){
+        houriKomare = 1;
+        new CoolSentakuItem{
+            y=$H * 0.15, x=0, sentakuKi=sentakuKi,
+            itemType=itemType, badItem=false,
+            alpha=0, player=player,
+        };
+        die();
+    }
+    
+    if( houriKomare === 1 ) $sound.playSE( $se_pyun );
+    
+    angle += sp;
+    update();
+}

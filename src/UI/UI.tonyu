@@ -1,0 +1,16 @@
+//x=$W * 0.5;y=$H * 0.1;
+rogo = new Rogo{x=$W * 0.65, y=$H * 0.0375};
+rogo.zOrder = -5;
+face = new Actor{
+    x=$W * 0.15, y=$H * 0.06, 
+    p=$pat_ojisan_face, scaleX=$W * 0.0008 
+};
+face.zOrder = -5;
+new Actor{x=$W * 0.5,y=$H * 0.075,width=$W,height=$H * 0.15,fillStyle="black",alpha=180};
+scoreLabel = new Label{
+    x=$W * 0.6, y=$H * 0.1,template="ノルマ達成まで: $norma",
+    size=$W * 0.07,
+};
+while( true ){
+    update();
+}

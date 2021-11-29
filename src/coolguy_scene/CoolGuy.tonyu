@@ -1,0 +1,94 @@
+native Math;
+
+sp = $H * 0.01;
+if( $difficulty <= 1 ) p = $pat_coolguy;
+if( $difficulty >= 2 ) p = $pat_dosukoi;
+if( $difficulty <= 1 ) scaleX = $W * 0.0006;
+if( $difficulty >= 2 ) scaleX = $scrScale * 1.3;
+frame = 0;
+hp = 15;  
+live = true;
+follItemType = 0;
+entry = false;
+follItem;
+follItemOut = false;
+
+if( $difficulty >= 2 ){
+    handList = [];
+    rotMotList = [];
+    
+    handList[ 0 ] = new Actor{ 
+        x=0, y=0,
+        p=$pat_dosukoi_hand+0, scaleX=$scrScale * 0.8,
+    };
+    handList[ 1 ] = new Actor{ 
+        x=0, y=0,
+        p=$pat_dosukoi_hand+0, scaleX=$scrScale * 0.8,
+    };
+    
+    rotMotList[ 0 ] = new RotMotion{
+        firstX = x,firstY = y,
+        sp = 2,radius = 120,
+        angle = 1,
+    };
+    rotMotList[ 1 ] = new RotMotion{
+        firstX = x,firstY = y,
+        sp = 2,radius = 120,
+        angle = 180,
+    };
+}
+
+while( true ){
+    frame += sp;
+    
+    if( $difficulty === 0 ){
+        angle = frame * ( Math.PI / 180 );
+        x = $W * 0.5 + Math.cos( angle ) * $W * 0.3;
+        y = $H * 0.3;
+    }else if( $difficulty === 1 ){
+        angle = frame * ( Math.PI / 180 ) * 0.5;
+        x = $W * 0.5 + Math.cos( angle ) * $W * 0.8;
+        y = $H * 0.3 + Math.sin( angle * 2 ) * $W * 0.1;
+    }else if( $difficulty === 2 ){
+        angle = frame * ( Math.PI / 180 ) * 0.25;
+        x = $W * 0.5 + Math.cos( angle ) * $W * 0.8;
+        y = $H * 0.3 + Math.sin( angle * 2 ) * $W * 0.1;
+        rotMotList.map(\( mot, i ){
+            mot.firstX = x; mot.firstY = y;
+            handList[ i ].extend( mot.next() );
+        });
+    };
+    
+    br = crashTo( Bullet );
+    if( br ){
+        br.die();
+        $sound.playSE( $se_coolguydamage );
+        $sound.playSE( $se_doko );
+        hp--;
+        
+        if( hp % 5 === 0 ){
+            follItem = new CoolGuyFollItem{
+                x=x, y=y, scaleX=( $W * 0.001 ), 
+                itemType=follItemType, badItem=false,
+            };
+            follItemType++;
+        }
+    }
+    
+    if( handList != null ){
+        handList.map(\( hand ){
+            br = hand.crashTo( Bullet );
+            if( br ) br.die();
+        });
+    }
+    
+    if( hp <= 0 ) {
+        die();
+    };
+    
+    if( follItem != null ){
+        if( follItem.y > $H * 1.1 ) follItemOut = true;
+    }
+    
+    update();
+}

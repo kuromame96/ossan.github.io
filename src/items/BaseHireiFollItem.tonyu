@@ -1,0 +1,14 @@
+extends Items;
+super.main();
+
+firstY = y;
+YHirei = 0;
+
+\hirei( a, posX ){
+    return a * posX * posX;
+}
+
+\foll(){
+    YHirei += $W * 0.005;
+    y = hirei( 0.03, YHirei + -( 50 ) ) + firstY;
+}

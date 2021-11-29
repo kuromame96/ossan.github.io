@@ -1,0 +1,19 @@
+\getTops(){
+    type = rnd( 0, 3 );
+    if( type === 0 ) return $pat_suutu_in;
+    if( type === 1 ) return $pat_porosyatu_in;
+    if( type === 2 ) return $pat_autaa_in;
+}
+
+\getBottoms(){
+    type = rnd( 0, 2 );
+    if( type === 0 ) return $pat_suutu_sita_in;
+    if( type === 1 ) return $pat_zubon_in;
+}
+
+\getHat(){
+    type = rnd( 0, 3 );
+    if( type === 0 ) return $pat_gurasan_in;
+    if( type === 1 ) return $pat_bousi_in;
+    if( type === 2 ) return $pat_riizento_in;
+}

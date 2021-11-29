@@ -1,0 +1,181 @@
+includes Retry;
+
+p=$pat_ojisan;
+crashScale = 0.8;
+itemType=0;
+apeealTime=0;
+firstX = $W * 0.5; 
+firstY = $H * 0.8;
+x=firstX;y=firstY;
+followItemList = [];
+playSyaki = false;
+vy=0;jumpSp=$H * 0.008;gravity=$H * 0.00005;
+onGround=true;
+frame = 0;
+hitBall = new Actor{p=$pat_hitball, x=firstX, y=firstY, scaleX=$W * 0.0003, zOrder: -1};
+scaleX = $W * 0.0008;
+speed = $W * 0.02;
+nowBullet;
+notMove;
+fittedGun = new FittedGun{ followTarget=this };
+fittedGun.hide();
+
+\setApeealEnd( flag ){
+    apeealEnd = flag;
+}
+\getApeealEnd(){
+    return apeealEnd;
+}
+setApeealEnd( false );
+
+\hitBallFollowUpdate(){
+    hitBall.x = x;
+    hitBall.y = y;
+}
+
+\gravityUpdate(){
+    if( y >= firstY ){
+        y = firstY;
+        vy = 0;
+        onGround = true;
+    }else{
+        if( apeealTime === 0 ){
+            vy += gravity;
+            y += vy;
+        }
+    }
+}
+
+\setGunMode( flag ){
+    gunMode = flag;
+}
+setGunMode( false );
+
+\bodyUpdate(){
+    if( !body ){
+        body = new BodyActor{
+            x=x, y=y, p=$pat_ojisan, scaleX=scaleX,
+            isStatic=true,
+        };
+    }
+    body.x = x;
+    body.y = y;
+}
+\bodyDeleted(){
+    if( !body ) return;
+    body.die();
+    body = undefined;
+}
+
+while( true ){
+    frame++;
+    hitBallFollowUpdate();
+    if( !notMove ){
+        x += $touches[0].vx * 2; 
+        if( getkey( "left" ) && x > 0 ){  
+            x += -speed;
+        }else if( x < 0 ){
+            x = 0;
+        };
+        
+        if( getkey( "right" ) && x < $W ){
+            x += speed;   
+        }else if( x > $W ){
+            x = $W;
+        };
+    }
+    if( gunMode ){
+        fittedGun.show();
+        if( $touches[0].touched || getkey( "space" ) ){
+            if( !nowBullet || nowBullet.isDead() ){
+                nowBullet = new Bullet{ x=x + -( $W * 0.2 ), y=( y + -100 ) };
+                $sound.playSE( $se_gunshot );
+            }
+        }
+    }else{
+        fittedGun.hide();
+    }
+    
+    ci = hitBall.crashTo( Items ) || hitBall.crashTo( BodyItem );
+    if( ci && apeealTime > -1 ) {
+        if( ci.badItem === false ){
+            $sound.playSE( $se_get );
+        }else if( ci.badItem === true ){
+            apeealTime--;
+        }     
+        
+        followItemList.push( new FollowItem{ x = x, y = y, itemType=ci.itemType, badItem=ci.badItem, player=this } );
+        
+        if( itemType < 3 ){
+            itemType++;
+            // $spawn = false; 
+        };
+        
+        ci.die();
+    };
+    
+    if( apeealTime === 1 ) {
+        $sound.playSE( $se_syaki );
+        $sound.playBGM( $se_k_40 );
+        all( Items ).die();
+        p=$pat_ojisan_kime;
+        apeealTime++;
+    };
+    
+    if( apeealTime === -1 ) {
+        $sound.playSE( $se_gua );
+        $sound.playSE( $se_syaki );
+        $sound.playBGM( $se_k_40 );
+        all( Items ).die();
+        p=$pat_ojisan_damage;
+        apeealTime--;
+        retryText();
+    };
+    
+    if( ( apeealTime < 50 && apeealTime > 1 ) || ( apeealTime > -1 && itemType > 2 ) ){
+        x = $W * 0.5; y = $H * 0.5;
+        apeealTime++;
+        
+        if( apeealTime % 6 === 0 ){
+            new Kira{ 
+                x=$W * rnd( 3, 7 ) * 0.1, 
+                y=$H * rnd( 3, 7 ) * 0.1
+            }; 
+        }
+        
+        if( apeealTime >= 50 ) {
+            setApeealEnd( true );
+        };
+    }
+    
+    if( apeealTime < -1 ){
+        x = $W * 0.5; y = $H * 0.5;
+        apeealTime--;
+        
+        if( apeealTime % 6 === 0 ){
+            new Kira{ 
+                x=$W * rnd( 3, 7 ) * 0.1, 
+                y=$H * rnd( 3, 7 ) * 0.1
+            }; 
+        }
+        
+        if( $touches[0].touched ){
+            retry();
+        }
+    }
+    
+    // if( frame % 12 === 0 ) {
+    //     if( gunMode ){
+    //         new Burret{ x=x + -( $W * 0.1 ), y=y };
+    //         $sound.playSE( $se_gunshot );  
+    //     }
+        
+    // }
+    
+    gravityUpdate();
+    
+    if( bodyFlag ) bodyUpdate();
+    else if( bodyFlag ) bodyDeleted();
+    
+    update();
+}

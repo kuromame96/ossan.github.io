@@ -1,0 +1,8 @@
+\actJump( act ){
+    if( act.y <= act.firstY && act.onGround ) {
+        act.vy = -act.jumpSp;
+        act.y += act.vy;
+        act.onGround = false;
+        $sound.playSE( $se_burp1 );
+    }
+}

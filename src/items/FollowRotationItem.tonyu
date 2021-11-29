@@ -1,0 +1,15 @@
+extends BaseRotItem;
+super.main();
+
+followActor;
+
+while( true ){
+    if( followActor ){
+        angle += rotSp;
+    
+        x = followActor.x + cos( angle ) * radius;
+        y = followActor.y + sin( angle ) * radius;
+    }
+    
+    update();
+}

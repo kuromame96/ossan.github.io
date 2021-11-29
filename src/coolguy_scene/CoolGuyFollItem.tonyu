@@ -1,0 +1,11 @@
+extends BaseHireiFollItem;
+super.main();
+
+sp = $W * 0.05;
+
+while( true ){
+    
+    foll();
+    
+    update();
+}

@@ -1,0 +1,8 @@
+extends Items;
+super.main();
+
+radius;firstAngle;
+angle=firstAngle;
+moveX = $W * 0.5;moveY = 0;
+sp = $H * 0.001;
+rotSp = $W * 0.01;

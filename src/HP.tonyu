@@ -1,0 +1,40 @@
+maxHP;act;
+HP=maxHP;
+frassingFrame = 0;
+frassingFlag = false;
+
+// ダメージ、もしくは回復させる
+// 「flag」で「true」を与えないと動作しない
+\damage( flag, point ){
+    if( act ){
+        if( !act.isDead() ){
+            if( frassingFrame > 0 ){
+                frassingFrame++;
+                if( !( frassingFrame % 2 ) ){
+                    frassingFlag = !frassingFlag;
+                    frassingFlag ? act.hide() : act.show();
+                }
+                if( frassingFrame > 6 ) {
+                    frassingFrame = 0;
+                    act.show();
+                };
+            }
+        }
+        if( flag ){
+            frassingFrame = 1;
+            
+            $sound.playSE( $se_coolguydamage );
+            $sound.playSE( $se_doko );
+            
+            if( point < 0 && HP >= maxHP ){
+                HP = maxHP;
+            }else{
+                HP -= point;   
+            }
+            
+            if( HP <= 0 ) act.die();
+            
+        }  
+    }
+    return HP;
+}

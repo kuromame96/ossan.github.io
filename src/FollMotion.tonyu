@@ -1,0 +1,16 @@
+firstY;
+YHirei = 0;
+
+\hirei( a, posX ){
+    return a * posX * posX;
+}
+
+\next( base ){
+    if ( firstY === undefined ) firstY=base.y;
+    
+    pos = { y=0 };
+    YHirei += $W * 0.005;
+    pos.y = hirei( 0.03, YHirei + -( 50 ) ) + firstY;
+    
+    return pos;
+}

@@ -1,0 +1,119 @@
+includes MainProcLibs;
+init();
+
+BG = new BGBase4{ 
+    BGImg=$pat_zig_zag_item_scene_bg, 
+    scaleX=$scrScale,
+    zOrder=9,
+};
+
+itemTypeList = [];
+for( i=0; i < 3; i++ ){
+    itemTypeList[ i ] = rnd( 3 );
+}
+YSP = $W * 0.006;
+XSP = $W * 0.006;
+if( $difficulty === 0 || $difficulty === 2 ){
+    itemScale = $W * 0.001;
+}else if( $difficulty === 1 ){
+    itemScale = $W * 0.002;
+}
+
+crashScale = 0.6;
+spawnPosY = $H * 0.2;
+
+player = new Player{
+    speed: $W * 0.008, scaleX: $W * 0.001, gunMode: false,
+};
+$sound.playBGM( $se_k_65, true );
+itemList = [];
+badItemList = [];
+motList = [];
+
+itemType = 0;
+
+\spawnItem_TypeFollow(){
+    $sound.playSE( $se_out );
+    
+    var list = [];
+    zigItem = new ZigZagItem{ 
+        x = $W * 0.5, y=spawnPosY, 
+        itemType, badItem=false, XSP=XSP, YSP=YSP,
+        scaleX=itemScale * 0.5, crashScale: 0.5,
+        angleDeg=rnd( 0, 180 ),
+    };
+    list.push( zigItem );
+    for( i=0; i < 2; i++ ){
+        var badItem = new Items{ 
+            x=0, y=spawnPosY, 
+            itemType, badItem=true,
+            scaleX=itemScale * 0.5, crashScale: 0.5,
+        };
+        var mot = new OffsetFollowMotion{
+            target=zigItem, offsetX=(i === 0 ? -( $W * 0.5 ) : ( $W * 0.5 )), offsetY=0,
+        };
+        
+        motList.push( mot );
+        list.push( badItem );
+        badItemList.push( badItem );
+    }
+    
+    itemList = list;
+}
+\spawnItem_TypeRand(){
+    $sound.playSE( $se_out );
+    
+    var list = [];
+    var angList = [
+    [ 90, 0, 180 ],
+    [ 60, 0, 100 ],
+    ];
+    for( i=0; i <= 2; i++ ){
+        var item = new ZigZagItem{ 
+            x = $W * 0.5, y=spawnPosY, 
+            itemType, badItem=!( i === 0 ), XSP=XSP, YSP=YSP,
+            scaleX=itemScale * 0.5, crashScale: 0.5,
+            angleDeg=angList[ rnd( 0, 2 ) ][ i ],
+        };
+        list.push( item );
+    }
+    
+    itemList = list;
+}
+
+if( $difficulty <= 1 ) spawnItem_TypeFollow();
+if( $difficulty === 2 ) spawnItem_TypeRand();
+
+while( true ){
+    nextScene( player.getApeealEnd() );
+    
+    if( itemType > 2 ) continue;
+    
+    if( $difficulty <= 1 ){
+        motList.map(\( mot, i ){ 
+            badItemList[i].extend( mot.next() ); 
+        });
+    }
+    
+    itemList.map(\( i ){ 
+        i.crashScale = crashScale; 
+        if( i.scaleX < itemScale ){
+            i.scaleX += 0.01;
+        }else{
+            i.scaleX = itemScale;
+        }
+    });
+    
+    if( itemList[ 0 ].y > $H * 1.2 ) itemList[ 0 ].die();
+    
+    if( itemList[ 0 ].isDead() ){
+        itemType++;
+        itemList.map(\( item ){ item.die(); });
+        
+        motItem = [];itemList = [];
+        if( $difficulty <= 1 ) spawnItem_TypeFollow();
+        if( $difficulty === 2 ) spawnItem_TypeRand();
+    }
+    
+    update();
+}

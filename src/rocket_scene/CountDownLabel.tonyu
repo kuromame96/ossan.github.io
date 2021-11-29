@@ -1,0 +1,24 @@
+includes ActPattern;
+
+player;
+
+label = new Label{ 
+    x=$W * 0.5, y=$H * 0.5, 
+    text="0", fillStyle:"black", size=$W * 0.15
+};
+countDown = 3;
+frame = 0;
+        
+while( true ){
+    frame++;
+    label.text = countDown;
+    
+    if( frame % 60 === 0 ) countDown--;
+    
+    if( countDown <= 0 ) {
+        actJump( player );
+        label.die();
+        die();
+    }
+    update();
+}

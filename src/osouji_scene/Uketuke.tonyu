@@ -1,0 +1,39 @@
+extends BodyActor;
+
+staticFrame = 0;
+p=$pat_uketuke;
+scaleX=$W * 0.001;
+manualRotation=true;
+itemType = 0;
+if( $difficulty === 0 ) horiNageItemScl = $W * 0.001;
+if( $difficulty === 1 ) horiNageItemScl = $W * 0.0005;
+if( $difficulty === 2 ) horiNageItemScl = $W * 0.0002;
+
+horiNageItemList = [];
+horiNageItemOut = false;
+
+while( true ){
+    if( y > $H * 0.3 ){
+        if( staticFrame === 0 ){
+            $sound.playSE( $se_get );
+        }
+        if( staticFrame % 60 === 0 && itemType < 3 ){
+            $sound.playSE( $se_irassyai );
+            $sound.playSE( $se_suburi );
+            horiNageItemList.push(new HoriNageItem{
+                x=x, y=y, 
+                itemType=itemType, badItem=false,  
+                dir=rnd( 2 ),
+                scaleX=horiNageItemScl,
+            });
+            itemType++;
+        };
+        staticFrame++;
+    }
+    
+    horiNageItemList.map(\( item ){
+        if( item.y > $H * 1.05 ) horiNageItemOut = true;
+    });
+    
+    update();
+}

@@ -1,0 +1,48 @@
+target;
+firstPos;
+baseItemScale;rotItemScale;
+baseItemType;rotItmeType;
+//下記の変数の初期値はundefでよい
+angle; 
+radius;
+followActorOut = false;
+
+followActor = new Items{
+    x=firstPos.x, y=firstPos.y, scaleX=baseItemScale,
+    itemType=baseItemType, badItem=false,
+};
+follower1 = new FollowRotationItem{ 
+    firstAngle = 1, radius = $W * 0.35, 
+    itemType=baseItemType, badItem=true,
+    followActor, scaleX=rotItemScale,
+    lifeKeeper=followActor,
+};
+follower2 = new FollowRotationItem{ 
+    firstAngle = 180, radius = $W * 0.35, 
+    itemType=baseItemType, badItem=true,
+    followActor, scaleX=rotItemScale,
+    lifeKeeper=followActor,
+};
+
+while( true ){
+    if( angle == null ){
+        angle = atan2( target.y + ( -firstPos.y ), target.x + ( -firstPos.x ) );
+        radius = 0;
+    }
+    if( radius != null ){
+        follower1.rotSp = $W * 0.005; follower2.rotSp = $W * 0.005;
+        follower1.crashScale = 0.1; follower2.crashScale = 0.1;
+        radius += $W * 0.005;
+        followActor.x = firstPos.x + cos( angle ) * radius;
+        followActor.y = firstPos.y + sin( angle ) * radius;
+    };
+    
+    if( followActor.x > $W * 1.3 || followActor.x < -( $W * 0.3 ) ){
+        followActorOut = true;
+    };
+    if( followActor.y > $H * 1.3 ){
+        followActorOut = true;
+    };
+    
+    update();
+};

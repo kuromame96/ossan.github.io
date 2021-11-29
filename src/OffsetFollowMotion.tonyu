@@ -1,0 +1,6 @@
+target;
+offsetX;offsetY;
+
+\next(){
+    return { x=target.x + offsetX, y=target.y + offsetY };
+}

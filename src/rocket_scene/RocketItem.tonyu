@@ -1,0 +1,8 @@
+p=$pat_imo;
+sp=$W * 0.01;
+scaleX = $scrScale;
+
+while( true ){
+    y += sp;
+    update();
+}

@@ -1,0 +1,27 @@
+extends BaseHireiFollItem;
+super.main();
+
+scaleX = $W * 0.001;
+sentakuKi;
+frame = 0;
+player;
+
+mot = new AttractionMotion{sp=10};
+
+while( true ){
+    
+    if( frame === 100 ) {
+        $sound.playSE( $se_chin );
+        x = sentakuKi.x;
+    };
+    
+    if( frame > 100 ){
+        alpha = 255;
+        if( y < $W * 0.8 ) foll();
+        else mot.app( this, player );
+    }
+    
+    frame++;
+    
+    update();
+}
