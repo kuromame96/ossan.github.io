@@ -3492,7 +3492,7 @@ Tonyu.klass.define({
           }
           ;
           
-          if (_this.player.y<Tonyu.globals.$W*0.4) {
+          if (_this.player.y<Tonyu.globals.$H*0.4) {
             _this.playerGoTop=true;
             
           }
@@ -3598,7 +3598,7 @@ Tonyu.klass.define({
               }
               ;
               
-              if (_this.player.y<Tonyu.globals.$W*0.4) {
+              if (_this.player.y<Tonyu.globals.$H*0.4) {
                 _this.playerGoTop=true;
                 
               }
@@ -7442,7 +7442,7 @@ Tonyu.klass.define({
           
           if (_this.frame>100) {
             _this.alpha=255;
-            if (_this.y<Tonyu.globals.$W*0.8) {
+            if (_this.y<Tonyu.globals.$H*0.8) {
               _this.foll();
             } else {
               _this.mot.app(_this,_this.player);
@@ -7485,7 +7485,7 @@ Tonyu.klass.define({
               
               if (!(_this.frame>100)) { __pc=6     ; break; }
               _this.alpha=255;
-              if (!(_this.y<Tonyu.globals.$W*0.8)) { __pc=4     ; break; }
+              if (!(_this.y<Tonyu.globals.$H*0.8)) { __pc=4     ; break; }
               _this.fiber$foll(_thread);
               __pc=3;return;
             case 3:
