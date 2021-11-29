@@ -3496,7 +3496,7 @@ Tonyu.klass.define({
             _this.playerGoTop=true;
             
           }
-          if (_this.player.apeealTime>=0&&_this.playerGoTop&&_this.player.y>Tonyu.globals.$W*0.8) {
+          if (_this.player.apeealTime>=0&&_this.playerGoTop&&_this.player.y>Tonyu.globals.$H*0.8) {
             _this.player.apeealTime=- 1;
             
           }
@@ -3602,7 +3602,7 @@ Tonyu.klass.define({
                 _this.playerGoTop=true;
                 
               }
-              if (_this.player.apeealTime>=0&&_this.playerGoTop&&_this.player.y>Tonyu.globals.$W*0.8) {
+              if (_this.player.apeealTime>=0&&_this.playerGoTop&&_this.player.y>Tonyu.globals.$H*0.8) {
                 _this.player.apeealTime=- 1;
                 
               }
