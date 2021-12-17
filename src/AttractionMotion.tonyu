@@ -1,9 +1,0 @@
-sp;
-
-\app( base, target ){
-    if ( base.x < target.x ) base.x += sp;
-    if ( base.x > target.x ) base.x -= sp;
-    if ( base.y < target.y ) base.y += sp;
-    if ( base.y > target.y ) base.y -= sp;
-    
-}

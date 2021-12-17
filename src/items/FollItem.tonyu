@@ -1,9 +1,0 @@
-extends Items;
-super.main();
-YSP;
-
-while( true ){
-    y += YSP;
-    
-    update();
-}

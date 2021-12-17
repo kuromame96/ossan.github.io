@@ -1,6 +1,0 @@
-includes MainProcLibs;
-//init();
-
-shuffleList = shuffle([ 0, 1, 2 ]);
-
-print( shuffleList[ 0 ], shuffleList[ 1 ], shuffleList[ 2 ] );

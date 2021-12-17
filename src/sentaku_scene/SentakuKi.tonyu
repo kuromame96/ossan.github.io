@@ -1,4 +1,0 @@
-extends Items;
-super.main();
-
-p=$pat_sentaku;
