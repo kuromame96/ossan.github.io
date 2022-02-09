@@ -439,240 +439,6 @@ Tonyu.klass.define({
   decls: {"methods":{"main":{"nowait":false}},"fields":{"scrScale":{},"rotMotion":{}}}
 });
 Tonyu.klass.define({
-  fullName: 'user.CoolGuy',
-  shortName: 'CoolGuy',
-  namespace: 'user',
-  superclass: Tonyu.classes.kernel.Actor,
-  includes: [],
-  methods: function (__superClass) {
-    return {
-      main :function _trc_CoolGuy_main() {
-        "use strict";
-        var _this=this;
-        
-        _this.sp=Tonyu.globals.$H*0.01;
-        if (Tonyu.globals.$difficulty<=1) {
-          _this.p=Tonyu.globals.$pat_coolguy;
-        }
-        if (Tonyu.globals.$difficulty>=2) {
-          _this.p=Tonyu.globals.$pat_dosukoi;
-        }
-        if (Tonyu.globals.$difficulty<=1) {
-          _this.scaleX=Tonyu.globals.$W*0.0006;
-        }
-        if (Tonyu.globals.$difficulty>=2) {
-          _this.scaleX=Tonyu.globals.$scrScale*1.3;
-        }
-        _this.frame=0;
-        _this.hp=15;
-        _this.live=true;
-        _this.follItemType=0;
-        _this.entry=false;
-        _this.follItem;
-        _this.follItemOut=false;
-        if (Tonyu.globals.$difficulty>=2) {
-          _this.handList=[];
-          _this.rotMotList=[];
-          _this.handList[0]=new Tonyu.classes.kernel.Actor({x: 0,y: 0,p: Tonyu.globals.$pat_dosukoi_hand+0,scaleX: Tonyu.globals.$scrScale*0.8});
-          _this.handList[1]=new Tonyu.classes.kernel.Actor({x: 0,y: 0,p: Tonyu.globals.$pat_dosukoi_hand+0,scaleX: Tonyu.globals.$scrScale*0.8});
-          _this.rotMotList[0]=new Tonyu.classes.user.RotMotion({firstX: _this.x,firstY: _this.y,sp: 2,radius: 120,angle: 1});
-          _this.rotMotList[1]=new Tonyu.classes.user.RotMotion({firstX: _this.x,firstY: _this.y,sp: 2,radius: 120,angle: 180});
-          
-        }
-        while (true) {
-          Tonyu.checkLoop();
-          _this.frame+=_this.sp;
-          if (Tonyu.globals.$difficulty===0) {
-            _this.angle=_this.frame*(Math.PI/180);
-            _this.x=Tonyu.globals.$W*0.5+Math.cos(_this.angle)*Tonyu.globals.$W*0.3;
-            _this.y=Tonyu.globals.$H*0.3;
-            
-          } else {
-            if (Tonyu.globals.$difficulty===1) {
-              _this.angle=_this.frame*(Math.PI/180)*0.5;
-              _this.x=Tonyu.globals.$W*0.5+Math.cos(_this.angle)*Tonyu.globals.$W*0.8;
-              _this.y=Tonyu.globals.$H*0.3+Math.sin(_this.angle*2)*Tonyu.globals.$W*0.1;
-              
-            } else {
-              if (Tonyu.globals.$difficulty===2) {
-                _this.angle=_this.frame*(Math.PI/180)*0.25;
-                _this.x=Tonyu.globals.$W*0.5+Math.cos(_this.angle)*Tonyu.globals.$W*0.8;
-                _this.y=Tonyu.globals.$H*0.3+Math.sin(_this.angle*2)*Tonyu.globals.$W*0.1;
-                _this.rotMotList.map((function anonymous_1451(mot,i) {
-                  
-                  mot.firstX=_this.x;
-                  mot.firstY=_this.y;
-                  _this.handList[i].extend(mot.next());
-                }));
-                
-              }
-            }
-          }
-          ;
-          
-          _this.br=_this.crashTo(Tonyu.classes.user.Bullet);
-          if (_this.br) {
-            _this.br.die();
-            Tonyu.globals.$sound.playSE(Tonyu.globals.$se_coolguydamage);
-            Tonyu.globals.$sound.playSE(Tonyu.globals.$se_doko);
-            _this.hp--;
-            if (_this.hp%5===0) {
-              _this.follItem=new Tonyu.classes.user.CoolGuyFollItem({x: _this.x,y: _this.y,scaleX: (Tonyu.globals.$W*0.001),itemType: _this.follItemType,badItem: false});
-              _this.follItemType++;
-              
-            }
-            
-          }
-          if (_this.handList!=null) {
-            _this.handList.map((function anonymous_2031(hand) {
-              
-              _this.br=hand.crashTo(Tonyu.classes.user.Bullet);
-              if (_this.br) {
-                _this.br.die();
-              }
-            }));
-            
-          }
-          if (_this.hp<=0) {
-            _this.die();
-            
-          }
-          ;
-          
-          if (_this.follItem!=null) {
-            if (_this.follItem.y>Tonyu.globals.$H*1.1) {
-              _this.follItemOut=true;
-            }
-            
-          }
-          _this.update();
-          
-        }
-      },
-      fiber$main :function _trc_CoolGuy_f_main(_thread) {
-        "use strict";
-        var _this=this;
-        //var _arguments=Tonyu.A(arguments);
-        var __pc=0;
-        
-        _this.sp=Tonyu.globals.$H*0.01;
-        if (Tonyu.globals.$difficulty<=1) {
-          _this.p=Tonyu.globals.$pat_coolguy;
-        }
-        if (Tonyu.globals.$difficulty>=2) {
-          _this.p=Tonyu.globals.$pat_dosukoi;
-        }
-        if (Tonyu.globals.$difficulty<=1) {
-          _this.scaleX=Tonyu.globals.$W*0.0006;
-        }
-        if (Tonyu.globals.$difficulty>=2) {
-          _this.scaleX=Tonyu.globals.$scrScale*1.3;
-        }
-        _this.frame=0;
-        _this.hp=15;
-        _this.live=true;
-        _this.follItemType=0;
-        _this.entry=false;
-        _this.follItem;
-        _this.follItemOut=false;
-        if (Tonyu.globals.$difficulty>=2) {
-          _this.handList=[];
-          _this.rotMotList=[];
-          _this.handList[0]=new Tonyu.classes.kernel.Actor({x: 0,y: 0,p: Tonyu.globals.$pat_dosukoi_hand+0,scaleX: Tonyu.globals.$scrScale*0.8});
-          _this.handList[1]=new Tonyu.classes.kernel.Actor({x: 0,y: 0,p: Tonyu.globals.$pat_dosukoi_hand+0,scaleX: Tonyu.globals.$scrScale*0.8});
-          _this.rotMotList[0]=new Tonyu.classes.user.RotMotion({firstX: _this.x,firstY: _this.y,sp: 2,radius: 120,angle: 1});
-          _this.rotMotList[1]=new Tonyu.classes.user.RotMotion({firstX: _this.x,firstY: _this.y,sp: 2,radius: 120,angle: 180});
-          
-        }
-        
-        _thread.enter(function _trc_CoolGuy_ent_main(_thread) {
-          if (_thread.lastEx) __pc=_thread.catchPC;
-          for(var __cnt=100 ; __cnt--;) {
-            switch (__pc) {
-            case 0:
-            case 1:
-              _this.frame+=_this.sp;
-              if (Tonyu.globals.$difficulty===0) {
-                _this.angle=_this.frame*(Math.PI/180);
-                _this.x=Tonyu.globals.$W*0.5+Math.cos(_this.angle)*Tonyu.globals.$W*0.3;
-                _this.y=Tonyu.globals.$H*0.3;
-                
-              } else {
-                if (Tonyu.globals.$difficulty===1) {
-                  _this.angle=_this.frame*(Math.PI/180)*0.5;
-                  _this.x=Tonyu.globals.$W*0.5+Math.cos(_this.angle)*Tonyu.globals.$W*0.8;
-                  _this.y=Tonyu.globals.$H*0.3+Math.sin(_this.angle*2)*Tonyu.globals.$W*0.1;
-                  
-                } else {
-                  if (Tonyu.globals.$difficulty===2) {
-                    _this.angle=_this.frame*(Math.PI/180)*0.25;
-                    _this.x=Tonyu.globals.$W*0.5+Math.cos(_this.angle)*Tonyu.globals.$W*0.8;
-                    _this.y=Tonyu.globals.$H*0.3+Math.sin(_this.angle*2)*Tonyu.globals.$W*0.1;
-                    _this.rotMotList.map((function anonymous_1451(mot,i) {
-                      
-                      mot.firstX=_this.x;
-                      mot.firstY=_this.y;
-                      _this.handList[i].extend(mot.next());
-                    }));
-                    
-                  }
-                }
-              }
-              ;
-              
-              _this.br=_this.crashTo(Tonyu.classes.user.Bullet);
-              if (_this.br) {
-                _this.br.die();
-                Tonyu.globals.$sound.playSE(Tonyu.globals.$se_coolguydamage);
-                Tonyu.globals.$sound.playSE(Tonyu.globals.$se_doko);
-                _this.hp--;
-                if (_this.hp%5===0) {
-                  _this.follItem=new Tonyu.classes.user.CoolGuyFollItem({x: _this.x,y: _this.y,scaleX: (Tonyu.globals.$W*0.001),itemType: _this.follItemType,badItem: false});
-                  _this.follItemType++;
-                  
-                }
-                
-              }
-              if (_this.handList!=null) {
-                _this.handList.map((function anonymous_2031(hand) {
-                  
-                  _this.br=hand.crashTo(Tonyu.classes.user.Bullet);
-                  if (_this.br) {
-                    _this.br.die();
-                  }
-                }));
-                
-              }
-              if (_this.hp<=0) {
-                _this.die();
-                
-              }
-              ;
-              
-              if (_this.follItem!=null) {
-                if (_this.follItem.y>Tonyu.globals.$H*1.1) {
-                  _this.follItemOut=true;
-                }
-                
-              }
-              _this.fiber$update(_thread);
-              __pc=2;return;
-            case 2:
-              
-              __pc=1;break;
-            case 3     :
-              
-              _thread.exit(_this);return;
-            }
-          }
-        });
-      },
-      __dummy: false
-    };
-  },
-  decls: {"methods":{"main":{"nowait":false}},"fields":{"sp":{},"frame":{},"hp":{},"live":{},"follItemType":{},"entry":{},"follItem":{},"follItemOut":{},"handList":{},"rotMotList":{},"angle":{},"br":{}}}
-});
-Tonyu.klass.define({
   fullName: 'user.CrashCheck',
   shortName: 'CrashCheck',
   namespace: 'user',
@@ -1005,6 +771,136 @@ Tonyu.klass.define({
   decls: {"methods":{"main":{"nowait":false},"getTops":{"nowait":false},"getBottoms":{"nowait":false},"getHat":{"nowait":false}},"fields":{"type":{}}}
 });
 Tonyu.klass.define({
+  fullName: 'user.HP',
+  shortName: 'HP',
+  namespace: 'user',
+  superclass: Tonyu.classes.kernel.Actor,
+  includes: [],
+  methods: function (__superClass) {
+    return {
+      main :function _trc_HP_main() {
+        "use strict";
+        var _this=this;
+        
+        _this.maxHP;
+        _this.act;
+        Tonyu.classes.user.HP=_this.maxHP;
+        _this.frassingFrame=0;
+        _this.frassingFlag=false;
+      },
+      fiber$main :function _trc_HP_f_main(_thread) {
+        "use strict";
+        var _this=this;
+        //var _arguments=Tonyu.A(arguments);
+        var __pc=0;
+        
+        _this.maxHP;
+        _this.act;
+        Tonyu.classes.user.HP=_this.maxHP;
+        _this.frassingFrame=0;
+        _this.frassingFlag=false;
+        
+        _thread.retVal=_this;return;
+      },
+      damage :function _trc_HP_damage(flag,point) {
+        "use strict";
+        var _this=this;
+        
+        if (_this.act) {
+          if (! _this.act.isDead()) {
+            if (_this.frassingFrame>0) {
+              _this.frassingFrame++;
+              if (! (_this.frassingFrame%2)) {
+                _this.frassingFlag=! _this.frassingFlag;
+                _this.frassingFlag?_this.act.hide():_this.act.show();
+                
+              }
+              if (_this.frassingFrame>6) {
+                _this.frassingFrame=0;
+                _this.act.show();
+                
+              }
+              ;
+              
+              
+            }
+            
+          }
+          if (flag) {
+            _this.frassingFrame=1;
+            Tonyu.globals.$sound.playSE(Tonyu.globals.$se_coolguydamage);
+            Tonyu.globals.$sound.playSE(Tonyu.globals.$se_doko);
+            if (point<0&&Tonyu.classes.user.HP>=_this.maxHP) {
+              Tonyu.classes.user.HP=_this.maxHP;
+              
+            } else {
+              Tonyu.classes.user.HP-=point;
+              
+            }
+            if (Tonyu.classes.user.HP<=0) {
+              _this.act.die();
+            }
+            
+          }
+          
+        }
+        return Tonyu.classes.user.HP;
+      },
+      fiber$damage :function _trc_HP_f_damage(_thread,flag,point) {
+        "use strict";
+        var _this=this;
+        //var _arguments=Tonyu.A(arguments);
+        var __pc=0;
+        
+        if (_this.act) {
+          if (! _this.act.isDead()) {
+            if (_this.frassingFrame>0) {
+              _this.frassingFrame++;
+              if (! (_this.frassingFrame%2)) {
+                _this.frassingFlag=! _this.frassingFlag;
+                _this.frassingFlag?_this.act.hide():_this.act.show();
+                
+              }
+              if (_this.frassingFrame>6) {
+                _this.frassingFrame=0;
+                _this.act.show();
+                
+              }
+              ;
+              
+              
+            }
+            
+          }
+          if (flag) {
+            _this.frassingFrame=1;
+            Tonyu.globals.$sound.playSE(Tonyu.globals.$se_coolguydamage);
+            Tonyu.globals.$sound.playSE(Tonyu.globals.$se_doko);
+            if (point<0&&Tonyu.classes.user.HP>=_this.maxHP) {
+              Tonyu.classes.user.HP=_this.maxHP;
+              
+            } else {
+              Tonyu.classes.user.HP-=point;
+              
+            }
+            if (Tonyu.classes.user.HP<=0) {
+              _this.act.die();
+            }
+            
+          }
+          
+        }
+        _thread.retVal=Tonyu.classes.user.HP;return;
+        
+        
+        _thread.retVal=_this;return;
+      },
+      __dummy: false
+    };
+  },
+  decls: {"methods":{"main":{"nowait":false},"damage":{"nowait":false}},"fields":{"maxHP":{},"act":{},"frassingFrame":{},"frassingFlag":{}}}
+});
+Tonyu.klass.define({
   fullName: 'user.HomingRotItem',
   shortName: 'HomingRotItem',
   namespace: 'user',
@@ -1137,136 +1033,6 @@ Tonyu.klass.define({
     };
   },
   decls: {"methods":{"main":{"nowait":false}},"fields":{"firstPos":{},"baseItemScale":{},"rotItemScale":{},"baseItemType":{},"rotItmeType":{},"angle":{},"followActorOut":{},"followActor":{},"follower1":{},"follower2":{}}}
-});
-Tonyu.klass.define({
-  fullName: 'user.HP',
-  shortName: 'HP',
-  namespace: 'user',
-  superclass: Tonyu.classes.kernel.Actor,
-  includes: [],
-  methods: function (__superClass) {
-    return {
-      main :function _trc_HP_main() {
-        "use strict";
-        var _this=this;
-        
-        _this.maxHP;
-        _this.act;
-        Tonyu.classes.user.HP=_this.maxHP;
-        _this.frassingFrame=0;
-        _this.frassingFlag=false;
-      },
-      fiber$main :function _trc_HP_f_main(_thread) {
-        "use strict";
-        var _this=this;
-        //var _arguments=Tonyu.A(arguments);
-        var __pc=0;
-        
-        _this.maxHP;
-        _this.act;
-        Tonyu.classes.user.HP=_this.maxHP;
-        _this.frassingFrame=0;
-        _this.frassingFlag=false;
-        
-        _thread.retVal=_this;return;
-      },
-      damage :function _trc_HP_damage(flag,point) {
-        "use strict";
-        var _this=this;
-        
-        if (_this.act) {
-          if (! _this.act.isDead()) {
-            if (_this.frassingFrame>0) {
-              _this.frassingFrame++;
-              if (! (_this.frassingFrame%2)) {
-                _this.frassingFlag=! _this.frassingFlag;
-                _this.frassingFlag?_this.act.hide():_this.act.show();
-                
-              }
-              if (_this.frassingFrame>6) {
-                _this.frassingFrame=0;
-                _this.act.show();
-                
-              }
-              ;
-              
-              
-            }
-            
-          }
-          if (flag) {
-            _this.frassingFrame=1;
-            Tonyu.globals.$sound.playSE(Tonyu.globals.$se_coolguydamage);
-            Tonyu.globals.$sound.playSE(Tonyu.globals.$se_doko);
-            if (point<0&&Tonyu.classes.user.HP>=_this.maxHP) {
-              Tonyu.classes.user.HP=_this.maxHP;
-              
-            } else {
-              Tonyu.classes.user.HP-=point;
-              
-            }
-            if (Tonyu.classes.user.HP<=0) {
-              _this.act.die();
-            }
-            
-          }
-          
-        }
-        return Tonyu.classes.user.HP;
-      },
-      fiber$damage :function _trc_HP_f_damage(_thread,flag,point) {
-        "use strict";
-        var _this=this;
-        //var _arguments=Tonyu.A(arguments);
-        var __pc=0;
-        
-        if (_this.act) {
-          if (! _this.act.isDead()) {
-            if (_this.frassingFrame>0) {
-              _this.frassingFrame++;
-              if (! (_this.frassingFrame%2)) {
-                _this.frassingFlag=! _this.frassingFlag;
-                _this.frassingFlag?_this.act.hide():_this.act.show();
-                
-              }
-              if (_this.frassingFrame>6) {
-                _this.frassingFrame=0;
-                _this.act.show();
-                
-              }
-              ;
-              
-              
-            }
-            
-          }
-          if (flag) {
-            _this.frassingFrame=1;
-            Tonyu.globals.$sound.playSE(Tonyu.globals.$se_coolguydamage);
-            Tonyu.globals.$sound.playSE(Tonyu.globals.$se_doko);
-            if (point<0&&Tonyu.classes.user.HP>=_this.maxHP) {
-              Tonyu.classes.user.HP=_this.maxHP;
-              
-            } else {
-              Tonyu.classes.user.HP-=point;
-              
-            }
-            if (Tonyu.classes.user.HP<=0) {
-              _this.act.die();
-            }
-            
-          }
-          
-        }
-        _thread.retVal=Tonyu.classes.user.HP;return;
-        
-        
-        _thread.retVal=_this;return;
-      },
-      __dummy: false
-    };
-  },
-  decls: {"methods":{"main":{"nowait":false},"damage":{"nowait":false}},"fields":{"maxHP":{},"act":{},"frassingFrame":{},"frassingFlag":{}}}
 });
 Tonyu.klass.define({
   fullName: 'user.ItemBullet',
@@ -1447,356 +1213,6 @@ Tonyu.klass.define({
   decls: {"methods":{"main":{"nowait":false},"itemTypeInit":{"nowait":false},"scaleInit":{"nowait":false}},"fields":{"badItem":{},"itemType":{}}}
 });
 Tonyu.klass.define({
-  fullName: 'user.BodyItem',
-  shortName: 'BodyItem',
-  namespace: 'user',
-  superclass: Tonyu.classes.kernel.BodyActor,
-  includes: [Tonyu.classes.user.ItemProcLibs],
-  methods: function (__superClass) {
-    return {
-      main :function _trc_BodyItem_main() {
-        "use strict";
-        var _this=this;
-        
-        _this.scaleInit();
-        _this.itemTypeInit();
-        if (_this.rnd(2)===0) {
-          _this.applyForce(- 300,0);
-        }
-        if (_this.rnd(2)===1) {
-          _this.applyForce(300,0);
-        }
-      },
-      fiber$main :function _trc_BodyItem_f_main(_thread) {
-        "use strict";
-        var _this=this;
-        //var _arguments=Tonyu.A(arguments);
-        var __pc=0;
-        
-        
-        _thread.enter(function _trc_BodyItem_ent_main(_thread) {
-          if (_thread.lastEx) __pc=_thread.catchPC;
-          for(var __cnt=100 ; __cnt--;) {
-            switch (__pc) {
-            case 0:
-              _this.fiber$scaleInit(_thread);
-              __pc=1;return;
-            case 1:
-              
-              _this.fiber$itemTypeInit(_thread);
-              __pc=2;return;
-            case 2:
-              
-              if (!(_this.rnd(2)===0)) { __pc=4     ; break; }
-              _this.fiber$applyForce(_thread, - 300, 0);
-              __pc=3;return;
-            case 3:
-              
-            case 4     :
-              
-              if (!(_this.rnd(2)===1)) { __pc=6     ; break; }
-              _this.fiber$applyForce(_thread, 300, 0);
-              __pc=5;return;
-            case 5:
-              
-            case 6     :
-              
-              _thread.exit(_this);return;
-            }
-          }
-        });
-      },
-      __dummy: false
-    };
-  },
-  decls: {"methods":{"main":{"nowait":false}},"fields":{}}
-});
-Tonyu.klass.define({
-  fullName: 'user.Floor',
-  shortName: 'Floor',
-  namespace: 'user',
-  superclass: Tonyu.classes.kernel.BodyActor,
-  includes: [],
-  methods: function (__superClass) {
-    return {
-      main :function _trc_Floor_main() {
-        "use strict";
-        var _this=this;
-        
-        _this.isStatic=true;
-      },
-      fiber$main :function _trc_Floor_f_main(_thread) {
-        "use strict";
-        var _this=this;
-        //var _arguments=Tonyu.A(arguments);
-        var __pc=0;
-        
-        _this.isStatic=true;
-        
-        _thread.retVal=_this;return;
-      },
-      __dummy: false
-    };
-  },
-  decls: {"methods":{"main":{"nowait":false}},"fields":{}}
-});
-Tonyu.klass.define({
-  fullName: 'user.FollowItem',
-  shortName: 'FollowItem',
-  namespace: 'user',
-  superclass: Tonyu.classes.kernel.Actor,
-  includes: [],
-  methods: function (__superClass) {
-    return {
-      main :function _trc_FollowItem_main() {
-        "use strict";
-        var _this=this;
-        
-        _this.getRandItem=new Tonyu.classes.user.GetRandItem;
-        if (_this.badItem===false) {
-          if (_this.itemType===0) {
-            _this.p=_this.getRandItem.getBottoms();
-          }
-          if (_this.itemType===1) {
-            _this.p=_this.getRandItem.getTops();
-          }
-          if (_this.itemType===2) {
-            _this.p=_this.getRandItem.getHat();
-          }
-          
-        } else {
-          if (_this.badItem===true) {
-            if (_this.itemType===0) {
-              _this.p=Tonyu.globals.$pat_bad_zubon_in;
-            }
-            if (_this.itemType===1) {
-              _this.p=Tonyu.globals.$pat_bad_autaa_in;
-            }
-            if (_this.itemType===2) {
-              _this.p=Tonyu.globals.$pat_bad_bousi_in;
-            }
-            
-          }
-        }
-        _this.scaleX=Tonyu.globals.$W*0.0008;
-        while (true) {
-          Tonyu.checkLoop();
-          _this.x=_this.player.x;
-          _this.y=_this.player.y;
-          _this.update();
-          
-        }
-      },
-      fiber$main :function _trc_FollowItem_f_main(_thread) {
-        "use strict";
-        var _this=this;
-        //var _arguments=Tonyu.A(arguments);
-        var __pc=0;
-        
-        _this.getRandItem=new Tonyu.classes.user.GetRandItem;
-        if (_this.badItem===false) {
-          if (_this.itemType===0) {
-            _this.p=_this.getRandItem.getBottoms();
-          }
-          if (_this.itemType===1) {
-            _this.p=_this.getRandItem.getTops();
-          }
-          if (_this.itemType===2) {
-            _this.p=_this.getRandItem.getHat();
-          }
-          
-        } else {
-          if (_this.badItem===true) {
-            if (_this.itemType===0) {
-              _this.p=Tonyu.globals.$pat_bad_zubon_in;
-            }
-            if (_this.itemType===1) {
-              _this.p=Tonyu.globals.$pat_bad_autaa_in;
-            }
-            if (_this.itemType===2) {
-              _this.p=Tonyu.globals.$pat_bad_bousi_in;
-            }
-            
-          }
-        }
-        _this.scaleX=Tonyu.globals.$W*0.0008;
-        
-        _thread.enter(function _trc_FollowItem_ent_main(_thread) {
-          if (_thread.lastEx) __pc=_thread.catchPC;
-          for(var __cnt=100 ; __cnt--;) {
-            switch (__pc) {
-            case 0:
-            case 1:
-              _this.x=_this.player.x;
-              _this.y=_this.player.y;
-              _this.fiber$update(_thread);
-              __pc=2;return;
-            case 2:
-              
-              __pc=1;break;
-            case 3     :
-              
-              _thread.exit(_this);return;
-            }
-          }
-        });
-      },
-      __dummy: false
-    };
-  },
-  decls: {"methods":{"main":{"nowait":false}},"fields":{"getRandItem":{},"badItem":{},"itemType":{},"player":{}}}
-});
-Tonyu.klass.define({
-  fullName: 'user.Gun',
-  shortName: 'Gun',
-  namespace: 'user',
-  superclass: Tonyu.classes.kernel.Actor,
-  includes: [],
-  methods: function (__superClass) {
-    return {
-      main :function _trc_Gun_main() {
-        "use strict";
-        var _this=this;
-        
-        _this.p=Tonyu.globals.$pat_gun;
-        _this.sp=Tonyu.globals.$W*0.01;
-        _this.x=Tonyu.globals.$W*0.5;
-        _this.y=0;
-        _this.scaleX=Tonyu.globals.$W*0.0005;
-        while (true) {
-          Tonyu.checkLoop();
-          if (_this.y<Tonyu.globals.$H*0.8) {
-            _this.y+=_this.sp;
-          }
-          _this.update();
-          
-        }
-      },
-      fiber$main :function _trc_Gun_f_main(_thread) {
-        "use strict";
-        var _this=this;
-        //var _arguments=Tonyu.A(arguments);
-        var __pc=0;
-        
-        _this.p=Tonyu.globals.$pat_gun;
-        _this.sp=Tonyu.globals.$W*0.01;
-        _this.x=Tonyu.globals.$W*0.5;
-        _this.y=0;
-        _this.scaleX=Tonyu.globals.$W*0.0005;
-        
-        _thread.enter(function _trc_Gun_ent_main(_thread) {
-          if (_thread.lastEx) __pc=_thread.catchPC;
-          for(var __cnt=100 ; __cnt--;) {
-            switch (__pc) {
-            case 0:
-            case 1:
-              if (_this.y<Tonyu.globals.$H*0.8) {
-                _this.y+=_this.sp;
-              }
-              _this.fiber$update(_thread);
-              __pc=2;return;
-            case 2:
-              
-              __pc=1;break;
-            case 3     :
-              
-              _thread.exit(_this);return;
-            }
-          }
-        });
-      },
-      __dummy: false
-    };
-  },
-  decls: {"methods":{"main":{"nowait":false}},"fields":{"sp":{}}}
-});
-Tonyu.klass.define({
-  fullName: 'user.Warning',
-  shortName: 'Warning',
-  namespace: 'user',
-  superclass: Tonyu.classes.kernel.Actor,
-  includes: [],
-  methods: function (__superClass) {
-    return {
-      main :function _trc_Warning_main() {
-        "use strict";
-        var _this=this;
-        
-        _this.dir;
-        _this.frame=0;
-        _this.p=Tonyu.globals.$pat_warning;
-        _this.x=_this.dir==="Left"?Tonyu.globals.$W*0.9:Tonyu.globals.$W*0.1;
-        _this.scaleX=_this.dir==="Left"?- _this.scaleX:_this.scaleX;
-        _this.scaleY=Math.abs(_this.scaleX);
-        while (true) {
-          Tonyu.checkLoop();
-          _this.frame++;
-          if (_this.frame%4===0) {
-            _this.show();
-            Tonyu.globals.$sound.playSE(Tonyu.globals.$se_pa);
-            
-          } else {
-            if (_this.frame%4!==0) {
-              _this.hide();
-              
-            }
-          }
-          ;
-          
-          _this.update();
-          
-        }
-      },
-      fiber$main :function _trc_Warning_f_main(_thread) {
-        "use strict";
-        var _this=this;
-        //var _arguments=Tonyu.A(arguments);
-        var __pc=0;
-        
-        _this.dir;
-        _this.frame=0;
-        _this.p=Tonyu.globals.$pat_warning;
-        _this.x=_this.dir==="Left"?Tonyu.globals.$W*0.9:Tonyu.globals.$W*0.1;
-        _this.scaleX=_this.dir==="Left"?- _this.scaleX:_this.scaleX;
-        _this.scaleY=Math.abs(_this.scaleX);
-        
-        _thread.enter(function _trc_Warning_ent_main(_thread) {
-          if (_thread.lastEx) __pc=_thread.catchPC;
-          for(var __cnt=100 ; __cnt--;) {
-            switch (__pc) {
-            case 0:
-            case 1:
-              _this.frame++;
-              if (_this.frame%4===0) {
-                _this.show();
-                Tonyu.globals.$sound.playSE(Tonyu.globals.$se_pa);
-                
-              } else {
-                if (_this.frame%4!==0) {
-                  _this.hide();
-                  
-                }
-              }
-              ;
-              
-              _this.fiber$update(_thread);
-              __pc=2;return;
-            case 2:
-              
-              __pc=1;break;
-            case 3     :
-              
-              _thread.exit(_this);return;
-            }
-          }
-        });
-      },
-      __dummy: false
-    };
-  },
-  decls: {"methods":{"main":{"nowait":false}},"fields":{"dir":{},"frame":{}}}
-});
-Tonyu.klass.define({
   fullName: 'user.Items',
   shortName: 'Items',
   namespace: 'user',
@@ -1928,7 +1344,10 @@ Tonyu.klass.define({
         _this.H=Math.floor(1920*_this.scrScale);
         Tonyu.globals.$Screen.resize(_this.W,_this.H);
         Tonyu.globals.$sound.stopBGM();
-        new Tonyu.classes.kernel.Actor({x: _this.W*0.5,y: _this.H*0.5,p: Tonyu.globals.$pat_ojisan_title,scaleX: _this.scrScale,zOrder: 100});
+        Tonyu.globals.$Screen.setBGColor("#faf2ee");
+        new Tonyu.classes.kernel.Label({x: _this.W*0.5,y: _this.H*0.3,text: "おっさんコーディネート",size: 30,fillStyle: "#88001b"});
+        new Tonyu.classes.kernel.Label({x: _this.W*0.5,y: _this.H*0.4,text: "ver 1.23",size: 20,fillStyle: "#88001b"});
+        new Tonyu.classes.kernel.Label({x: _this.W*0.5,y: _this.H*0.7,text: "タッチでスタート",size: 20,fillStyle: "#88001b"});
         while (true) {
           Tonyu.checkLoop();
           _this.frame++;
@@ -1954,7 +1373,10 @@ Tonyu.klass.define({
         _this.H=Math.floor(1920*_this.scrScale);
         Tonyu.globals.$Screen.resize(_this.W,_this.H);
         Tonyu.globals.$sound.stopBGM();
-        new Tonyu.classes.kernel.Actor({x: _this.W*0.5,y: _this.H*0.5,p: Tonyu.globals.$pat_ojisan_title,scaleX: _this.scrScale,zOrder: 100});
+        Tonyu.globals.$Screen.setBGColor("#faf2ee");
+        new Tonyu.classes.kernel.Label({x: _this.W*0.5,y: _this.H*0.3,text: "おっさんコーディネート",size: 30,fillStyle: "#88001b"});
+        new Tonyu.classes.kernel.Label({x: _this.W*0.5,y: _this.H*0.4,text: "ver 1.23",size: 20,fillStyle: "#88001b"});
+        new Tonyu.classes.kernel.Label({x: _this.W*0.5,y: _this.H*0.7,text: "タッチでスタート",size: 20,fillStyle: "#88001b"});
         
         _thread.enter(function _trc_Main_ent_main(_thread) {
           if (_thread.lastEx) __pc=_thread.catchPC;
@@ -2561,355 +1983,6 @@ Tonyu.klass.define({
   decls: {"methods":{"main":{"nowait":false}},"fields":{"throwGoodItem":{},"boss":{},"BG":{}}}
 });
 Tonyu.klass.define({
-  fullName: 'user.OshiUriTenin',
-  shortName: 'OshiUriTenin',
-  namespace: 'user',
-  superclass: Tonyu.classes.kernel.Actor,
-  includes: [],
-  methods: function (__superClass) {
-    return {
-      main :function _trc_OshiUriTenin_main() {
-        "use strict";
-        var _this=this;
-        
-        _this.p=Tonyu.globals.$pat_uketuke;
-        _this.angle=0;
-        _this.firstRadius=Tonyu.globals.$W*0.05;
-        _this.radius=_this.firstRadius;
-        _this.purunRun=false;
-        _this.throwFlag=false;
-        _this.frame=0;
-        _this.shotCount=0;
-        _this.moveWait=0;
-        _this.posAngle=0;
-        _this.posRadius=Tonyu.globals.$W*0.2;
-        _this.posDir="right";
-        _this.hp=30;
-        _this.x=Tonyu.globals.$W*0.5+_this.cos(_this.posAngle)*_this.posRadius;
-        _this.y=Tonyu.globals.$H*0.3;
-        _this.scaleX=Tonyu.globals.$W*0.001;
-        while (true) {
-          Tonyu.checkLoop();
-          _this.damageUpdate();
-          _this.dieUpdate();
-          if (_this.shotCount<4) {
-            if (Tonyu.globals.$difficulty<=1&&! (_this.frame%60)) {
-              _this.throwItem(true);
-            }
-            if (Tonyu.globals.$difficulty>=2&&! (_this.frame%_this.rnd(24,60))) {
-              _this.throwItem(true);
-            }
-            
-          } else {
-            _this.moveWait++;
-            
-          }
-          _this.newAlpha=255-_this.cos(120*_this.moveWait*0.01)*255;
-          if (_this.newAlpha>127.5) {
-            _this.alpha=_this.newAlpha;
-          }
-          _this.posChange();
-          _this.purun();
-          _this.frame++;
-          _this.update();
-          
-        }
-      },
-      fiber$main :function _trc_OshiUriTenin_f_main(_thread) {
-        "use strict";
-        var _this=this;
-        //var _arguments=Tonyu.A(arguments);
-        var __pc=0;
-        
-        _this.p=Tonyu.globals.$pat_uketuke;
-        _this.angle=0;
-        _this.firstRadius=Tonyu.globals.$W*0.05;
-        _this.radius=_this.firstRadius;
-        _this.purunRun=false;
-        _this.throwFlag=false;
-        _this.frame=0;
-        _this.shotCount=0;
-        _this.moveWait=0;
-        _this.posAngle=0;
-        _this.posRadius=Tonyu.globals.$W*0.2;
-        _this.posDir="right";
-        _this.hp=30;
-        _this.x=Tonyu.globals.$W*0.5+_this.cos(_this.posAngle)*_this.posRadius;
-        _this.y=Tonyu.globals.$H*0.3;
-        _this.scaleX=Tonyu.globals.$W*0.001;
-        
-        _thread.enter(function _trc_OshiUriTenin_ent_main(_thread) {
-          if (_thread.lastEx) __pc=_thread.catchPC;
-          for(var __cnt=100 ; __cnt--;) {
-            switch (__pc) {
-            case 0:
-            case 1:
-              _this.fiber$damageUpdate(_thread);
-              __pc=2;return;
-            case 2:
-              
-              _this.fiber$dieUpdate(_thread);
-              __pc=3;return;
-            case 3:
-              
-              if (!(_this.shotCount<4)) { __pc=8     ; break; }
-              if (!(Tonyu.globals.$difficulty<=1&&! (_this.frame%60))) { __pc=5     ; break; }
-              _this.fiber$throwItem(_thread, true);
-              __pc=4;return;
-            case 4:
-              
-            case 5     :
-              
-              if (!(Tonyu.globals.$difficulty>=2&&! (_this.frame%_this.rnd(24,60)))) { __pc=7     ; break; }
-              _this.fiber$throwItem(_thread, true);
-              __pc=6;return;
-            case 6:
-              
-            case 7     :
-              
-              __pc=9     ;break;
-            case 8     :
-              {
-                _this.moveWait++;
-              }
-            case 9     :
-              
-              _this.newAlpha=255-_this.cos(120*_this.moveWait*0.01)*255;
-              if (_this.newAlpha>127.5) {
-                _this.alpha=_this.newAlpha;
-              }
-              _this.fiber$posChange(_thread);
-              __pc=10;return;
-            case 10:
-              
-              _this.fiber$purun(_thread);
-              __pc=11;return;
-            case 11:
-              
-              _this.frame++;
-              _this.fiber$update(_thread);
-              __pc=12;return;
-            case 12:
-              
-              __pc=1;break;
-            case 13    :
-              
-              _thread.exit(_this);return;
-            }
-          }
-        });
-      },
-      purun :function _trc_OshiUriTenin_purun() {
-        "use strict";
-        var _this=this;
-        
-        if (! _this.purunRun) {
-          return _this;
-        }
-        _this.rotation=_this.cos(_this.angle)*_this.radius;
-        _this.angle+=Tonyu.globals.$W*0.1;
-        if (_this.radius>0) {
-          _this.radius+=- (Tonyu.globals.$W*0.0025);
-          
-        } else {
-          _this.radius=_this.firstRadius;
-          _this.purunRun=false;
-          
-        }
-      },
-      fiber$purun :function _trc_OshiUriTenin_f_purun(_thread) {
-        "use strict";
-        var _this=this;
-        //var _arguments=Tonyu.A(arguments);
-        var __pc=0;
-        
-        if (! _this.purunRun) {
-          _thread.retVal=_this;return;
-          
-        }
-        _this.rotation=_this.cos(_this.angle)*_this.radius;
-        _this.angle+=Tonyu.globals.$W*0.1;
-        if (_this.radius>0) {
-          _this.radius+=- (Tonyu.globals.$W*0.0025);
-          
-        } else {
-          _this.radius=_this.firstRadius;
-          _this.purunRun=false;
-          
-        }
-        
-        _thread.retVal=_this;return;
-      },
-      throwItem :function _trc_OshiUriTenin_throwItem(badItem) {
-        "use strict";
-        var _this=this;
-        
-        if (Tonyu.globals.$difficulty===0) {
-          _this.hp=1;
-        } else {
-          _this.hp=_this.rnd(1,5);
-        }
-        new Tonyu.classes.user.OshiUriItem({tarX: Tonyu.globals.$W*0.5,x: _this.x,y: _this.y,itemType: _this.rnd(3),badItem: badItem,scaleX: Tonyu.globals.$scrScale,hp: _this.hp});
-        _this.purunRun=true;
-        Tonyu.globals.$sound.playSE(Tonyu.globals.$se_out);
-        _this.shotCount++;
-      },
-      fiber$throwItem :function _trc_OshiUriTenin_f_throwItem(_thread,badItem) {
-        "use strict";
-        var _this=this;
-        //var _arguments=Tonyu.A(arguments);
-        var __pc=0;
-        
-        if (Tonyu.globals.$difficulty===0) {
-          _this.hp=1;
-        } else {
-          _this.hp=_this.rnd(1,5);
-        }
-        new Tonyu.classes.user.OshiUriItem({tarX: Tonyu.globals.$W*0.5,x: _this.x,y: _this.y,itemType: _this.rnd(3),badItem: badItem,scaleX: Tonyu.globals.$scrScale,hp: _this.hp});
-        _this.purunRun=true;
-        Tonyu.globals.$sound.playSE(Tonyu.globals.$se_out);
-        _this.shotCount++;
-        
-        _thread.retVal=_this;return;
-      },
-      posChange :function _trc_OshiUriTenin_posChange() {
-        "use strict";
-        var _this=this;
-        
-        if (_this.moveWait===100) {
-          Tonyu.globals.$sound.playSE(Tonyu.globals.$se_dash);
-        }
-        if (_this.moveWait>100) {
-          if (_this.posDir==="right"&&_this.posAngle<180) {
-            _this.x=Tonyu.globals.$W*0.5+_this.cos(_this.posAngle)*_this.posRadius;
-            _this.posAngle++;
-            
-          } else {
-            if (_this.posDir==="right"&&_this.posAngle>=180) {
-              _this.moveWait=0;
-              _this.shotCount=0;
-              _this.posDir="left";
-              
-            }
-          }
-          if (_this.posDir==="left"&&_this.posAngle>0) {
-            _this.x=Tonyu.globals.$W*0.5+_this.cos(_this.posAngle)*_this.posRadius;
-            _this.posAngle--;
-            
-          } else {
-            if (_this.posDir==="left"&&_this.posAngle<=0) {
-              _this.moveWait=0;
-              _this.shotCount=0;
-              _this.posDir="right";
-              
-            }
-          }
-          
-        }
-      },
-      fiber$posChange :function _trc_OshiUriTenin_f_posChange(_thread) {
-        "use strict";
-        var _this=this;
-        //var _arguments=Tonyu.A(arguments);
-        var __pc=0;
-        
-        if (_this.moveWait===100) {
-          Tonyu.globals.$sound.playSE(Tonyu.globals.$se_dash);
-        }
-        if (_this.moveWait>100) {
-          if (_this.posDir==="right"&&_this.posAngle<180) {
-            _this.x=Tonyu.globals.$W*0.5+_this.cos(_this.posAngle)*_this.posRadius;
-            _this.posAngle++;
-            
-          } else {
-            if (_this.posDir==="right"&&_this.posAngle>=180) {
-              _this.moveWait=0;
-              _this.shotCount=0;
-              _this.posDir="left";
-              
-            }
-          }
-          if (_this.posDir==="left"&&_this.posAngle>0) {
-            _this.x=Tonyu.globals.$W*0.5+_this.cos(_this.posAngle)*_this.posRadius;
-            _this.posAngle--;
-            
-          } else {
-            if (_this.posDir==="left"&&_this.posAngle<=0) {
-              _this.moveWait=0;
-              _this.shotCount=0;
-              _this.posDir="right";
-              
-            }
-          }
-          
-        }
-        
-        _thread.retVal=_this;return;
-      },
-      damageUpdate :function _trc_OshiUriTenin_damageUpdate() {
-        "use strict";
-        var _this=this;
-        
-        if (_this.alpha>=255) {
-          _this.crashBullet=_this.crashTo(Tonyu.classes.user.Bullet);
-          if (_this.crashBullet) {
-            _this.hp--;
-            Tonyu.globals.$sound.playSE(Tonyu.globals.$se_coolguydamage);
-            _this.crashBullet.die();
-            
-          }
-          ;
-          
-          
-        }
-      },
-      fiber$damageUpdate :function _trc_OshiUriTenin_f_damageUpdate(_thread) {
-        "use strict";
-        var _this=this;
-        //var _arguments=Tonyu.A(arguments);
-        var __pc=0;
-        
-        if (_this.alpha>=255) {
-          _this.crashBullet=_this.crashTo(Tonyu.classes.user.Bullet);
-          if (_this.crashBullet) {
-            _this.hp--;
-            Tonyu.globals.$sound.playSE(Tonyu.globals.$se_coolguydamage);
-            _this.crashBullet.die();
-            
-          }
-          ;
-          
-          
-        }
-        
-        _thread.retVal=_this;return;
-      },
-      dieUpdate :function _trc_OshiUriTenin_dieUpdate() {
-        "use strict";
-        var _this=this;
-        
-        if (_this.hp<=0) {
-          _this.die();
-        }
-      },
-      fiber$dieUpdate :function _trc_OshiUriTenin_f_dieUpdate(_thread) {
-        "use strict";
-        var _this=this;
-        //var _arguments=Tonyu.A(arguments);
-        var __pc=0;
-        
-        if (_this.hp<=0) {
-          _this.die();
-        }
-        
-        _thread.retVal=_this;return;
-      },
-      __dummy: false
-    };
-  },
-  decls: {"methods":{"main":{"nowait":false},"purun":{"nowait":false},"throwItem":{"nowait":false},"posChange":{"nowait":false},"damageUpdate":{"nowait":false},"dieUpdate":{"nowait":false}},"fields":{"angle":{},"firstRadius":{},"purunRun":{},"throwFlag":{},"frame":{},"shotCount":{},"moveWait":{},"posAngle":{},"posRadius":{},"posDir":{},"hp":{},"newAlpha":{},"crashBullet":{}}}
-});
-Tonyu.klass.define({
   fullName: 'user.OsoujiScene',
   shortName: 'OsoujiScene',
   namespace: 'user',
@@ -3046,295 +2119,6 @@ Tonyu.klass.define({
     };
   },
   decls: {"methods":{"main":{"nowait":false}},"fields":{"BGGW":{},"BG":{},"timeSale":{},"uketuke":{},"uketukeFollowMotion":{},"kyakuLen":{},"kyakuList":{},"kyaku":{}}}
-});
-Tonyu.klass.define({
-  fullName: 'user.Uketuke',
-  shortName: 'Uketuke',
-  namespace: 'user',
-  superclass: Tonyu.classes.kernel.BodyActor,
-  includes: [],
-  methods: function (__superClass) {
-    return {
-      main :function _trc_Uketuke_main() {
-        "use strict";
-        var _this=this;
-        
-        _this.staticFrame=0;
-        _this.p=Tonyu.globals.$pat_uketuke;
-        _this.scaleX=Tonyu.globals.$W*0.001;
-        _this.manualRotation=true;
-        _this.itemType=0;
-        if (Tonyu.globals.$difficulty===0) {
-          _this.horiNageItemScl=Tonyu.globals.$W*0.001;
-        }
-        if (Tonyu.globals.$difficulty===1) {
-          _this.horiNageItemScl=Tonyu.globals.$W*0.0005;
-        }
-        if (Tonyu.globals.$difficulty===2) {
-          _this.horiNageItemScl=Tonyu.globals.$W*0.0002;
-        }
-        _this.horiNageItemList=[];
-        _this.horiNageItemOut=false;
-        while (true) {
-          Tonyu.checkLoop();
-          if (_this.y>Tonyu.globals.$H*0.3) {
-            if (_this.staticFrame===0) {
-              Tonyu.globals.$sound.playSE(Tonyu.globals.$se_get);
-              
-            }
-            if (_this.staticFrame%60===0&&_this.itemType<3) {
-              Tonyu.globals.$sound.playSE(Tonyu.globals.$se_irassyai);
-              Tonyu.globals.$sound.playSE(Tonyu.globals.$se_suburi);
-              _this.horiNageItemList.push(new Tonyu.classes.user.HoriNageItem({x: _this.x,y: _this.y,itemType: _this.itemType,badItem: false,dir: _this.rnd(2),scaleX: _this.horiNageItemScl}));
-              _this.itemType++;
-              
-            }
-            ;
-            
-            _this.staticFrame++;
-            
-          }
-          _this.horiNageItemList.map((function anonymous_890(item) {
-            
-            if (item.y>Tonyu.globals.$H*1.05) {
-              _this.horiNageItemOut=true;
-            }
-          }));
-          _this.update();
-          
-        }
-      },
-      fiber$main :function _trc_Uketuke_f_main(_thread) {
-        "use strict";
-        var _this=this;
-        //var _arguments=Tonyu.A(arguments);
-        var __pc=0;
-        
-        _this.staticFrame=0;
-        _this.p=Tonyu.globals.$pat_uketuke;
-        _this.scaleX=Tonyu.globals.$W*0.001;
-        _this.manualRotation=true;
-        _this.itemType=0;
-        if (Tonyu.globals.$difficulty===0) {
-          _this.horiNageItemScl=Tonyu.globals.$W*0.001;
-        }
-        if (Tonyu.globals.$difficulty===1) {
-          _this.horiNageItemScl=Tonyu.globals.$W*0.0005;
-        }
-        if (Tonyu.globals.$difficulty===2) {
-          _this.horiNageItemScl=Tonyu.globals.$W*0.0002;
-        }
-        _this.horiNageItemList=[];
-        _this.horiNageItemOut=false;
-        
-        _thread.enter(function _trc_Uketuke_ent_main(_thread) {
-          if (_thread.lastEx) __pc=_thread.catchPC;
-          for(var __cnt=100 ; __cnt--;) {
-            switch (__pc) {
-            case 0:
-            case 1:
-              if (_this.y>Tonyu.globals.$H*0.3) {
-                if (_this.staticFrame===0) {
-                  Tonyu.globals.$sound.playSE(Tonyu.globals.$se_get);
-                  
-                }
-                if (_this.staticFrame%60===0&&_this.itemType<3) {
-                  Tonyu.globals.$sound.playSE(Tonyu.globals.$se_irassyai);
-                  Tonyu.globals.$sound.playSE(Tonyu.globals.$se_suburi);
-                  _this.horiNageItemList.push(new Tonyu.classes.user.HoriNageItem({x: _this.x,y: _this.y,itemType: _this.itemType,badItem: false,dir: _this.rnd(2),scaleX: _this.horiNageItemScl}));
-                  _this.itemType++;
-                  
-                }
-                ;
-                
-                _this.staticFrame++;
-                
-              }
-              _this.horiNageItemList.map((function anonymous_890(item) {
-                
-                if (item.y>Tonyu.globals.$H*1.05) {
-                  _this.horiNageItemOut=true;
-                }
-              }));
-              _this.fiber$update(_thread);
-              __pc=2;return;
-            case 2:
-              
-              __pc=1;break;
-            case 3     :
-              
-              _thread.exit(_this);return;
-            }
-          }
-        });
-      },
-      __dummy: false
-    };
-  },
-  decls: {"methods":{"main":{"nowait":false}},"fields":{"staticFrame":{},"itemType":{},"horiNageItemScl":{},"horiNageItemList":{},"horiNageItemOut":{}}}
-});
-Tonyu.klass.define({
-  fullName: 'user.Back',
-  shortName: 'Back',
-  namespace: 'user',
-  superclass: Tonyu.classes.kernel.Actor,
-  includes: [],
-  methods: function (__superClass) {
-    return {
-      main :function _trc_Back_main() {
-        "use strict";
-        var _this=this;
-        
-        _this.x=0;
-        _this.y=0;
-        _this.p=Tonyu.globals.$pat_bg;
-        _this.zOrder=1;
-      },
-      fiber$main :function _trc_Back_f_main(_thread) {
-        "use strict";
-        var _this=this;
-        //var _arguments=Tonyu.A(arguments);
-        var __pc=0;
-        
-        _this.x=0;
-        _this.y=0;
-        _this.p=Tonyu.globals.$pat_bg;
-        _this.zOrder=1;
-        
-        _thread.retVal=_this;return;
-      },
-      __dummy: false
-    };
-  },
-  decls: {"methods":{"main":{"nowait":false}},"fields":{}}
-});
-Tonyu.klass.define({
-  fullName: 'user.Bullet',
-  shortName: 'Bullet',
-  namespace: 'user',
-  superclass: Tonyu.classes.kernel.BodyActor,
-  includes: [],
-  methods: function (__superClass) {
-    return {
-      main :function _trc_Bullet_main() {
-        "use strict";
-        var _this=this;
-        
-        _this.sp=Tonyu.globals.$H*0.02;
-        _this.p=Tonyu.globals.$pat_base+18;
-        _this.scaleX=Tonyu.globals.$W*0.002;
-        while (true) {
-          Tonyu.checkLoop();
-          _this.y+=- _this.sp;
-          if (_this.x<0||_this.y<Tonyu.globals.$H*0.15||_this.x>Tonyu.globals.$W||_this.y>Tonyu.globals.$H) {
-            _this.die();
-          }
-          _this.update();
-          
-        }
-      },
-      fiber$main :function _trc_Bullet_f_main(_thread) {
-        "use strict";
-        var _this=this;
-        //var _arguments=Tonyu.A(arguments);
-        var __pc=0;
-        
-        _this.sp=Tonyu.globals.$H*0.02;
-        _this.p=Tonyu.globals.$pat_base+18;
-        _this.scaleX=Tonyu.globals.$W*0.002;
-        
-        _thread.enter(function _trc_Bullet_ent_main(_thread) {
-          if (_thread.lastEx) __pc=_thread.catchPC;
-          for(var __cnt=100 ; __cnt--;) {
-            switch (__pc) {
-            case 0:
-            case 1:
-              _this.y+=- _this.sp;
-              if (_this.x<0||_this.y<Tonyu.globals.$H*0.15||_this.x>Tonyu.globals.$W||_this.y>Tonyu.globals.$H) {
-                _this.die();
-              }
-              _this.fiber$update(_thread);
-              __pc=2;return;
-            case 2:
-              
-              __pc=1;break;
-            case 3     :
-              
-              _thread.exit(_this);return;
-            }
-          }
-        });
-      },
-      __dummy: false
-    };
-  },
-  decls: {"methods":{"main":{"nowait":false}},"fields":{"sp":{}}}
-});
-Tonyu.klass.define({
-  fullName: 'user.Kira',
-  shortName: 'Kira',
-  namespace: 'user',
-  superclass: Tonyu.classes.kernel.Actor,
-  includes: [],
-  methods: function (__superClass) {
-    return {
-      main :function _trc_Kira_main() {
-        "use strict";
-        var _this=this;
-        
-        _this.p=Tonyu.globals.$pat_pika;
-        _this.scaleX=Tonyu.globals.$W*0.0001;
-        _this.frame=0;
-        while (true) {
-          Tonyu.checkLoop();
-          _this.scaleX+=_this.frame*0.001;
-          _this.alpha+=- (_this.frame*0.8);
-          if (_this.alpha<=0) {
-            _this.die();
-          }
-          _this.frame++;
-          _this.update();
-          
-        }
-      },
-      fiber$main :function _trc_Kira_f_main(_thread) {
-        "use strict";
-        var _this=this;
-        //var _arguments=Tonyu.A(arguments);
-        var __pc=0;
-        
-        _this.p=Tonyu.globals.$pat_pika;
-        _this.scaleX=Tonyu.globals.$W*0.0001;
-        _this.frame=0;
-        
-        _thread.enter(function _trc_Kira_ent_main(_thread) {
-          if (_thread.lastEx) __pc=_thread.catchPC;
-          for(var __cnt=100 ; __cnt--;) {
-            switch (__pc) {
-            case 0:
-            case 1:
-              _this.scaleX+=_this.frame*0.001;
-              _this.alpha+=- (_this.frame*0.8);
-              if (_this.alpha<=0) {
-                _this.die();
-              }
-              _this.frame++;
-              _this.fiber$update(_thread);
-              __pc=2;return;
-            case 2:
-              
-              __pc=1;break;
-            case 3     :
-              
-              _thread.exit(_this);return;
-            }
-          }
-        });
-      },
-      __dummy: false
-    };
-  },
-  decls: {"methods":{"main":{"nowait":false}},"fields":{"frame":{}}}
 });
 Tonyu.klass.define({
   fullName: 'user.RandItem',
@@ -3687,143 +2471,6 @@ Tonyu.klass.define({
   decls: {"methods":{"main":{"nowait":false}},"fields":{"cr":{},"bg":{},"countDown":{},"frame":{},"playerGoTop":{},"goodItemScaleX":{},"badItemScaleX":{},"item1":{},"item2":{},"item3":{},"badItem":{},"badItemStand":{},"offsetFollowMotion":{},"shakeMotion":{},"roundTripMotion":{},"rocketItem":{},"badItemPos":{},"shakePos":{},"roundTripPos":{}}}
 });
 Tonyu.klass.define({
-  fullName: 'user.CountDownLabel',
-  shortName: 'CountDownLabel',
-  namespace: 'user',
-  superclass: Tonyu.classes.kernel.Actor,
-  includes: [Tonyu.classes.user.ActPattern],
-  methods: function (__superClass) {
-    return {
-      main :function _trc_CountDownLabel_main() {
-        "use strict";
-        var _this=this;
-        
-        _this.player;
-        _this.label=new Tonyu.classes.kernel.Label({x: Tonyu.globals.$W*0.5,y: Tonyu.globals.$H*0.5,text: "0",fillStyle: "black",size: Tonyu.globals.$W*0.15});
-        _this.countDown=3;
-        _this.frame=0;
-        while (true) {
-          Tonyu.checkLoop();
-          _this.frame++;
-          _this.label.text=_this.countDown;
-          if (_this.frame%60===0) {
-            _this.countDown--;
-          }
-          if (_this.countDown<=0) {
-            _this.actJump(_this.player);
-            _this.label.die();
-            _this.die();
-            
-          }
-          _this.update();
-          
-        }
-      },
-      fiber$main :function _trc_CountDownLabel_f_main(_thread) {
-        "use strict";
-        var _this=this;
-        //var _arguments=Tonyu.A(arguments);
-        var __pc=0;
-        
-        _this.player;
-        _this.label=new Tonyu.classes.kernel.Label({x: Tonyu.globals.$W*0.5,y: Tonyu.globals.$H*0.5,text: "0",fillStyle: "black",size: Tonyu.globals.$W*0.15});
-        _this.countDown=3;
-        _this.frame=0;
-        
-        _thread.enter(function _trc_CountDownLabel_ent_main(_thread) {
-          if (_thread.lastEx) __pc=_thread.catchPC;
-          for(var __cnt=100 ; __cnt--;) {
-            switch (__pc) {
-            case 0:
-            case 1:
-              _this.frame++;
-              _this.label.text=_this.countDown;
-              if (_this.frame%60===0) {
-                _this.countDown--;
-              }
-              if (!(_this.countDown<=0)) { __pc=3     ; break; }
-              _this.fiber$actJump(_thread, _this.player);
-              __pc=2;return;
-            case 2:
-              
-              _this.label.die();
-              _this.die();
-            case 3     :
-              
-              _this.fiber$update(_thread);
-              __pc=4;return;
-            case 4:
-              
-              __pc=1;break;
-            case 5     :
-              
-              _thread.exit(_this);return;
-            }
-          }
-        });
-      },
-      __dummy: false
-    };
-  },
-  decls: {"methods":{"main":{"nowait":false}},"fields":{"player":{},"label":{},"countDown":{},"frame":{}}}
-});
-Tonyu.klass.define({
-  fullName: 'user.RocketItem',
-  shortName: 'RocketItem',
-  namespace: 'user',
-  superclass: Tonyu.classes.kernel.Actor,
-  includes: [],
-  methods: function (__superClass) {
-    return {
-      main :function _trc_RocketItem_main() {
-        "use strict";
-        var _this=this;
-        
-        _this.p=Tonyu.globals.$pat_imo;
-        _this.sp=Tonyu.globals.$W*0.01;
-        _this.scaleX=Tonyu.globals.$scrScale;
-        while (true) {
-          Tonyu.checkLoop();
-          _this.y+=_this.sp;
-          _this.update();
-          
-        }
-      },
-      fiber$main :function _trc_RocketItem_f_main(_thread) {
-        "use strict";
-        var _this=this;
-        //var _arguments=Tonyu.A(arguments);
-        var __pc=0;
-        
-        _this.p=Tonyu.globals.$pat_imo;
-        _this.sp=Tonyu.globals.$W*0.01;
-        _this.scaleX=Tonyu.globals.$scrScale;
-        
-        _thread.enter(function _trc_RocketItem_ent_main(_thread) {
-          if (_thread.lastEx) __pc=_thread.catchPC;
-          for(var __cnt=100 ; __cnt--;) {
-            switch (__pc) {
-            case 0:
-            case 1:
-              _this.y+=_this.sp;
-              _this.fiber$update(_thread);
-              __pc=2;return;
-            case 2:
-              
-              __pc=1;break;
-            case 3     :
-              
-              _thread.exit(_this);return;
-            }
-          }
-        });
-      },
-      __dummy: false
-    };
-  },
-  decls: {"methods":{"main":{"nowait":false}},"fields":{"sp":{}}}
-});
-Tonyu.klass.define({
   fullName: 'user.RotItemScene',
   shortName: 'RotItemScene',
   namespace: 'user',
@@ -3853,6 +2500,7 @@ Tonyu.klass.define({
           }
         }
         _this.itemType=0;
+        _this.lastItemDie=false;
         _this.player=new Tonyu.classes.user.Player({speed: Tonyu.globals.$W*0.008});
         if (Tonyu.globals.$difficulty<2) {
           _this.nowRotItem=new Tonyu.classes.user.FollRotItem({baseItemX: Tonyu.globals.$W*0.5,baseItemY: Tonyu.globals.$H*0.15,itemType: _this.itemType,baseItemScale: _this.baseItemScale,rotItemScale: _this.rotItemScale});
@@ -3870,9 +2518,36 @@ Tonyu.klass.define({
           Tonyu.checkLoop();
           _this.frame++;
           _this.nextScene(_this.player.getApeealEnd());
+          if (_this.itemType>=2&&_this.player.apeealTime>=0) {
+            if (Tonyu.globals.$difficulty<2) {
+              if (_this.nowRotItem.getBaseItemDead()) {
+                _this.lastItemDie=true;
+              }
+              
+            } else {
+              if (Tonyu.globals.$difficulty>=2) {
+                if (_this.nowRotItem1.followActor.isDead()||_this.nowRotItem2.followActor.isDead()) {
+                  _this.lastItemDie=true;
+                }
+                
+              }
+            }
+            ;
+            
+            if (_this.lastItemDie) {
+              if (_this.player.followItemList.length-1<2) {
+                _this.player.apeealTime=- 1;
+                
+              }
+              ;
+              
+              
+            }
+            
+          }
           if (_this.nowRotItem) {
             if (_this.nowRotItem.followActorOut) {
-              _this.player.apeealTime=- 1;
+              _this.all(Tonyu.classes.user.Items).die();
             }
             
           }
@@ -3881,7 +2556,7 @@ Tonyu.klass.define({
               _this.all(Tonyu.classes.user.Items).die();
             }
             if (_this.nowRotItem1.followActorOut||_this.nowRotItem2.followActorOut) {
-              _this.player.apeealTime=- 1;
+              _this.all(Tonyu.classes.user.Items).die();
             }
             
           }
@@ -3936,6 +2611,7 @@ Tonyu.klass.define({
                 }
               }
               _this.itemType=0;
+              _this.lastItemDie=false;
               _this.player=new Tonyu.classes.user.Player({speed: Tonyu.globals.$W*0.008});
               if (Tonyu.globals.$difficulty<2) {
                 _this.nowRotItem=new Tonyu.classes.user.FollRotItem({baseItemX: Tonyu.globals.$W*0.5,baseItemY: Tonyu.globals.$H*0.15,itemType: _this.itemType,baseItemScale: _this.baseItemScale,rotItemScale: _this.rotItemScale});
@@ -3955,9 +2631,36 @@ Tonyu.klass.define({
               __pc=3;return;
             case 3:
               
+              if (_this.itemType>=2&&_this.player.apeealTime>=0) {
+                if (Tonyu.globals.$difficulty<2) {
+                  if (_this.nowRotItem.getBaseItemDead()) {
+                    _this.lastItemDie=true;
+                  }
+                  
+                } else {
+                  if (Tonyu.globals.$difficulty>=2) {
+                    if (_this.nowRotItem1.followActor.isDead()||_this.nowRotItem2.followActor.isDead()) {
+                      _this.lastItemDie=true;
+                    }
+                    
+                  }
+                }
+                ;
+                
+                if (_this.lastItemDie) {
+                  if (_this.player.followItemList.length-1<2) {
+                    _this.player.apeealTime=- 1;
+                    
+                  }
+                  ;
+                  
+                  
+                }
+                
+              }
               if (_this.nowRotItem) {
                 if (_this.nowRotItem.followActorOut) {
-                  _this.player.apeealTime=- 1;
+                  _this.all(Tonyu.classes.user.Items).die();
                 }
                 
               }
@@ -3966,7 +2669,7 @@ Tonyu.klass.define({
                   _this.all(Tonyu.classes.user.Items).die();
                 }
                 if (_this.nowRotItem1.followActorOut||_this.nowRotItem2.followActorOut) {
-                  _this.player.apeealTime=- 1;
+                  _this.all(Tonyu.classes.user.Items).die();
                 }
                 
               }
@@ -4085,7 +2788,7 @@ Tonyu.klass.define({
       __dummy: false
     };
   },
-  decls: {"methods":{"main":{"nowait":false},"follRotItem":{"nowait":false},"rotItem":{"nowait":false}},"fields":{"frame":{},"danmakuLeftPos":{},"danmakuRightPos":{},"bg":{},"baseItemScale":{},"rotItemScale":{},"itemType":{},"nowRotItem":{},"nowRotItem1":{},"nowRotItem2":{}}}
+  decls: {"methods":{"main":{"nowait":false},"follRotItem":{"nowait":false},"rotItem":{"nowait":false}},"fields":{"frame":{},"danmakuLeftPos":{},"danmakuRightPos":{},"bg":{},"baseItemScale":{},"rotItemScale":{},"itemType":{},"lastItemDie":{},"nowRotItem":{},"nowRotItem1":{},"nowRotItem2":{}}}
 });
 Tonyu.klass.define({
   fullName: 'user.RotMotion',
@@ -4241,6 +2944,7 @@ Tonyu.klass.define({
         
         new Tonyu.classes.kernel.T2World({gravity: 0});
         _this.init();
+        _this.frame=0;
         _this.BG=new Tonyu.classes.kernel.Actor({x: Tonyu.globals.$W*0.5,y: Tonyu.globals.$H*0.5,p: Tonyu.globals.$pat_osouji_scene_bg_gw,zOrder: 10});
         _this.ceiling.scaleY*=7;
         _this.ceiling.y=0;
@@ -4294,7 +2998,7 @@ Tonyu.klass.define({
           if (_this.bullet) {
             _this.bullet.die();
           }
-          _this.badItemList.map((function anonymous_1859(item) {
+          _this.badItemList.map((function anonymous_1871(item) {
             
             if (item.y<- (Tonyu.globals.$W*0.2)&&_this.player.apeealTime>=- 1) {
               _this.player.apeealTime=- 1;
@@ -4330,6 +3034,7 @@ Tonyu.klass.define({
               __pc=1;return;
             case 1:
               
+              _this.frame=0;
               _this.BG=new Tonyu.classes.kernel.Actor({x: Tonyu.globals.$W*0.5,y: Tonyu.globals.$H*0.5,p: Tonyu.globals.$pat_osouji_scene_bg_gw,zOrder: 10});
               _this.ceiling.scaleY*=7;
               _this.ceiling.y=0;
@@ -4382,7 +3087,7 @@ Tonyu.klass.define({
               if (_this.bullet) {
                 _this.bullet.die();
               }
-              _this.badItemList.map((function anonymous_1859(item) {
+              _this.badItemList.map((function anonymous_1871(item) {
                 
                 if (item.y<- (Tonyu.globals.$W*0.2)&&_this.player.apeealTime>=- 1) {
                   _this.player.apeealTime=- 1;
@@ -4415,228 +3120,7 @@ Tonyu.klass.define({
       __dummy: false
     };
   },
-  decls: {"methods":{"main":{"nowait":false}},"fields":{"BG":{},"badItemScale":{},"sp":{},"sentaku":{},"roundTripMotion":{},"badItemList":{},"gun":{},"bullet":{},"frame":{}}}
-});
-Tonyu.klass.define({
-  fullName: 'user.SentakuItem',
-  shortName: 'SentakuItem',
-  namespace: 'user',
-  superclass: Tonyu.classes.user.Items,
-  includes: [],
-  methods: function (__superClass) {
-    return {
-      main :function _trc_SentakuItem_main() {
-        "use strict";
-        var _this=this;
-        
-        __superClass.prototype.main.apply( _this, []);
-        _this.sp;
-        _this.frame=0;
-        _this.futtobi=false;
-        _this.houriKomare=0;
-        _this.moveX;
-        _this.moveY;
-        _this.radius=300;
-        _this.angle=0;
-        _this.YHirei=0;
-        _this.YTobioriFirstPos=0;
-        _this.sentakuKi;
-        _this.player;
-        while (true) {
-          Tonyu.checkLoop();
-          _this.bullet=_this.crashTo(Tonyu.classes.user.Bullet);
-          if (_this.bullet) {
-            _this.futtobi=true;
-            _this.bullet.die();
-            
-          }
-          ;
-          
-          _this.moving();
-          _this.crash();
-          if (_this.crashTo(Tonyu.classes.user.SentakuKi)) {
-            _this.houriKomare=1;
-            new Tonyu.classes.user.CoolSentakuItem({y: Tonyu.globals.$H*0.15,x: 0,sentakuKi: _this.sentakuKi,itemType: _this.itemType,badItem: false,alpha: 0,player: _this.player});
-            _this.die();
-            
-          }
-          if (_this.houriKomare===1) {
-            Tonyu.globals.$sound.playSE(Tonyu.globals.$se_pyun);
-          }
-          _this.angle+=_this.sp;
-          _this.update();
-          
-        }
-      },
-      fiber$main :function _trc_SentakuItem_f_main(_thread) {
-        "use strict";
-        var _this=this;
-        //var _arguments=Tonyu.A(arguments);
-        var __pc=0;
-        
-        
-        _thread.enter(function _trc_SentakuItem_ent_main(_thread) {
-          if (_thread.lastEx) __pc=_thread.catchPC;
-          for(var __cnt=100 ; __cnt--;) {
-            switch (__pc) {
-            case 0:
-              __superClass.prototype.fiber$main.apply( _this, [_thread]);
-              __pc=1;return;
-            case 1:
-              
-              _this.sp;
-              _this.frame=0;
-              _this.futtobi=false;
-              _this.houriKomare=0;
-              _this.moveX;
-              _this.moveY;
-              _this.radius=300;
-              _this.angle=0;
-              _this.YHirei=0;
-              _this.YTobioriFirstPos=0;
-              _this.sentakuKi;
-              _this.player;
-            case 2:
-              _this.bullet=_this.crashTo(Tonyu.classes.user.Bullet);
-              if (_this.bullet) {
-                _this.futtobi=true;
-                _this.bullet.die();
-                
-              }
-              ;
-              
-              _this.fiber$moving(_thread);
-              __pc=3;return;
-            case 3:
-              
-              _this.fiber$crash(_thread);
-              __pc=4;return;
-            case 4:
-              
-              if (_this.crashTo(Tonyu.classes.user.SentakuKi)) {
-                _this.houriKomare=1;
-                new Tonyu.classes.user.CoolSentakuItem({y: Tonyu.globals.$H*0.15,x: 0,sentakuKi: _this.sentakuKi,itemType: _this.itemType,badItem: false,alpha: 0,player: _this.player});
-                _this.die();
-                
-              }
-              if (_this.houriKomare===1) {
-                Tonyu.globals.$sound.playSE(Tonyu.globals.$se_pyun);
-              }
-              _this.angle+=_this.sp;
-              _this.fiber$update(_thread);
-              __pc=5;return;
-            case 5:
-              
-              __pc=2;break;
-            case 6     :
-              
-              _thread.exit(_this);return;
-            }
-          }
-        });
-      },
-      moving :function _trc_SentakuItem_moving() {
-        "use strict";
-        var _this=this;
-        
-        if (_this.futtobi) {
-          return _this;
-        }
-        _this.x=_this.moveX+_this.cos(_this.angle)*_this.radius;
-        if (Tonyu.globals.$difficulty===2) {
-          _this.y=_this.moveY+_this.sin(_this.angle*2)*(_this.radius/10);
-          
-        }
-      },
-      fiber$moving :function _trc_SentakuItem_f_moving(_thread) {
-        "use strict";
-        var _this=this;
-        //var _arguments=Tonyu.A(arguments);
-        var __pc=0;
-        
-        if (_this.futtobi) {
-          _thread.retVal=_this;return;
-          
-        }
-        _this.x=_this.moveX+_this.cos(_this.angle)*_this.radius;
-        if (Tonyu.globals.$difficulty===2) {
-          _this.y=_this.moveY+_this.sin(_this.angle*2)*(_this.radius/10);
-          
-        }
-        
-        _thread.retVal=_this;return;
-      },
-      crash :function _trc_SentakuItem_crash() {
-        "use strict";
-        var _this=this;
-        
-        if (! _this.futtobi) {
-          return _this;
-        }
-        _this.rotation+=Tonyu.globals.$W*0.05;
-        _this.y+=- (Tonyu.globals.$W*0.01+_this.frame);
-      },
-      fiber$crash :function _trc_SentakuItem_f_crash(_thread) {
-        "use strict";
-        var _this=this;
-        //var _arguments=Tonyu.A(arguments);
-        var __pc=0;
-        
-        if (! _this.futtobi) {
-          _thread.retVal=_this;return;
-          
-        }
-        _this.rotation+=Tonyu.globals.$W*0.05;
-        _this.y+=- (Tonyu.globals.$W*0.01+_this.frame);
-        
-        _thread.retVal=_this;return;
-      },
-      __dummy: false
-    };
-  },
-  decls: {"methods":{"main":{"nowait":false},"moving":{"nowait":false},"crash":{"nowait":false}},"fields":{"sp":{},"frame":{},"futtobi":{},"houriKomare":{},"moveX":{},"moveY":{},"YHirei":{},"YTobioriFirstPos":{},"sentakuKi":{},"player":{},"bullet":{}}}
-});
-Tonyu.klass.define({
-  fullName: 'user.SentakuKi',
-  shortName: 'SentakuKi',
-  namespace: 'user',
-  superclass: Tonyu.classes.user.Items,
-  includes: [],
-  methods: function (__superClass) {
-    return {
-      main :function _trc_SentakuKi_main() {
-        "use strict";
-        var _this=this;
-        
-        __superClass.prototype.main.apply( _this, []);
-        _this.p=Tonyu.globals.$pat_sentaku;
-      },
-      fiber$main :function _trc_SentakuKi_f_main(_thread) {
-        "use strict";
-        var _this=this;
-        //var _arguments=Tonyu.A(arguments);
-        var __pc=0;
-        
-        
-        _thread.enter(function _trc_SentakuKi_ent_main(_thread) {
-          if (_thread.lastEx) __pc=_thread.catchPC;
-          for(var __cnt=100 ; __cnt--;) {
-            switch (__pc) {
-            case 0:
-              __superClass.prototype.fiber$main.apply( _this, [_thread]);
-              __pc=1;return;
-            case 1:
-              
-              _this.p=Tonyu.globals.$pat_sentaku;
-              _thread.exit(_this);return;
-            }
-          }
-        });
-      },
-      __dummy: false
-    };
-  },
-  decls: {"methods":{"main":{"nowait":false}},"fields":{}}
+  decls: {"methods":{"main":{"nowait":false}},"fields":{"frame":{},"BG":{},"badItemScale":{},"sp":{},"sentaku":{},"roundTripMotion":{},"badItemList":{},"gun":{},"bullet":{}}}
 });
 Tonyu.klass.define({
   fullName: 'user.ShakeMotion',
@@ -5445,660 +3929,886 @@ Tonyu.klass.define({
   decls: {"methods":{"main":{"nowait":false},"spawnItem_TypeFollow":{"nowait":false},"spawnItem_TypeRand":{"nowait":false}},"fields":{"BG":{},"itemTypeList":{},"YSP":{},"XSP":{},"itemScale":{},"spawnPosY":{},"itemList":{},"badItemList":{},"motList":{},"itemType":{},"motItem":{},"zigItem":{}}}
 });
 Tonyu.klass.define({
-  fullName: 'user.BigFaceScene',
-  shortName: 'BigFaceScene',
+  fullName: 'user.ChanceButton',
+  shortName: 'ChanceButton',
   namespace: 'user',
   superclass: Tonyu.classes.kernel.Actor,
-  includes: [Tonyu.classes.user.MainProcLibs],
+  includes: [],
   methods: function (__superClass) {
     return {
-      main :function _trc_BigFaceScene_main() {
+      main :function _trc_ChanceButton_main() {
         "use strict";
         var _this=this;
         
-        _this.init();
-        _this.scr=1.5;
-        _this.frame=0;
-        _this.attackTime=0;
-        _this.goBackToFirstPos=false;
-        _this.attackArm=0;
-        _this.firstRadius=Tonyu.globals.$scrScale*100;
-        _this.firstLeftArmPosX=- (Tonyu.globals.$W*0.1);
-        _this.firstRightArmPosX=Tonyu.globals.$W*1.1;
-        _this.itemType=- 1;
-        _this.bg=new Tonyu.classes.user.BGBase({BGImg: Tonyu.globals.$pat_bigface_scene_bg,scaleX: Tonyu.globals.$scrScale});
-        _this.BGGW=new Tonyu.classes.kernel.Actor({x: Tonyu.globals.$W*0.5,y: Tonyu.globals.$H*0.5,p: Tonyu.globals.$pat_osouji_scene_bg_gw,scaleX: Tonyu.globals.$scrScale,zOrder: 100});
-        Tonyu.globals.$sound.playBGM(Tonyu.globals.$se_k_94,true);
-        _this.player=new Tonyu.classes.user.Player({speed: Tonyu.globals.$W*0.008,scaleX: Tonyu.globals.$W*0.001,gunMode: false,jump: false});
-        _this.bigFace=new Tonyu.classes.user.BigFace({x: Tonyu.globals.$W*0.5,y: Tonyu.globals.$H*0.3,img: Tonyu.globals.$pat_bigface,scaleX: Tonyu.globals.$scrScale*_this.scr});
-        _this.nowBadItem;
-        _this.goodItemList=[];
-        _this.goodItemMotList=[];
-        _this.badItemBulletList=[];
-        _this.i=2;for (; _this.i<5 ; _this.i++) {
-          Tonyu.checkLoop();
-          {
-            _this.item=new Tonyu.classes.user.Items({x: Tonyu.globals.$W*0.5,y: Tonyu.globals.$H*_this.i*0.1,scaleX: Tonyu.globals.$scrScale,itemType: _this.i-2,badItem: false,zOrder: 100});
-            _this.item.alpha=0;
-            _this.goodItemList.push(_this.item);
-          }
-        }
-        _this.i=0;for (; _this.i<3 ; _this.i++) {
-          Tonyu.checkLoop();
-          {
-            _this.goodItemMotList.push(new Tonyu.classes.user.FollMotion({firstY: _this.goodItemList[_this.i].y}));
-          }
-        }
-        _this.leftArm=new Tonyu.classes.kernel.Actor({x: _this.firstLeftArmPosX,y: 0,p: Tonyu.globals.$pat_bigface_hand+0,scaleX: Tonyu.globals.$scrScale*_this.scr*1.2,rotation: 45});
-        _this.rightArm=new Tonyu.classes.kernel.Actor({x: _this.firstRightArmPosX,y: Tonyu.globals.$H*0.7,p: Tonyu.globals.$pat_bigface_hand+0,scaleX: - (Tonyu.globals.$scrScale*_this.scr*1.2),scaleY: Tonyu.globals.$scrScale*_this.scr*1.2,rotation: - 45});
-        _this.leftRoundTripMotion=new Tonyu.classes.user.RotMotion({firstX: - (Tonyu.globals.$W*0.1),firstY: Tonyu.globals.$H*0.7,sp: Tonyu.globals.$scrScale*10,radius: Tonyu.globals.$scrScale*100,angle: 1});
-        _this.rightRoundTripMotion=new Tonyu.classes.user.RotMotion({firstX: Tonyu.globals.$W*1.1,firstY: Tonyu.globals.$H*0.7,sp: Tonyu.globals.$scrScale*10,radius: Tonyu.globals.$scrScale*100,angle: 180});
-        _this.rotMotion=new Tonyu.classes.user.RotMotion({firstX: Tonyu.globals.$W*0.1,firstY: Tonyu.globals.$H*0.9,sp: Tonyu.globals.$scrScale*10,radius: Tonyu.globals.$scrScale*200,angle: 1});
+        _this.p=Tonyu.globals.$pat_button+0;
+        _this.actScale=0.5;
+        _this.actSize=512;
+        _this.scaleX=_this.actScale;
+        _this.x=Tonyu.globals.$W*0.5;
+        _this.y=Tonyu.globals.$H*0.7;
+        _this.touchPower=2;
+        _this.barPower=0.4;
+        _this.barFirstY=_this.y+(_this.actSize*_this.actScale*0.5)+- 120;
+        _this.buttonSizeHerf=_this.actSize*_this.actScale*0.5;
+        _this.gaugeMax=_this.y+- (_this.actSize*_this.actScale*0.5)+40;
+        _this.bar=new Tonyu.classes.kernel.Actor({p: Tonyu.globals.$pat_yokobou,scaleX: _this.actScale});
+        _this.on("die",(function anonymous_343() {
+          
+          _this.bar.die();
+        }));
+        _this.on("touch",(function anonymous_375(touchEvent) {
+          var f;
+          
+          _this.p=Tonyu.globals.$pat_button+1;
+          _this.barPower+=- (_this.touchPower*(Tonyu.globals.$chanceStep*0.01));
+          Tonyu.globals.$sound.playSE(Tonyu.globals.$se_kamaeru);
+          f = touchEvent.finger;
+          
+          f.on("end",(function anonymous_571() {
+            
+            _this.p=Tonyu.globals.$pat_button+0;
+          }));
+          _this.update();
+        }));
         while (true) {
           Tonyu.checkLoop();
-          _this.frame++;
-          _this.nextScene(_this.player.apeealEnd);
-          if (_this.itemType>2) {
-            _this.goodItemList.map((function anonymous_3119(item) {
-              
-              if (item.alpha===0) {
-                item.alpha=255;
-              }
-            }));
-            _this.bg.y+=10;
-            _this.bigFace.y+=10;
-            _this.leftArm.y+=10;
-            _this.rightArm.y+=10;
-            _this.goodItemMotList.map((function anonymous_3319(m,i) {
-              
-              _this.goodItemList[i].extend(m.next());
-            }));
-            _this.update();
-            continue;
+          if (_this.bar.y<_this.gaugeMax) {
+            _this.sendEvent("complete");
+            break;
             
-            
-          }
-          if (_this.attackArm!==- 1) {
-            _this.leftArm.y=_this.leftRoundTripMotion.next().y;
-            _this.leftArm.p=Tonyu.globals.$pat_bigface_hand+0;
             
           } else {
-            _this.leftArm.p=Tonyu.globals.$pat_bigface_hand+1;
-            
-          }
-          if (_this.attackArm!==1) {
-            _this.rightArm.y=_this.rightRoundTripMotion.next().y;
-            _this.rightArm.p=Tonyu.globals.$pat_bigface_hand+0;
-            
-          } else {
-            _this.rightArm.p=Tonyu.globals.$pat_bigface_hand+1;
-            
-          }
-          if (_this.attackTime===1) {
-            _this.bigFace.attack=true;
-            if (Tonyu.globals.$bossDifficulty===0) {
-              _this.attackArm=- 1;
-            }
-            if (Tonyu.globals.$bossDifficulty===1) {
-              _this.attackArm=_this.rnd(0,2)?1:- 1;
-            }
-            if (Tonyu.globals.$bossDifficulty===2) {
-              _this.attackArm=_this.rnd(- 1,2);
-            }
-            if (_this.itemType<=2) {
-              _this.itemType++;
-            }
-            if (_this.attackArm===- 1) {
-              _this.leftRoundTripMotion.angle=180;
-            }
-            if (_this.attackArm===1) {
-              _this.rightRoundTripMotion.angle=180;
-            }
-            if (_this.attackArm!==0&&_this.itemType<=2) {
-              _this.nowBadItem=new Tonyu.classes.user.Items({x: Tonyu.globals.$W*0.5,y: Tonyu.globals.$H*0.5,itemType: _this.itemType,badItem: true,scaleX: Tonyu.globals.$scrScale,zOrder: - 1});
-              _this.nowBadItem.itemType=_this.itemType;
+            if (_this.bar.y>_this.barFirstY+30) {
+              _this.sendEvent("failed");
+              break;
+              
               
             }
-            
           }
-          if (_this.attackTime===18) {
-            Tonyu.globals.$sound.playSE(Tonyu.globals.$se_suburi,128,0,0.5);
-          }
-          if (_this.attackTime>24) {
-            if (_this.attackArm===- 1) {
-              _this.attackUpdate(_this.leftRoundTripMotion,2,_this.leftArm,- 1);
-            }
-            if (_this.attackArm===1) {
-              _this.attackUpdate(_this.rightRoundTripMotion,2,_this.rightArm,1);
-            }
-            if (_this.attackArm===0) {
-              _this.itemBulletUpdate(_this.bigFace,_this.player,5);
-            }
-            
-          }
-          if (_this.attackTime>0&&_this.itemType<=2) {
-            _this.attackTime++;
-            if (_this.attackArm===- 1) {
-              _this.nowBadItem.extend({x: _this.leftArm.x+60,y: _this.leftArm.y+- 50});
-            }
-            if (_this.attackArm===1) {
-              _this.nowBadItem.extend({x: _this.rightArm.x+- 60,y: _this.rightArm.y+- 50});
-            }
-            
-          }
-          if (! (_this.frame%60)&&! _this.bigFace.attack) {
-            _this.attackTime=1;
-            
-          }
+          ;
+          
+          _this.barPower+=0.1;
+          _this.bar.y=_this.barFirstY+(_this.buttonSizeHerf-_this.buttonSizeHerf*(Tonyu.globals.$chanceStep*0.01))*_this.barPower;
+          _this.bar.x=_this.x;
           _this.update();
           
         }
       },
-      fiber$main :function _trc_BigFaceScene_f_main(_thread) {
+      fiber$main :function _trc_ChanceButton_f_main(_thread) {
+        "use strict";
+        var _this=this;
+        //var _arguments=Tonyu.A(arguments);
+        var __pc=0;
+        
+        _this.p=Tonyu.globals.$pat_button+0;
+        _this.actScale=0.5;
+        _this.actSize=512;
+        _this.scaleX=_this.actScale;
+        _this.x=Tonyu.globals.$W*0.5;
+        _this.y=Tonyu.globals.$H*0.7;
+        _this.touchPower=2;
+        _this.barPower=0.4;
+        _this.barFirstY=_this.y+(_this.actSize*_this.actScale*0.5)+- 120;
+        _this.buttonSizeHerf=_this.actSize*_this.actScale*0.5;
+        _this.gaugeMax=_this.y+- (_this.actSize*_this.actScale*0.5)+40;
+        _this.bar=new Tonyu.classes.kernel.Actor({p: Tonyu.globals.$pat_yokobou,scaleX: _this.actScale});
+        _this.on("die",(function anonymous_343() {
+          
+          _this.bar.die();
+        }));
+        
+        _thread.enter(function _trc_ChanceButton_ent_main(_thread) {
+          if (_thread.lastEx) __pc=_thread.catchPC;
+          for(var __cnt=100 ; __cnt--;) {
+            switch (__pc) {
+            case 0:
+              _this.on("touch",(function anonymous_375(touchEvent) {
+                var f;
+                
+                _this.p=Tonyu.globals.$pat_button+1;
+                _this.barPower+=- (_this.touchPower*(Tonyu.globals.$chanceStep*0.01));
+                Tonyu.globals.$sound.playSE(Tonyu.globals.$se_kamaeru);
+                f = touchEvent.finger;
+                
+                f.on("end",(function anonymous_571() {
+                  
+                  _this.p=Tonyu.globals.$pat_button+0;
+                }));
+                _this.update();
+              }));
+            case 1:
+              if (!(_this.bar.y<_this.gaugeMax)) { __pc=2     ; break; }
+              _this.sendEvent("complete");
+              __pc=6     ; break;
+              
+              __pc=4     ;break;
+            case 2     :
+              if (!(_this.bar.y>_this.barFirstY+30)) { __pc=3     ; break; }
+              _this.sendEvent("failed");
+              __pc=6     ; break;
+              
+            case 3     :
+              
+            case 4     :
+              
+              ;
+              
+              _this.barPower+=0.1;
+              _this.bar.y=_this.barFirstY+(_this.buttonSizeHerf-_this.buttonSizeHerf*(Tonyu.globals.$chanceStep*0.01))*_this.barPower;
+              _this.bar.x=_this.x;
+              _this.fiber$update(_thread);
+              __pc=5;return;
+            case 5:
+              
+              __pc=1;break;
+            case 6     :
+              
+              _thread.exit(_this);return;
+            }
+          }
+        });
+      },
+      __dummy: false
+    };
+  },
+  decls: {"methods":{"main":{"nowait":false}},"fields":{"actScale":{},"actSize":{},"touchPower":{},"barPower":{},"barFirstY":{},"buttonSizeHerf":{},"gaugeMax":{},"bar":{}}}
+});
+Tonyu.klass.define({
+  fullName: 'user.ChanceScene',
+  shortName: 'ChanceScene',
+  namespace: 'user',
+  superclass: Tonyu.classes.kernel.Actor,
+  includes: [],
+  methods: function (__superClass) {
+    return {
+      main :function _trc_ChanceScene_main() {
+        "use strict";
+        var _this=this;
+        
+        _this.t=_this.timeStop();
+        _this.itemType;
+        _this.dontTouch=true;
+        _this.resumeBGMName=Tonyu.globals.$sound.getPlayingBGMName();
+        _this.resumeBGMTime=Tonyu.globals.$sound.getCurrentTime();
+        Tonyu.globals.$sound.playBGM(Tonyu.globals.$se_k_40,true);
+        Tonyu.globals.$sound.playSE(Tonyu.globals.$se_syaki);
+        _this.panel=new Tonyu.classes.kernel.Panel;
+        _this.panel.fillRect(0,0,Tonyu.globals.$W,Tonyu.globals.$H);
+        _this.panel.alpha=80;
+        _this.ojisanPerusona=new Tonyu.classes.user.OjisanPerusona({zOrder: - 10});
+        _this.clickItem=[];
+        _this.i=0;for (; _this.i<_this.rnd(3,5) ; _this.i++) {
+          Tonyu.checkLoop();
+          {
+            _this.clickItem[_this.i]=_this.getItem();
+          }
+        }
+        ;
+        
+        ;
+        
+        _this.waitEvent(_this.ojisanPerusona,"complete");
+        _this.label;
+        _this.parallel("buruText");
+        _this.updateEx(Tonyu.globals.$chanceStep*0.5);
+        _this.label.die();
+        ;
+        
+        _this.cb=new Tonyu.classes.user.ChanceButton;
+        _this.cb.on("complete",(function anonymous_1606() {
+          
+          _this.actDieButPanel();
+          _this.completeEvent();
+        }));
+        _this.cb.on("failed",(function anonymous_1673() {
+          
+          _this.sendEvent("failed");
+          _this.t.releaseAll();
+          _this.allActDie();
+        }));
+      },
+      fiber$main :function _trc_ChanceScene_f_main(_thread) {
         "use strict";
         var _this=this;
         //var _arguments=Tonyu.A(arguments);
         var __pc=0;
         
         
-        _thread.enter(function _trc_BigFaceScene_ent_main(_thread) {
+        _thread.enter(function _trc_ChanceScene_ent_main(_thread) {
           if (_thread.lastEx) __pc=_thread.catchPC;
           for(var __cnt=100 ; __cnt--;) {
             switch (__pc) {
             case 0:
-              _this.fiber$init(_thread);
+              _this.fiber$timeStop(_thread);
               __pc=1;return;
             case 1:
+              _this.t=_thread.retVal;
               
-              _this.scr=1.5;
-              _this.frame=0;
-              _this.attackTime=0;
-              _this.goBackToFirstPos=false;
-              _this.attackArm=0;
-              _this.firstRadius=Tonyu.globals.$scrScale*100;
-              _this.firstLeftArmPosX=- (Tonyu.globals.$W*0.1);
-              _this.firstRightArmPosX=Tonyu.globals.$W*1.1;
-              _this.itemType=- 1;
-              _this.bg=new Tonyu.classes.user.BGBase({BGImg: Tonyu.globals.$pat_bigface_scene_bg,scaleX: Tonyu.globals.$scrScale});
-              _this.BGGW=new Tonyu.classes.kernel.Actor({x: Tonyu.globals.$W*0.5,y: Tonyu.globals.$H*0.5,p: Tonyu.globals.$pat_osouji_scene_bg_gw,scaleX: Tonyu.globals.$scrScale,zOrder: 100});
-              Tonyu.globals.$sound.playBGM(Tonyu.globals.$se_k_94,true);
-              _this.player=new Tonyu.classes.user.Player({speed: Tonyu.globals.$W*0.008,scaleX: Tonyu.globals.$W*0.001,gunMode: false,jump: false});
-              _this.bigFace=new Tonyu.classes.user.BigFace({x: Tonyu.globals.$W*0.5,y: Tonyu.globals.$H*0.3,img: Tonyu.globals.$pat_bigface,scaleX: Tonyu.globals.$scrScale*_this.scr});
-              _this.nowBadItem;
-              _this.goodItemList=[];
-              _this.goodItemMotList=[];
-              _this.badItemBulletList=[];
-              _this.i=2;for (; _this.i<5 ; _this.i++) {
-                Tonyu.checkLoop();
-                {
-                  _this.item=new Tonyu.classes.user.Items({x: Tonyu.globals.$W*0.5,y: Tonyu.globals.$H*_this.i*0.1,scaleX: Tonyu.globals.$scrScale,itemType: _this.i-2,badItem: false,zOrder: 100});
-                  _this.item.alpha=0;
-                  _this.goodItemList.push(_this.item);
-                }
-              }
-              _this.i=0;for (; _this.i<3 ; _this.i++) {
-                Tonyu.checkLoop();
-                {
-                  _this.goodItemMotList.push(new Tonyu.classes.user.FollMotion({firstY: _this.goodItemList[_this.i].y}));
-                }
-              }
-              _this.leftArm=new Tonyu.classes.kernel.Actor({x: _this.firstLeftArmPosX,y: 0,p: Tonyu.globals.$pat_bigface_hand+0,scaleX: Tonyu.globals.$scrScale*_this.scr*1.2,rotation: 45});
-              _this.rightArm=new Tonyu.classes.kernel.Actor({x: _this.firstRightArmPosX,y: Tonyu.globals.$H*0.7,p: Tonyu.globals.$pat_bigface_hand+0,scaleX: - (Tonyu.globals.$scrScale*_this.scr*1.2),scaleY: Tonyu.globals.$scrScale*_this.scr*1.2,rotation: - 45});
-              _this.leftRoundTripMotion=new Tonyu.classes.user.RotMotion({firstX: - (Tonyu.globals.$W*0.1),firstY: Tonyu.globals.$H*0.7,sp: Tonyu.globals.$scrScale*10,radius: Tonyu.globals.$scrScale*100,angle: 1});
-              _this.rightRoundTripMotion=new Tonyu.classes.user.RotMotion({firstX: Tonyu.globals.$W*1.1,firstY: Tonyu.globals.$H*0.7,sp: Tonyu.globals.$scrScale*10,radius: Tonyu.globals.$scrScale*100,angle: 180});
-              _this.rotMotion=new Tonyu.classes.user.RotMotion({firstX: Tonyu.globals.$W*0.1,firstY: Tonyu.globals.$H*0.9,sp: Tonyu.globals.$scrScale*10,radius: Tonyu.globals.$scrScale*200,angle: 1});
+              _this.itemType;
+              _this.dontTouch=true;
+              _this.resumeBGMName=Tonyu.globals.$sound.getPlayingBGMName();
+              _this.resumeBGMTime=Tonyu.globals.$sound.getCurrentTime();
+              Tonyu.globals.$sound.playBGM(Tonyu.globals.$se_k_40,true);
+              Tonyu.globals.$sound.playSE(Tonyu.globals.$se_syaki);
+              _this.panel=new Tonyu.classes.kernel.Panel;
+              _this.panel.fillRect(0,0,Tonyu.globals.$W,Tonyu.globals.$H);
+              _this.panel.alpha=80;
+              _this.ojisanPerusona=new Tonyu.classes.user.OjisanPerusona({zOrder: - 10});
+              _this.clickItem=[];
+              _this.i=0;
             case 2:
-              _this.frame++;
-              _this.fiber$nextScene(_thread, _this.player.apeealEnd);
+              if (!(_this.i<_this.rnd(3,5))) { __pc=5     ; break; }
+              _this.fiber$getItem(_thread);
               __pc=3;return;
             case 3:
+              _this.clickItem[_this.i]=_thread.retVal;
               
-              if (!(_this.itemType>2)) { __pc=5     ; break; }
-              _this.goodItemList.map((function anonymous_3119(item) {
+            case 4     :
+              _this.i++;
+              __pc=2;break;
+            case 5     :
+              
+              ;
+              
+              ;
+              
+              _this.fiber$waitEvent(_thread, _this.ojisanPerusona, "complete");
+              __pc=6;return;
+            case 6:
+              
+              _this.label;
+              _this.parallel("buruText");
+              _this.fiber$updateEx(_thread, Tonyu.globals.$chanceStep*0.5);
+              __pc=7;return;
+            case 7:
+              
+              _this.label.die();
+              ;
+              
+              _this.cb=new Tonyu.classes.user.ChanceButton;
+              _this.cb.on("complete",(function anonymous_1606() {
                 
-                if (item.alpha===0) {
-                  item.alpha=255;
-                }
+                _this.actDieButPanel();
+                _this.completeEvent();
               }));
-              _this.bg.y+=10;
-              _this.bigFace.y+=10;
-              _this.leftArm.y+=10;
-              _this.rightArm.y+=10;
-              _this.goodItemMotList.map((function anonymous_3319(m,i) {
+              _this.cb.on("failed",(function anonymous_1673() {
                 
-                _this.goodItemList[i].extend(m.next());
+                _this.sendEvent("failed");
+                _this.t.releaseAll();
+                _this.allActDie();
               }));
+              _thread.exit(_this);return;
+            }
+          }
+        });
+      },
+      getItem :function _trc_ChanceScene_getItem() {
+        "use strict";
+        var _this=this;
+        
+        _this.items=new Tonyu.classes.user.Items({p: Tonyu.globals.$pat_base+13});
+        _this.items.extend({x: _this.rnd(_this.items.width,Tonyu.globals.$W+_this.items.width),y: _this.rnd(_this.items.height,Tonyu.globals.$Y+_this.items.height)});
+      },
+      fiber$getItem :function _trc_ChanceScene_f_getItem(_thread) {
+        "use strict";
+        var _this=this;
+        //var _arguments=Tonyu.A(arguments);
+        var __pc=0;
+        
+        _this.items=new Tonyu.classes.user.Items({p: Tonyu.globals.$pat_base+13});
+        _this.items.extend({x: _this.rnd(_this.items.width,Tonyu.globals.$W+_this.items.width),y: _this.rnd(_this.items.height,Tonyu.globals.$Y+_this.items.height)});
+        
+        _thread.retVal=_this;return;
+      },
+      actDieButPanel :function _trc_ChanceScene_actDieButPanel() {
+        "use strict";
+        var _this=this;
+        
+        if (_this.ojisanPerusona) {
+          _this.ojisanPerusona.die();
+        }
+        if (_this.cb) {
+          _this.cb.die();
+        }
+        if (_this.label) {
+          _this.label.die();
+        }
+      },
+      fiber$actDieButPanel :function _trc_ChanceScene_f_actDieButPanel(_thread) {
+        "use strict";
+        var _this=this;
+        //var _arguments=Tonyu.A(arguments);
+        var __pc=0;
+        
+        if (_this.ojisanPerusona) {
+          _this.ojisanPerusona.die();
+        }
+        if (_this.cb) {
+          _this.cb.die();
+        }
+        if (_this.label) {
+          _this.label.die();
+        }
+        
+        _thread.retVal=_this;return;
+      },
+      allActDie :function _trc_ChanceScene_allActDie() {
+        "use strict";
+        var _this=this;
+        
+        if (_this.panel) {
+          _this.panel.die();
+        }
+        if (_this.ojisanPerusona) {
+          _this.ojisanPerusona.die();
+        }
+        if (_this.cb) {
+          _this.cb.die();
+        }
+        if (_this.label) {
+          _this.label.die();
+        }
+        _this.die();
+      },
+      fiber$allActDie :function _trc_ChanceScene_f_allActDie(_thread) {
+        "use strict";
+        var _this=this;
+        //var _arguments=Tonyu.A(arguments);
+        var __pc=0;
+        
+        if (_this.panel) {
+          _this.panel.die();
+        }
+        if (_this.ojisanPerusona) {
+          _this.ojisanPerusona.die();
+        }
+        if (_this.cb) {
+          _this.cb.die();
+        }
+        if (_this.label) {
+          _this.label.die();
+        }
+        _this.die();
+        
+        _thread.retVal=_this;return;
+      },
+      buruText :function _trc_ChanceScene_buruText() {
+        "use strict";
+        var _this=this;
+        
+        _this.l_firstX=Tonyu.globals.$W*0.5;
+        _this.l_firstY=Tonyu.globals.$H*0.5;
+        _this.label=new Tonyu.classes.kernel.Label({x: Tonyu.globals.$W*0.5,y: Tonyu.globals.$H*0.5,text: "連打!!",size: 100});
+        while (true) {
+          Tonyu.checkLoop();
+          _this.label.x=_this.l_firstX+(_this.rnd()+_this.rnd()+_this.rnd()+_this.rnd()+_this.rnd())*3;
+          _this.label.y=_this.l_firstY+(_this.rnd()+_this.rnd()+_this.rnd()+_this.rnd()+_this.rnd())*3;
+          _this.update();
+          
+        }
+      },
+      fiber$buruText :function _trc_ChanceScene_f_buruText(_thread) {
+        "use strict";
+        var _this=this;
+        //var _arguments=Tonyu.A(arguments);
+        var __pc=0;
+        
+        _this.l_firstX=Tonyu.globals.$W*0.5;
+        _this.l_firstY=Tonyu.globals.$H*0.5;
+        _this.label=new Tonyu.classes.kernel.Label({x: Tonyu.globals.$W*0.5,y: Tonyu.globals.$H*0.5,text: "連打!!",size: 100});
+        
+        _thread.enter(function _trc_ChanceScene_ent_buruText(_thread) {
+          if (_thread.lastEx) __pc=_thread.catchPC;
+          for(var __cnt=100 ; __cnt--;) {
+            switch (__pc) {
+            case 0:
+            case 1:
+              _this.label.x=_this.l_firstX+(_this.rnd()+_this.rnd()+_this.rnd()+_this.rnd()+_this.rnd())*3;
+              _this.label.y=_this.l_firstY+(_this.rnd()+_this.rnd()+_this.rnd()+_this.rnd()+_this.rnd())*3;
               _this.fiber$update(_thread);
+              __pc=2;return;
+            case 2:
+              
+              __pc=1;break;
+            case 3     :
+              
+              _thread.exit(_this);return;
+            }
+          }
+        });
+      },
+      completeEvent :function _trc_ChanceScene_completeEvent() {
+        "use strict";
+        var _this=this;
+        
+        _this.ci=new Tonyu.classes.user.ChangeItem({itemType: _this.itemType});
+        _this.ci.on("complete",(function anonymous_1391() {
+          
+          _this.sendEvent("complete");
+          _this.t.releaseAll();
+          Tonyu.globals.$sound.playBGM(_this.resumeBGMName,true,_this.resumeBGMTime);
+          _this.ci.die();
+          _this.allActDie();
+        }));
+      },
+      fiber$completeEvent :function _trc_ChanceScene_f_completeEvent(_thread) {
+        "use strict";
+        var _this=this;
+        //var _arguments=Tonyu.A(arguments);
+        var __pc=0;
+        
+        _this.ci=new Tonyu.classes.user.ChangeItem({itemType: _this.itemType});
+        
+        _thread.enter(function _trc_ChanceScene_ent_completeEvent(_thread) {
+          if (_thread.lastEx) __pc=_thread.catchPC;
+          for(var __cnt=100 ; __cnt--;) {
+            switch (__pc) {
+            case 0:
+              _this.ci.on("complete",(function anonymous_1391() {
+                
+                _this.sendEvent("complete");
+                _this.t.releaseAll();
+                Tonyu.globals.$sound.playBGM(_this.resumeBGMName,true,_this.resumeBGMTime);
+                _this.ci.die();
+                _this.allActDie();
+              }));
+              _thread.exit(_this);return;
+            }
+          }
+        });
+      },
+      __dummy: false
+    };
+  },
+  decls: {"methods":{"main":{"nowait":false},"getItem":{"nowait":false},"actDieButPanel":{"nowait":false},"allActDie":{"nowait":false},"buruText":{"nowait":false},"completeEvent":{"nowait":false}},"fields":{"t":{},"itemType":{},"dontTouch":{},"resumeBGMName":{},"resumeBGMTime":{},"panel":{},"ojisanPerusona":{},"clickItem":{},"i":{},"label":{},"cb":{},"items":{},"l_firstX":{},"l_firstY":{},"ci":{}}}
+});
+Tonyu.klass.define({
+  fullName: 'user.ChangeItem',
+  shortName: 'ChangeItem',
+  namespace: 'user',
+  superclass: Tonyu.classes.kernel.Actor,
+  includes: [],
+  methods: function (__superClass) {
+    return {
+      main :function _trc_ChangeItem_main() {
+        "use strict";
+        var _this=this;
+        
+        _this.itemType;
+        if (_this.itemType===0) {
+          _this.p=Tonyu.globals.$pat_bad_zubon;
+        }
+        if (_this.itemType===1) {
+          _this.p=Tonyu.globals.$pat_bad_autaa;
+        }
+        if (_this.itemType===2) {
+          _this.p=Tonyu.globals.$pat_bad_bousi;
+        }
+        _this.x=Tonyu.globals.$W*0.5;
+        _this.y=Tonyu.globals.$H*0.5;
+        _this.i=120;for (; _this.i>0 ; _this.i--) {
+          Tonyu.checkLoop();
+          {
+            _this.scaleX=_this.i*0.5;
+            _this.update();
+          }
+        }
+        Tonyu.globals.$sound.playSE(Tonyu.globals.$se_rakurai,128,0,4);
+        new Tonyu.classes.kernel.FadeEffect({type: "in",fillStyle: "white",duration: "10"});
+        if (_this.itemType===0) {
+          _this.p=Tonyu.globals.$pat_zubon;
+        }
+        if (_this.itemType===1) {
+          _this.p=Tonyu.globals.$pat_autaa;
+        }
+        if (_this.itemType===2) {
+          _this.p=Tonyu.globals.$pat_bousi;
+        }
+        _this.updateEx(60);
+        _this.sendEvent("complete");
+      },
+      fiber$main :function _trc_ChangeItem_f_main(_thread) {
+        "use strict";
+        var _this=this;
+        //var _arguments=Tonyu.A(arguments);
+        var __pc=0;
+        
+        _this.itemType;
+        if (_this.itemType===0) {
+          _this.p=Tonyu.globals.$pat_bad_zubon;
+        }
+        if (_this.itemType===1) {
+          _this.p=Tonyu.globals.$pat_bad_autaa;
+        }
+        if (_this.itemType===2) {
+          _this.p=Tonyu.globals.$pat_bad_bousi;
+        }
+        _this.x=Tonyu.globals.$W*0.5;
+        _this.y=Tonyu.globals.$H*0.5;
+        
+        _thread.enter(function _trc_ChangeItem_ent_main(_thread) {
+          if (_thread.lastEx) __pc=_thread.catchPC;
+          for(var __cnt=100 ; __cnt--;) {
+            switch (__pc) {
+            case 0:
+              _this.i=120;
+            case 1:
+              if (!(_this.i>0)) { __pc=4     ; break; }
+              _this.scaleX=_this.i*0.5;
+              _this.fiber$update(_thread);
+              __pc=2;return;
+            case 2:
+              
+            case 3     :
+              _this.i--;
+              __pc=1;break;
+            case 4     :
+              
+              Tonyu.globals.$sound.playSE(Tonyu.globals.$se_rakurai,128,0,4);
+              new Tonyu.classes.kernel.FadeEffect({type: "in",fillStyle: "white",duration: "10"});
+              if (_this.itemType===0) {
+                _this.p=Tonyu.globals.$pat_zubon;
+              }
+              if (_this.itemType===1) {
+                _this.p=Tonyu.globals.$pat_autaa;
+              }
+              if (_this.itemType===2) {
+                _this.p=Tonyu.globals.$pat_bousi;
+              }
+              _this.fiber$updateEx(_thread, 60);
+              __pc=5;return;
+            case 5:
+              
+              _this.sendEvent("complete");
+              _thread.exit(_this);return;
+            }
+          }
+        });
+      },
+      __dummy: false
+    };
+  },
+  decls: {"methods":{"main":{"nowait":false}},"fields":{"itemType":{},"i":{}}}
+});
+Tonyu.klass.define({
+  fullName: 'user.OjisanPerusona',
+  shortName: 'OjisanPerusona',
+  namespace: 'user',
+  superclass: Tonyu.classes.kernel.Actor,
+  includes: [],
+  methods: function (__superClass) {
+    return {
+      main :function _trc_OjisanPerusona_main() {
+        "use strict";
+        var _this=this;
+        
+        _this.p=Tonyu.globals.$pat_ojisan_perusona;
+        _this.firstX=Tonyu.globals.$W*0.5;
+        _this.firstY=Tonyu.globals.$H*0.5;
+        _this.angle=180;
+        _this.sp=10;
+        _this.vr=0;
+        _this.r=Tonyu.globals.$W;
+        while (_this.r>0) {
+          Tonyu.checkLoop();
+          _this.angle+=_this.sp;
+          _this.vr+=- 0.2;
+          _this.r+=_this.vr;
+          _this.x=Tonyu.globals.$W*0.5+_this.cos(_this.angle)*_this.r;
+          _this.y=_this.firstY;
+          _this.update();
+          
+        }
+        _this.updateEx(10);
+        while (_this.y>Tonyu.globals.$H*0.3) {
+          Tonyu.checkLoop();
+          _this.y+=- _this.sp;
+          _this.update();
+          
+        }
+        _this.sendEvent("complete");
+      },
+      fiber$main :function _trc_OjisanPerusona_f_main(_thread) {
+        "use strict";
+        var _this=this;
+        //var _arguments=Tonyu.A(arguments);
+        var __pc=0;
+        
+        _this.p=Tonyu.globals.$pat_ojisan_perusona;
+        _this.firstX=Tonyu.globals.$W*0.5;
+        _this.firstY=Tonyu.globals.$H*0.5;
+        _this.angle=180;
+        _this.sp=10;
+        _this.vr=0;
+        _this.r=Tonyu.globals.$W;
+        
+        _thread.enter(function _trc_OjisanPerusona_ent_main(_thread) {
+          if (_thread.lastEx) __pc=_thread.catchPC;
+          for(var __cnt=100 ; __cnt--;) {
+            switch (__pc) {
+            case 0:
+            case 1:
+              if (!(_this.r>0)) { __pc=3     ; break; }
+              _this.angle+=_this.sp;
+              _this.vr+=- 0.2;
+              _this.r+=_this.vr;
+              _this.x=Tonyu.globals.$W*0.5+_this.cos(_this.angle)*_this.r;
+              _this.y=_this.firstY;
+              _this.fiber$update(_thread);
+              __pc=2;return;
+            case 2:
+              
+              __pc=1;break;
+            case 3     :
+              
+              _this.fiber$updateEx(_thread, 10);
               __pc=4;return;
             case 4:
               
-              __pc=2; break;
+            case 5:
+              if (!(_this.y>Tonyu.globals.$H*0.3)) { __pc=7     ; break; }
+              _this.y+=- _this.sp;
+              _this.fiber$update(_thread);
+              __pc=6;return;
+            case 6:
               
-            case 5     :
+              __pc=5;break;
+            case 7     :
               
-              if (_this.attackArm!==- 1) {
-                _this.leftArm.y=_this.leftRoundTripMotion.next().y;
-                _this.leftArm.p=Tonyu.globals.$pat_bigface_hand+0;
-                
-              } else {
-                _this.leftArm.p=Tonyu.globals.$pat_bigface_hand+1;
+              _this.sendEvent("complete");
+              _thread.exit(_this);return;
+            }
+          }
+        });
+      },
+      __dummy: false
+    };
+  },
+  decls: {"methods":{"main":{"nowait":false}},"fields":{"firstX":{},"firstY":{},"angle":{},"sp":{},"vr":{},"r":{}}}
+});
+Tonyu.klass.define({
+  fullName: 'user.CoolGuy',
+  shortName: 'CoolGuy',
+  namespace: 'user',
+  superclass: Tonyu.classes.kernel.Actor,
+  includes: [],
+  methods: function (__superClass) {
+    return {
+      main :function _trc_CoolGuy_main() {
+        "use strict";
+        var _this=this;
+        
+        _this.sp=Tonyu.globals.$H*0.01;
+        if (Tonyu.globals.$difficulty<=1) {
+          _this.p=Tonyu.globals.$pat_coolguy;
+        }
+        if (Tonyu.globals.$difficulty>=2) {
+          _this.p=Tonyu.globals.$pat_dosukoi;
+        }
+        if (Tonyu.globals.$difficulty<=1) {
+          _this.scaleX=Tonyu.globals.$W*0.0006;
+        }
+        if (Tonyu.globals.$difficulty>=2) {
+          _this.scaleX=Tonyu.globals.$scrScale*1.3;
+        }
+        _this.frame=0;
+        _this.hp=15;
+        _this.live=true;
+        _this.follItemType=0;
+        _this.entry=false;
+        _this.follItem;
+        _this.follItemOut=false;
+        if (Tonyu.globals.$difficulty>=2) {
+          _this.handList=[];
+          _this.rotMotList=[];
+          _this.handList[0]=new Tonyu.classes.kernel.Actor({x: 0,y: 0,p: Tonyu.globals.$pat_dosukoi_hand+0,scaleX: Tonyu.globals.$scrScale*0.8});
+          _this.handList[1]=new Tonyu.classes.kernel.Actor({x: 0,y: 0,p: Tonyu.globals.$pat_dosukoi_hand+0,scaleX: Tonyu.globals.$scrScale*0.8});
+          _this.rotMotList[0]=new Tonyu.classes.user.RotMotion({firstX: _this.x,firstY: _this.y,sp: 2,radius: 120,angle: 1});
+          _this.rotMotList[1]=new Tonyu.classes.user.RotMotion({firstX: _this.x,firstY: _this.y,sp: 2,radius: 120,angle: 180});
+          
+        }
+        while (true) {
+          Tonyu.checkLoop();
+          _this.frame+=_this.sp;
+          if (Tonyu.globals.$difficulty===0) {
+            _this.angle=_this.frame*(Math.PI/180);
+            _this.x=Tonyu.globals.$W*0.5+Math.cos(_this.angle)*Tonyu.globals.$W*0.3;
+            _this.y=Tonyu.globals.$H*0.3;
+            
+          } else {
+            if (Tonyu.globals.$difficulty===1) {
+              _this.angle=_this.frame*(Math.PI/180)*0.5;
+              _this.x=Tonyu.globals.$W*0.5+Math.cos(_this.angle)*Tonyu.globals.$W*0.8;
+              _this.y=Tonyu.globals.$H*0.3+Math.sin(_this.angle*2)*Tonyu.globals.$W*0.1;
+              
+            } else {
+              if (Tonyu.globals.$difficulty===2) {
+                _this.angle=_this.frame*(Math.PI/180)*0.25;
+                _this.x=Tonyu.globals.$W*0.5+Math.cos(_this.angle)*Tonyu.globals.$W*0.8;
+                _this.y=Tonyu.globals.$H*0.3+Math.sin(_this.angle*2)*Tonyu.globals.$W*0.1;
+                _this.rotMotList.map((function anonymous_1451(mot,i) {
+                  
+                  mot.firstX=_this.x;
+                  mot.firstY=_this.y;
+                  _this.handList[i].extend(mot.next());
+                }));
                 
               }
-              if (_this.attackArm!==1) {
-                _this.rightArm.y=_this.rightRoundTripMotion.next().y;
-                _this.rightArm.p=Tonyu.globals.$pat_bigface_hand+0;
+            }
+          }
+          ;
+          
+          _this.br=_this.crashTo(Tonyu.classes.user.Bullet);
+          if (_this.br) {
+            _this.br.die();
+            Tonyu.globals.$sound.playSE(Tonyu.globals.$se_coolguydamage);
+            Tonyu.globals.$sound.playSE(Tonyu.globals.$se_doko);
+            _this.hp--;
+            if (_this.hp%5===0) {
+              _this.follItem=new Tonyu.classes.user.CoolGuyFollItem({x: _this.x,y: _this.y,scaleX: (Tonyu.globals.$W*0.001),itemType: _this.follItemType,badItem: false});
+              _this.follItemType++;
+              
+            }
+            
+          }
+          if (_this.handList!=null) {
+            _this.handList.map((function anonymous_2031(hand) {
+              
+              _this.br=hand.crashTo(Tonyu.classes.user.Bullet);
+              if (_this.br) {
+                _this.br.die();
+              }
+            }));
+            
+          }
+          if (_this.hp<=0) {
+            _this.die();
+            
+          }
+          ;
+          
+          if (_this.follItem!=null) {
+            if (_this.follItem.y>Tonyu.globals.$H*1.1) {
+              _this.follItemOut=true;
+            }
+            
+          }
+          _this.update();
+          
+        }
+      },
+      fiber$main :function _trc_CoolGuy_f_main(_thread) {
+        "use strict";
+        var _this=this;
+        //var _arguments=Tonyu.A(arguments);
+        var __pc=0;
+        
+        _this.sp=Tonyu.globals.$H*0.01;
+        if (Tonyu.globals.$difficulty<=1) {
+          _this.p=Tonyu.globals.$pat_coolguy;
+        }
+        if (Tonyu.globals.$difficulty>=2) {
+          _this.p=Tonyu.globals.$pat_dosukoi;
+        }
+        if (Tonyu.globals.$difficulty<=1) {
+          _this.scaleX=Tonyu.globals.$W*0.0006;
+        }
+        if (Tonyu.globals.$difficulty>=2) {
+          _this.scaleX=Tonyu.globals.$scrScale*1.3;
+        }
+        _this.frame=0;
+        _this.hp=15;
+        _this.live=true;
+        _this.follItemType=0;
+        _this.entry=false;
+        _this.follItem;
+        _this.follItemOut=false;
+        if (Tonyu.globals.$difficulty>=2) {
+          _this.handList=[];
+          _this.rotMotList=[];
+          _this.handList[0]=new Tonyu.classes.kernel.Actor({x: 0,y: 0,p: Tonyu.globals.$pat_dosukoi_hand+0,scaleX: Tonyu.globals.$scrScale*0.8});
+          _this.handList[1]=new Tonyu.classes.kernel.Actor({x: 0,y: 0,p: Tonyu.globals.$pat_dosukoi_hand+0,scaleX: Tonyu.globals.$scrScale*0.8});
+          _this.rotMotList[0]=new Tonyu.classes.user.RotMotion({firstX: _this.x,firstY: _this.y,sp: 2,radius: 120,angle: 1});
+          _this.rotMotList[1]=new Tonyu.classes.user.RotMotion({firstX: _this.x,firstY: _this.y,sp: 2,radius: 120,angle: 180});
+          
+        }
+        
+        _thread.enter(function _trc_CoolGuy_ent_main(_thread) {
+          if (_thread.lastEx) __pc=_thread.catchPC;
+          for(var __cnt=100 ; __cnt--;) {
+            switch (__pc) {
+            case 0:
+            case 1:
+              _this.frame+=_this.sp;
+              if (Tonyu.globals.$difficulty===0) {
+                _this.angle=_this.frame*(Math.PI/180);
+                _this.x=Tonyu.globals.$W*0.5+Math.cos(_this.angle)*Tonyu.globals.$W*0.3;
+                _this.y=Tonyu.globals.$H*0.3;
                 
               } else {
-                _this.rightArm.p=Tonyu.globals.$pat_bigface_hand+1;
-                
+                if (Tonyu.globals.$difficulty===1) {
+                  _this.angle=_this.frame*(Math.PI/180)*0.5;
+                  _this.x=Tonyu.globals.$W*0.5+Math.cos(_this.angle)*Tonyu.globals.$W*0.8;
+                  _this.y=Tonyu.globals.$H*0.3+Math.sin(_this.angle*2)*Tonyu.globals.$W*0.1;
+                  
+                } else {
+                  if (Tonyu.globals.$difficulty===2) {
+                    _this.angle=_this.frame*(Math.PI/180)*0.25;
+                    _this.x=Tonyu.globals.$W*0.5+Math.cos(_this.angle)*Tonyu.globals.$W*0.8;
+                    _this.y=Tonyu.globals.$H*0.3+Math.sin(_this.angle*2)*Tonyu.globals.$W*0.1;
+                    _this.rotMotList.map((function anonymous_1451(mot,i) {
+                      
+                      mot.firstX=_this.x;
+                      mot.firstY=_this.y;
+                      _this.handList[i].extend(mot.next());
+                    }));
+                    
+                  }
+                }
               }
-              if (_this.attackTime===1) {
-                _this.bigFace.attack=true;
-                if (Tonyu.globals.$bossDifficulty===0) {
-                  _this.attackArm=- 1;
-                }
-                if (Tonyu.globals.$bossDifficulty===1) {
-                  _this.attackArm=_this.rnd(0,2)?1:- 1;
-                }
-                if (Tonyu.globals.$bossDifficulty===2) {
-                  _this.attackArm=_this.rnd(- 1,2);
-                }
-                if (_this.itemType<=2) {
-                  _this.itemType++;
-                }
-                if (_this.attackArm===- 1) {
-                  _this.leftRoundTripMotion.angle=180;
-                }
-                if (_this.attackArm===1) {
-                  _this.rightRoundTripMotion.angle=180;
-                }
-                if (_this.attackArm!==0&&_this.itemType<=2) {
-                  _this.nowBadItem=new Tonyu.classes.user.Items({x: Tonyu.globals.$W*0.5,y: Tonyu.globals.$H*0.5,itemType: _this.itemType,badItem: true,scaleX: Tonyu.globals.$scrScale,zOrder: - 1});
-                  _this.nowBadItem.itemType=_this.itemType;
+              ;
+              
+              _this.br=_this.crashTo(Tonyu.classes.user.Bullet);
+              if (_this.br) {
+                _this.br.die();
+                Tonyu.globals.$sound.playSE(Tonyu.globals.$se_coolguydamage);
+                Tonyu.globals.$sound.playSE(Tonyu.globals.$se_doko);
+                _this.hp--;
+                if (_this.hp%5===0) {
+                  _this.follItem=new Tonyu.classes.user.CoolGuyFollItem({x: _this.x,y: _this.y,scaleX: (Tonyu.globals.$W*0.001),itemType: _this.follItemType,badItem: false});
+                  _this.follItemType++;
                   
                 }
                 
               }
-              if (_this.attackTime===18) {
-                Tonyu.globals.$sound.playSE(Tonyu.globals.$se_suburi,128,0,0.5);
-              }
-              if (!(_this.attackTime>24)) { __pc=12    ; break; }
-              if (!(_this.attackArm===- 1)) { __pc=7     ; break; }
-              _this.fiber$attackUpdate(_thread, _this.leftRoundTripMotion, 2, _this.leftArm, - 1);
-              __pc=6;return;
-            case 6:
-              
-            case 7     :
-              
-              if (!(_this.attackArm===1)) { __pc=9     ; break; }
-              _this.fiber$attackUpdate(_thread, _this.rightRoundTripMotion, 2, _this.rightArm, 1);
-              __pc=8;return;
-            case 8:
-              
-            case 9     :
-              
-              if (!(_this.attackArm===0)) { __pc=11    ; break; }
-              _this.fiber$itemBulletUpdate(_thread, _this.bigFace, _this.player, 5);
-              __pc=10;return;
-            case 10:
-              
-            case 11    :
-              
-            case 12    :
-              
-              if (_this.attackTime>0&&_this.itemType<=2) {
-                _this.attackTime++;
-                if (_this.attackArm===- 1) {
-                  _this.nowBadItem.extend({x: _this.leftArm.x+60,y: _this.leftArm.y+- 50});
-                }
-                if (_this.attackArm===1) {
-                  _this.nowBadItem.extend({x: _this.rightArm.x+- 60,y: _this.rightArm.y+- 50});
-                }
+              if (_this.handList!=null) {
+                _this.handList.map((function anonymous_2031(hand) {
+                  
+                  _this.br=hand.crashTo(Tonyu.classes.user.Bullet);
+                  if (_this.br) {
+                    _this.br.die();
+                  }
+                }));
                 
               }
-              if (! (_this.frame%60)&&! _this.bigFace.attack) {
-                _this.attackTime=1;
+              if (_this.hp<=0) {
+                _this.die();
                 
               }
-              _this.fiber$update(_thread);
-              __pc=13;return;
-            case 13:
-              
-              __pc=2;break;
-            case 14    :
-              
-              _thread.exit(_this);return;
-            }
-          }
-        });
-      },
-      attackUpdate :function _trc_BigFaceScene_attackUpdate(mot,sp,arm,aarm) {
-        "use strict";
-        var _this=this;
-        
-        if (_this.attackArm!==aarm) {
-          return _this;
-        }
-        if (! _this.goBackToFirstPos) {
-          _this.newPos=mot.next();
-          mot.radius+=sp;
-          arm.extend(_this.newPos);
-          if (mot.radius>250) {
-            _this.goBackToFirstPos=true;
-            
-          }
-          
-        } else {
-          _this.newPos=mot.next();
-          mot.radius+=- sp;
-          arm.extend(_this.newPos);
-          if (mot.radius<_this.firstRadius) {
-            _this.attackTime=0;
-            _this.attackArm=0;
-            _this.bigFace.attack=false;
-            _this.goBackToFirstPos=false;
-            mot.radius=_this.firstRadius;
-            _this.nowBadItem.die();
-            _this.nowBadItem=undefined;
-            if (aarm===- 1) {
-              arm.x=_this.firstLeftArmPosX;
-            }
-            if (aarm===1) {
-              arm.x=_this.firstRightArmPosX;
-            }
-            
-          }
-          
-        }
-      },
-      fiber$attackUpdate :function _trc_BigFaceScene_f_attackUpdate(_thread,mot,sp,arm,aarm) {
-        "use strict";
-        var _this=this;
-        //var _arguments=Tonyu.A(arguments);
-        var __pc=0;
-        
-        if (_this.attackArm!==aarm) {
-          _thread.retVal=_this;return;
-          
-        }
-        if (! _this.goBackToFirstPos) {
-          _this.newPos=mot.next();
-          mot.radius+=sp;
-          arm.extend(_this.newPos);
-          if (mot.radius>250) {
-            _this.goBackToFirstPos=true;
-            
-          }
-          
-        } else {
-          _this.newPos=mot.next();
-          mot.radius+=- sp;
-          arm.extend(_this.newPos);
-          if (mot.radius<_this.firstRadius) {
-            _this.attackTime=0;
-            _this.attackArm=0;
-            _this.bigFace.attack=false;
-            _this.goBackToFirstPos=false;
-            mot.radius=_this.firstRadius;
-            _this.nowBadItem.die();
-            _this.nowBadItem=undefined;
-            if (aarm===- 1) {
-              arm.x=_this.firstLeftArmPosX;
-            }
-            if (aarm===1) {
-              arm.x=_this.firstRightArmPosX;
-            }
-            
-          }
-          
-        }
-        
-        _thread.retVal=_this;return;
-      },
-      itemBulletUpdate :function _trc_BigFaceScene_itemBulletUpdate(base,pl,maxBullet) {
-        "use strict";
-        var _this=this;
-        
-        if (_this.frame%24) {
-          return _this;
-        }
-        Tonyu.globals.$sound.playSE(Tonyu.globals.$se_out,128,0,1.5);
-        if (_this.badItemBulletList.length>maxBullet) {
-          _this.attackTime=0;
-          _this.bigFace.attack=false;
-          _this.badItemBulletList=[];
-          return _this;
-          
-        }
-        ;
-        
-        _this.badItemBulletList.push(new Tonyu.classes.user.ItemBullet({firstX: base.x-30,firstY: base.y+80,itemType: 0,badItem: true,target: {x: pl.x,y: pl.y+500}}));
-      },
-      fiber$itemBulletUpdate :function _trc_BigFaceScene_f_itemBulletUpdate(_thread,base,pl,maxBullet) {
-        "use strict";
-        var _this=this;
-        //var _arguments=Tonyu.A(arguments);
-        var __pc=0;
-        
-        if (_this.frame%24) {
-          _thread.retVal=_this;return;
-          
-        }
-        Tonyu.globals.$sound.playSE(Tonyu.globals.$se_out,128,0,1.5);
-        if (_this.badItemBulletList.length>maxBullet) {
-          _this.attackTime=0;
-          _this.bigFace.attack=false;
-          _this.badItemBulletList=[];
-          _thread.retVal=_this;return;
-          
-          
-        }
-        ;
-        
-        _this.badItemBulletList.push(new Tonyu.classes.user.ItemBullet({firstX: base.x-30,firstY: base.y+80,itemType: 0,badItem: true,target: {x: pl.x,y: pl.y+500}}));
-        
-        _thread.retVal=_this;return;
-      },
-      __dummy: false
-    };
-  },
-  decls: {"methods":{"main":{"nowait":false},"attackUpdate":{"nowait":false},"itemBulletUpdate":{"nowait":false}},"fields":{"scr":{},"frame":{},"attackTime":{},"goBackToFirstPos":{},"attackArm":{},"firstRadius":{},"firstLeftArmPosX":{},"firstRightArmPosX":{},"itemType":{},"bg":{},"BGGW":{},"bigFace":{},"nowBadItem":{},"goodItemList":{},"goodItemMotList":{},"badItemBulletList":{},"item":{},"leftArm":{},"rightArm":{},"leftRoundTripMotion":{},"rightRoundTripMotion":{},"rotMotion":{},"newPos":{}}}
-});
-Tonyu.klass.define({
-  fullName: 'user.ClearScreen',
-  shortName: 'ClearScreen',
-  namespace: 'user',
-  superclass: Tonyu.classes.kernel.Actor,
-  includes: [Tonyu.classes.user.Retry],
-  methods: function (__superClass) {
-    return {
-      main :function _trc_ClearScreen_main() {
-        "use strict";
-        var _this=this;
-        
-        _this.frame=0;
-        new Tonyu.classes.kernel.Actor({x: Tonyu.globals.$W*0.5,y: Tonyu.globals.$H*0.5,p: Tonyu.globals.$pat_bg_clear_scene,scaleX: Tonyu.globals.$scrScale,zOrder: 100});
-        _this.retryText();
-        while (true) {
-          Tonyu.checkLoop();
-          _this.frame++;
-          if (Tonyu.globals.$touches[0].touched) {
-            _this.retry();
-            
-          }
-          if (_this.frame%6===0) {
-            new Tonyu.classes.user.Kira({x: Tonyu.globals.$W*_this.rndFloat(0.1,1),y: Tonyu.globals.$H*_this.rndFloat(0.1,1)});
-            
-          }
-          _this.update();
-          
-        }
-        ;
-        
-      },
-      fiber$main :function _trc_ClearScreen_f_main(_thread) {
-        "use strict";
-        var _this=this;
-        //var _arguments=Tonyu.A(arguments);
-        var __pc=0;
-        
-        _this.frame=0;
-        new Tonyu.classes.kernel.Actor({x: Tonyu.globals.$W*0.5,y: Tonyu.globals.$H*0.5,p: Tonyu.globals.$pat_bg_clear_scene,scaleX: Tonyu.globals.$scrScale,zOrder: 100});
-        
-        _thread.enter(function _trc_ClearScreen_ent_main(_thread) {
-          if (_thread.lastEx) __pc=_thread.catchPC;
-          for(var __cnt=100 ; __cnt--;) {
-            switch (__pc) {
-            case 0:
-              _this.fiber$retryText(_thread);
-              __pc=1;return;
-            case 1:
-              
-            case 2:
-              _this.frame++;
-              if (!(Tonyu.globals.$touches[0].touched)) { __pc=4     ; break; }
-              _this.fiber$retry(_thread);
-              __pc=3;return;
-            case 3:
-              
-            case 4     :
-              
-              if (_this.frame%6===0) {
-                new Tonyu.classes.user.Kira({x: Tonyu.globals.$W*_this.rndFloat(0.1,1),y: Tonyu.globals.$H*_this.rndFloat(0.1,1)});
-                
-              }
-              _this.fiber$update(_thread);
-              __pc=5;return;
-            case 5:
-              
-              __pc=2;break;
-            case 6     :
-              
               ;
               
-              _thread.exit(_this);return;
-            }
-          }
-        });
-      },
-      __dummy: false
-    };
-  },
-  decls: {"methods":{"main":{"nowait":false}},"fields":{"frame":{}}}
-});
-Tonyu.klass.define({
-  fullName: 'user.CoolGuyScene',
-  shortName: 'CoolGuyScene',
-  namespace: 'user',
-  superclass: Tonyu.classes.kernel.Actor,
-  includes: [Tonyu.classes.user.MainProcLibs],
-  methods: function (__superClass) {
-    return {
-      main :function _trc_CoolGuyScene_main() {
-        "use strict";
-        var _this=this;
-        
-        _this.init();
-        _this.frame=0;
-        _this.gun=new Tonyu.classes.user.Gun({x: Tonyu.globals.$W*0.5,y: 0});
-        if (Tonyu.globals.$difficulty<=1) {
-          _this.bg=new Tonyu.classes.kernel.Actor({x: Tonyu.globals.$W*0.5,y: Tonyu.globals.$H*0.5,p: Tonyu.globals.$pat_road_bg,scaleX: Tonyu.globals.$scrScale,zOrder: 100});
-          
-        } else {
-          _this.bg=new Tonyu.classes.user.BGBase({BGImg: Tonyu.globals.$pat_cool_guy_scene_bg2,scaleX: Tonyu.globals.$scrScale});
-          
-        }
-        _this.crashCheck=new Tonyu.classes.user.CrashCheck;
-        _this.roundTripMotion=new Tonyu.classes.user.RoundTripMotion({firstX: Tonyu.globals.$W*0.5,firstY: Tonyu.globals.$H*0.3});
-        _this.attractionMotion=new Tonyu.classes.user.AttractionMotion({sp: Tonyu.globals.$W*0.005});
-        _this.follMotion=new Tonyu.classes.user.FollMotion;
-        _this.coolGuy=new Tonyu.classes.user.CoolGuy({x: Tonyu.globals.$W*0.5,y: 0});
-        _this.player=new Tonyu.classes.user.Player({speed: Tonyu.globals.$W*0.008,scaleX: Tonyu.globals.$W*0.0008});
-        if (Tonyu.globals.$difficulty<2) {
-          Tonyu.globals.$sound.playBGM(Tonyu.globals.$se_k_94,true);
-        } else {
-          Tonyu.globals.$sound.playBGM(Tonyu.globals.$se_k_128,true);
-        }
-        while (true) {
-          Tonyu.checkLoop();
-          _this.frame++;
-          if (_this.coolGuy.follItemOut&&_this.player.apeealTime>=0) {
-            _this.player.apeealTime=- 1;
-          }
-          if (_this.player.crashTo(_this.gun)) {
-            Tonyu.globals.$sound.playSE(Tonyu.globals.$se_kamaeru);
-            _this.gun.die();
-            _this.player.setGunMode(true);
-            
-          }
-          if (_this.coolGuy.isDead()&&_this.player.getApeealEnd()) {
-            _this.nextScene(true);
-            
-          }
-          _this.update();
-          
-        }
-      },
-      fiber$main :function _trc_CoolGuyScene_f_main(_thread) {
-        "use strict";
-        var _this=this;
-        //var _arguments=Tonyu.A(arguments);
-        var __pc=0;
-        
-        
-        _thread.enter(function _trc_CoolGuyScene_ent_main(_thread) {
-          if (_thread.lastEx) __pc=_thread.catchPC;
-          for(var __cnt=100 ; __cnt--;) {
-            switch (__pc) {
-            case 0:
-              _this.fiber$init(_thread);
-              __pc=1;return;
-            case 1:
-              
-              _this.frame=0;
-              _this.gun=new Tonyu.classes.user.Gun({x: Tonyu.globals.$W*0.5,y: 0});
-              if (Tonyu.globals.$difficulty<=1) {
-                _this.bg=new Tonyu.classes.kernel.Actor({x: Tonyu.globals.$W*0.5,y: Tonyu.globals.$H*0.5,p: Tonyu.globals.$pat_road_bg,scaleX: Tonyu.globals.$scrScale,zOrder: 100});
-                
-              } else {
-                _this.bg=new Tonyu.classes.user.BGBase({BGImg: Tonyu.globals.$pat_cool_guy_scene_bg2,scaleX: Tonyu.globals.$scrScale});
+              if (_this.follItem!=null) {
+                if (_this.follItem.y>Tonyu.globals.$H*1.1) {
+                  _this.follItemOut=true;
+                }
                 
               }
-              _this.crashCheck=new Tonyu.classes.user.CrashCheck;
-              _this.roundTripMotion=new Tonyu.classes.user.RoundTripMotion({firstX: Tonyu.globals.$W*0.5,firstY: Tonyu.globals.$H*0.3});
-              _this.attractionMotion=new Tonyu.classes.user.AttractionMotion({sp: Tonyu.globals.$W*0.005});
-              _this.follMotion=new Tonyu.classes.user.FollMotion;
-              _this.coolGuy=new Tonyu.classes.user.CoolGuy({x: Tonyu.globals.$W*0.5,y: 0});
-              _this.player=new Tonyu.classes.user.Player({speed: Tonyu.globals.$W*0.008,scaleX: Tonyu.globals.$W*0.0008});
-              if (Tonyu.globals.$difficulty<2) {
-                Tonyu.globals.$sound.playBGM(Tonyu.globals.$se_k_94,true);
-              } else {
-                Tonyu.globals.$sound.playBGM(Tonyu.globals.$se_k_128,true);
-              }
-            case 2:
-              _this.frame++;
-              if (_this.coolGuy.follItemOut&&_this.player.apeealTime>=0) {
-                _this.player.apeealTime=- 1;
-              }
-              if (_this.player.crashTo(_this.gun)) {
-                Tonyu.globals.$sound.playSE(Tonyu.globals.$se_kamaeru);
-                _this.gun.die();
-                _this.player.setGunMode(true);
-                
-              }
-              if (!(_this.coolGuy.isDead()&&_this.player.getApeealEnd())) { __pc=4     ; break; }
-              _this.fiber$nextScene(_thread, true);
-              __pc=3;return;
-            case 3:
-              
-            case 4     :
-              
               _this.fiber$update(_thread);
-              __pc=5;return;
-            case 5:
+              __pc=2;return;
+            case 2:
               
-              __pc=2;break;
-            case 6     :
+              __pc=1;break;
+            case 3     :
               
               _thread.exit(_this);return;
             }
@@ -6108,7 +4818,7 @@ Tonyu.klass.define({
       __dummy: false
     };
   },
-  decls: {"methods":{"main":{"nowait":false}},"fields":{"frame":{},"gun":{},"bg":{},"crashCheck":{},"roundTripMotion":{},"attractionMotion":{},"follMotion":{},"coolGuy":{}}}
+  decls: {"methods":{"main":{"nowait":false}},"fields":{"sp":{},"frame":{},"hp":{},"live":{},"follItemType":{},"entry":{},"follItem":{},"follItemOut":{},"handList":{},"rotMotList":{},"angle":{},"br":{}}}
 });
 Tonyu.klass.define({
   fullName: 'user.BaseHireiFollItem',
@@ -6244,6 +4954,100 @@ Tonyu.klass.define({
   decls: {"methods":{"main":{"nowait":false}},"fields":{"firstAngle":{},"moveX":{},"moveY":{},"sp":{},"rotSp":{}}}
 });
 Tonyu.klass.define({
+  fullName: 'user.BodyItem',
+  shortName: 'BodyItem',
+  namespace: 'user',
+  superclass: Tonyu.classes.kernel.BodyActor,
+  includes: [Tonyu.classes.user.ItemProcLibs],
+  methods: function (__superClass) {
+    return {
+      main :function _trc_BodyItem_main() {
+        "use strict";
+        var _this=this;
+        
+        _this.scaleInit();
+        _this.itemTypeInit();
+        if (_this.rnd(2)===0) {
+          _this.applyForce(- 300,0);
+        }
+        if (_this.rnd(2)===1) {
+          _this.applyForce(300,0);
+        }
+      },
+      fiber$main :function _trc_BodyItem_f_main(_thread) {
+        "use strict";
+        var _this=this;
+        //var _arguments=Tonyu.A(arguments);
+        var __pc=0;
+        
+        
+        _thread.enter(function _trc_BodyItem_ent_main(_thread) {
+          if (_thread.lastEx) __pc=_thread.catchPC;
+          for(var __cnt=100 ; __cnt--;) {
+            switch (__pc) {
+            case 0:
+              _this.fiber$scaleInit(_thread);
+              __pc=1;return;
+            case 1:
+              
+              _this.fiber$itemTypeInit(_thread);
+              __pc=2;return;
+            case 2:
+              
+              if (!(_this.rnd(2)===0)) { __pc=4     ; break; }
+              _this.fiber$applyForce(_thread, - 300, 0);
+              __pc=3;return;
+            case 3:
+              
+            case 4     :
+              
+              if (!(_this.rnd(2)===1)) { __pc=6     ; break; }
+              _this.fiber$applyForce(_thread, 300, 0);
+              __pc=5;return;
+            case 5:
+              
+            case 6     :
+              
+              _thread.exit(_this);return;
+            }
+          }
+        });
+      },
+      __dummy: false
+    };
+  },
+  decls: {"methods":{"main":{"nowait":false}},"fields":{}}
+});
+Tonyu.klass.define({
+  fullName: 'user.Floor',
+  shortName: 'Floor',
+  namespace: 'user',
+  superclass: Tonyu.classes.kernel.BodyActor,
+  includes: [],
+  methods: function (__superClass) {
+    return {
+      main :function _trc_Floor_main() {
+        "use strict";
+        var _this=this;
+        
+        _this.isStatic=true;
+      },
+      fiber$main :function _trc_Floor_f_main(_thread) {
+        "use strict";
+        var _this=this;
+        //var _arguments=Tonyu.A(arguments);
+        var __pc=0;
+        
+        _this.isStatic=true;
+        
+        _thread.retVal=_this;return;
+      },
+      __dummy: false
+    };
+  },
+  decls: {"methods":{"main":{"nowait":false}},"fields":{}}
+});
+Tonyu.klass.define({
   fullName: 'user.FollItem',
   shortName: 'FollItem',
   namespace: 'user',
@@ -6299,73 +5103,6 @@ Tonyu.klass.define({
     };
   },
   decls: {"methods":{"main":{"nowait":false}},"fields":{"YSP":{}}}
-});
-Tonyu.klass.define({
-  fullName: 'user.FollowRotationItem',
-  shortName: 'FollowRotationItem',
-  namespace: 'user',
-  superclass: Tonyu.classes.user.BaseRotItem,
-  includes: [],
-  methods: function (__superClass) {
-    return {
-      main :function _trc_FollowRotationItem_main() {
-        "use strict";
-        var _this=this;
-        
-        __superClass.prototype.main.apply( _this, []);
-        _this.followActor;
-        while (true) {
-          Tonyu.checkLoop();
-          if (_this.followActor) {
-            _this.angle+=_this.rotSp;
-            _this.x=_this.followActor.x+_this.cos(_this.angle)*_this.radius;
-            _this.y=_this.followActor.y+_this.sin(_this.angle)*_this.radius;
-            
-          }
-          _this.update();
-          
-        }
-      },
-      fiber$main :function _trc_FollowRotationItem_f_main(_thread) {
-        "use strict";
-        var _this=this;
-        //var _arguments=Tonyu.A(arguments);
-        var __pc=0;
-        
-        
-        _thread.enter(function _trc_FollowRotationItem_ent_main(_thread) {
-          if (_thread.lastEx) __pc=_thread.catchPC;
-          for(var __cnt=100 ; __cnt--;) {
-            switch (__pc) {
-            case 0:
-              __superClass.prototype.fiber$main.apply( _this, [_thread]);
-              __pc=1;return;
-            case 1:
-              
-              _this.followActor;
-            case 2:
-              if (_this.followActor) {
-                _this.angle+=_this.rotSp;
-                _this.x=_this.followActor.x+_this.cos(_this.angle)*_this.radius;
-                _this.y=_this.followActor.y+_this.sin(_this.angle)*_this.radius;
-                
-              }
-              _this.fiber$update(_thread);
-              __pc=3;return;
-            case 3:
-              
-              __pc=2;break;
-            case 4     :
-              
-              _thread.exit(_this);return;
-            }
-          }
-        });
-      },
-      __dummy: false
-    };
-  },
-  decls: {"methods":{"main":{"nowait":false}},"fields":{"followActor":{}}}
 });
 Tonyu.klass.define({
   fullName: 'user.FollRotItem',
@@ -6494,6 +5231,243 @@ Tonyu.klass.define({
     };
   },
   decls: {"methods":{"main":{"nowait":false},"getBaseItemDead":{"nowait":false}},"fields":{"baseItemScale":{},"rotItemScale":{},"baseItemX":{},"baseItemY":{},"frame":{},"followActorOut":{},"baseItem":{},"rotItemList":{},"i":{},"rotItem":{}}}
+});
+Tonyu.klass.define({
+  fullName: 'user.FollowItem',
+  shortName: 'FollowItem',
+  namespace: 'user',
+  superclass: Tonyu.classes.kernel.Actor,
+  includes: [],
+  methods: function (__superClass) {
+    return {
+      main :function _trc_FollowItem_main() {
+        "use strict";
+        var _this=this;
+        
+        _this.getRandItem=new Tonyu.classes.user.GetRandItem;
+        if (_this.badItem===false) {
+          if (_this.itemType===0) {
+            _this.p=_this.getRandItem.getBottoms();
+          }
+          if (_this.itemType===1) {
+            _this.p=_this.getRandItem.getTops();
+          }
+          if (_this.itemType===2) {
+            _this.p=_this.getRandItem.getHat();
+          }
+          
+        } else {
+          if (_this.badItem===true) {
+            if (_this.itemType===0) {
+              _this.p=Tonyu.globals.$pat_bad_zubon_in;
+            }
+            if (_this.itemType===1) {
+              _this.p=Tonyu.globals.$pat_bad_autaa_in;
+            }
+            if (_this.itemType===2) {
+              _this.p=Tonyu.globals.$pat_bad_bousi_in;
+            }
+            
+          }
+        }
+        _this.scaleX=Tonyu.globals.$W*0.0008;
+        while (true) {
+          Tonyu.checkLoop();
+          _this.x=_this.player.x;
+          _this.y=_this.player.y;
+          _this.update();
+          
+        }
+      },
+      fiber$main :function _trc_FollowItem_f_main(_thread) {
+        "use strict";
+        var _this=this;
+        //var _arguments=Tonyu.A(arguments);
+        var __pc=0;
+        
+        _this.getRandItem=new Tonyu.classes.user.GetRandItem;
+        if (_this.badItem===false) {
+          if (_this.itemType===0) {
+            _this.p=_this.getRandItem.getBottoms();
+          }
+          if (_this.itemType===1) {
+            _this.p=_this.getRandItem.getTops();
+          }
+          if (_this.itemType===2) {
+            _this.p=_this.getRandItem.getHat();
+          }
+          
+        } else {
+          if (_this.badItem===true) {
+            if (_this.itemType===0) {
+              _this.p=Tonyu.globals.$pat_bad_zubon_in;
+            }
+            if (_this.itemType===1) {
+              _this.p=Tonyu.globals.$pat_bad_autaa_in;
+            }
+            if (_this.itemType===2) {
+              _this.p=Tonyu.globals.$pat_bad_bousi_in;
+            }
+            
+          }
+        }
+        _this.scaleX=Tonyu.globals.$W*0.0008;
+        
+        _thread.enter(function _trc_FollowItem_ent_main(_thread) {
+          if (_thread.lastEx) __pc=_thread.catchPC;
+          for(var __cnt=100 ; __cnt--;) {
+            switch (__pc) {
+            case 0:
+            case 1:
+              _this.x=_this.player.x;
+              _this.y=_this.player.y;
+              _this.fiber$update(_thread);
+              __pc=2;return;
+            case 2:
+              
+              __pc=1;break;
+            case 3     :
+              
+              _thread.exit(_this);return;
+            }
+          }
+        });
+      },
+      __dummy: false
+    };
+  },
+  decls: {"methods":{"main":{"nowait":false}},"fields":{"getRandItem":{},"badItem":{},"itemType":{},"player":{}}}
+});
+Tonyu.klass.define({
+  fullName: 'user.FollowRotationItem',
+  shortName: 'FollowRotationItem',
+  namespace: 'user',
+  superclass: Tonyu.classes.user.BaseRotItem,
+  includes: [],
+  methods: function (__superClass) {
+    return {
+      main :function _trc_FollowRotationItem_main() {
+        "use strict";
+        var _this=this;
+        
+        __superClass.prototype.main.apply( _this, []);
+        _this.followActor;
+        while (true) {
+          Tonyu.checkLoop();
+          if (_this.followActor) {
+            _this.angle+=_this.rotSp;
+            _this.x=_this.followActor.x+_this.cos(_this.angle)*_this.radius;
+            _this.y=_this.followActor.y+_this.sin(_this.angle)*_this.radius;
+            
+          }
+          _this.update();
+          
+        }
+      },
+      fiber$main :function _trc_FollowRotationItem_f_main(_thread) {
+        "use strict";
+        var _this=this;
+        //var _arguments=Tonyu.A(arguments);
+        var __pc=0;
+        
+        
+        _thread.enter(function _trc_FollowRotationItem_ent_main(_thread) {
+          if (_thread.lastEx) __pc=_thread.catchPC;
+          for(var __cnt=100 ; __cnt--;) {
+            switch (__pc) {
+            case 0:
+              __superClass.prototype.fiber$main.apply( _this, [_thread]);
+              __pc=1;return;
+            case 1:
+              
+              _this.followActor;
+            case 2:
+              if (_this.followActor) {
+                _this.angle+=_this.rotSp;
+                _this.x=_this.followActor.x+_this.cos(_this.angle)*_this.radius;
+                _this.y=_this.followActor.y+_this.sin(_this.angle)*_this.radius;
+                
+              }
+              _this.fiber$update(_thread);
+              __pc=3;return;
+            case 3:
+              
+              __pc=2;break;
+            case 4     :
+              
+              _thread.exit(_this);return;
+            }
+          }
+        });
+      },
+      __dummy: false
+    };
+  },
+  decls: {"methods":{"main":{"nowait":false}},"fields":{"followActor":{}}}
+});
+Tonyu.klass.define({
+  fullName: 'user.Gun',
+  shortName: 'Gun',
+  namespace: 'user',
+  superclass: Tonyu.classes.kernel.Actor,
+  includes: [],
+  methods: function (__superClass) {
+    return {
+      main :function _trc_Gun_main() {
+        "use strict";
+        var _this=this;
+        
+        _this.p=Tonyu.globals.$pat_gun;
+        _this.sp=Tonyu.globals.$W*0.01;
+        _this.x=Tonyu.globals.$W*0.5;
+        _this.y=0;
+        _this.scaleX=Tonyu.globals.$W*0.0005;
+        while (true) {
+          Tonyu.checkLoop();
+          if (_this.y<Tonyu.globals.$H*0.8) {
+            _this.y+=_this.sp;
+          }
+          _this.update();
+          
+        }
+      },
+      fiber$main :function _trc_Gun_f_main(_thread) {
+        "use strict";
+        var _this=this;
+        //var _arguments=Tonyu.A(arguments);
+        var __pc=0;
+        
+        _this.p=Tonyu.globals.$pat_gun;
+        _this.sp=Tonyu.globals.$W*0.01;
+        _this.x=Tonyu.globals.$W*0.5;
+        _this.y=0;
+        _this.scaleX=Tonyu.globals.$W*0.0005;
+        
+        _thread.enter(function _trc_Gun_ent_main(_thread) {
+          if (_thread.lastEx) __pc=_thread.catchPC;
+          for(var __cnt=100 ; __cnt--;) {
+            switch (__pc) {
+            case 0:
+            case 1:
+              if (_this.y<Tonyu.globals.$H*0.8) {
+                _this.y+=_this.sp;
+              }
+              _this.fiber$update(_thread);
+              __pc=2;return;
+            case 2:
+              
+              __pc=1;break;
+            case 3     :
+              
+              _thread.exit(_this);return;
+            }
+          }
+        });
+      },
+      __dummy: false
+    };
+  },
+  decls: {"methods":{"main":{"nowait":false}},"fields":{"sp":{}}}
 });
 Tonyu.klass.define({
   fullName: 'user.HoriNageItem',
@@ -6826,6 +5800,92 @@ Tonyu.klass.define({
   decls: {"methods":{"main":{"nowait":false}},"fields":{}}
 });
 Tonyu.klass.define({
+  fullName: 'user.Warning',
+  shortName: 'Warning',
+  namespace: 'user',
+  superclass: Tonyu.classes.kernel.Actor,
+  includes: [],
+  methods: function (__superClass) {
+    return {
+      main :function _trc_Warning_main() {
+        "use strict";
+        var _this=this;
+        
+        _this.dir;
+        _this.frame=0;
+        _this.p=Tonyu.globals.$pat_warning;
+        _this.x=_this.dir==="Left"?Tonyu.globals.$W*0.9:Tonyu.globals.$W*0.1;
+        _this.scaleX=_this.dir==="Left"?- _this.scaleX:_this.scaleX;
+        _this.scaleY=Math.abs(_this.scaleX);
+        while (true) {
+          Tonyu.checkLoop();
+          _this.frame++;
+          if (_this.frame%4===0) {
+            _this.show();
+            Tonyu.globals.$sound.playSE(Tonyu.globals.$se_pa);
+            
+          } else {
+            if (_this.frame%4!==0) {
+              _this.hide();
+              
+            }
+          }
+          ;
+          
+          _this.update();
+          
+        }
+      },
+      fiber$main :function _trc_Warning_f_main(_thread) {
+        "use strict";
+        var _this=this;
+        //var _arguments=Tonyu.A(arguments);
+        var __pc=0;
+        
+        _this.dir;
+        _this.frame=0;
+        _this.p=Tonyu.globals.$pat_warning;
+        _this.x=_this.dir==="Left"?Tonyu.globals.$W*0.9:Tonyu.globals.$W*0.1;
+        _this.scaleX=_this.dir==="Left"?- _this.scaleX:_this.scaleX;
+        _this.scaleY=Math.abs(_this.scaleX);
+        
+        _thread.enter(function _trc_Warning_ent_main(_thread) {
+          if (_thread.lastEx) __pc=_thread.catchPC;
+          for(var __cnt=100 ; __cnt--;) {
+            switch (__pc) {
+            case 0:
+            case 1:
+              _this.frame++;
+              if (_this.frame%4===0) {
+                _this.show();
+                Tonyu.globals.$sound.playSE(Tonyu.globals.$se_pa);
+                
+              } else {
+                if (_this.frame%4!==0) {
+                  _this.hide();
+                  
+                }
+              }
+              ;
+              
+              _this.fiber$update(_thread);
+              __pc=2;return;
+            case 2:
+              
+              __pc=1;break;
+            case 3     :
+              
+              _thread.exit(_this);return;
+            }
+          }
+        });
+      },
+      __dummy: false
+    };
+  },
+  decls: {"methods":{"main":{"nowait":false}},"fields":{"dir":{},"frame":{}}}
+});
+Tonyu.klass.define({
   fullName: 'user.OshiUriItem',
   shortName: 'OshiUriItem',
   namespace: 'user',
@@ -6922,6 +5982,644 @@ Tonyu.klass.define({
   decls: {"methods":{"main":{"nowait":false}},"fields":{"tarX":{},"vx":{},"invincible":{},"hp":{},"bul":{}}}
 });
 Tonyu.klass.define({
+  fullName: 'user.OshiUriTenin',
+  shortName: 'OshiUriTenin',
+  namespace: 'user',
+  superclass: Tonyu.classes.kernel.Actor,
+  includes: [],
+  methods: function (__superClass) {
+    return {
+      main :function _trc_OshiUriTenin_main() {
+        "use strict";
+        var _this=this;
+        
+        _this.p=Tonyu.globals.$pat_uketuke;
+        _this.angle=0;
+        _this.firstRadius=Tonyu.globals.$W*0.05;
+        _this.radius=_this.firstRadius;
+        _this.purunRun=false;
+        _this.throwFlag=false;
+        _this.frame=0;
+        _this.shotCount=0;
+        _this.moveWait=0;
+        _this.posAngle=0;
+        _this.posRadius=Tonyu.globals.$W*0.2;
+        _this.posDir="right";
+        _this.hp=30;
+        _this.x=Tonyu.globals.$W*0.5+_this.cos(_this.posAngle)*_this.posRadius;
+        _this.y=Tonyu.globals.$H*0.3;
+        _this.scaleX=Tonyu.globals.$W*0.001;
+        while (true) {
+          Tonyu.checkLoop();
+          _this.damageUpdate();
+          _this.dieUpdate();
+          if (_this.shotCount<4) {
+            if (Tonyu.globals.$difficulty<=1&&! (_this.frame%60)) {
+              _this.throwItem(true);
+            }
+            if (Tonyu.globals.$difficulty>=2&&! (_this.frame%_this.rnd(24,60))) {
+              _this.throwItem(true);
+            }
+            
+          } else {
+            _this.moveWait++;
+            
+          }
+          _this.newAlpha=255-_this.cos(120*_this.moveWait*0.01)*255;
+          if (_this.newAlpha>127.5) {
+            _this.alpha=_this.newAlpha;
+          }
+          _this.posChange();
+          _this.purun();
+          _this.frame++;
+          _this.update();
+          
+        }
+      },
+      fiber$main :function _trc_OshiUriTenin_f_main(_thread) {
+        "use strict";
+        var _this=this;
+        //var _arguments=Tonyu.A(arguments);
+        var __pc=0;
+        
+        _this.p=Tonyu.globals.$pat_uketuke;
+        _this.angle=0;
+        _this.firstRadius=Tonyu.globals.$W*0.05;
+        _this.radius=_this.firstRadius;
+        _this.purunRun=false;
+        _this.throwFlag=false;
+        _this.frame=0;
+        _this.shotCount=0;
+        _this.moveWait=0;
+        _this.posAngle=0;
+        _this.posRadius=Tonyu.globals.$W*0.2;
+        _this.posDir="right";
+        _this.hp=30;
+        _this.x=Tonyu.globals.$W*0.5+_this.cos(_this.posAngle)*_this.posRadius;
+        _this.y=Tonyu.globals.$H*0.3;
+        _this.scaleX=Tonyu.globals.$W*0.001;
+        
+        _thread.enter(function _trc_OshiUriTenin_ent_main(_thread) {
+          if (_thread.lastEx) __pc=_thread.catchPC;
+          for(var __cnt=100 ; __cnt--;) {
+            switch (__pc) {
+            case 0:
+            case 1:
+              _this.fiber$damageUpdate(_thread);
+              __pc=2;return;
+            case 2:
+              
+              _this.fiber$dieUpdate(_thread);
+              __pc=3;return;
+            case 3:
+              
+              if (!(_this.shotCount<4)) { __pc=8     ; break; }
+              if (!(Tonyu.globals.$difficulty<=1&&! (_this.frame%60))) { __pc=5     ; break; }
+              _this.fiber$throwItem(_thread, true);
+              __pc=4;return;
+            case 4:
+              
+            case 5     :
+              
+              if (!(Tonyu.globals.$difficulty>=2&&! (_this.frame%_this.rnd(24,60)))) { __pc=7     ; break; }
+              _this.fiber$throwItem(_thread, true);
+              __pc=6;return;
+            case 6:
+              
+            case 7     :
+              
+              __pc=9     ;break;
+            case 8     :
+              {
+                _this.moveWait++;
+              }
+            case 9     :
+              
+              _this.newAlpha=255-_this.cos(120*_this.moveWait*0.01)*255;
+              if (_this.newAlpha>127.5) {
+                _this.alpha=_this.newAlpha;
+              }
+              _this.fiber$posChange(_thread);
+              __pc=10;return;
+            case 10:
+              
+              _this.fiber$purun(_thread);
+              __pc=11;return;
+            case 11:
+              
+              _this.frame++;
+              _this.fiber$update(_thread);
+              __pc=12;return;
+            case 12:
+              
+              __pc=1;break;
+            case 13    :
+              
+              _thread.exit(_this);return;
+            }
+          }
+        });
+      },
+      purun :function _trc_OshiUriTenin_purun() {
+        "use strict";
+        var _this=this;
+        
+        if (! _this.purunRun) {
+          return _this;
+        }
+        _this.rotation=_this.cos(_this.angle)*_this.radius;
+        _this.angle+=Tonyu.globals.$W*0.1;
+        if (_this.radius>0) {
+          _this.radius+=- (Tonyu.globals.$W*0.0025);
+          
+        } else {
+          _this.radius=_this.firstRadius;
+          _this.purunRun=false;
+          
+        }
+      },
+      fiber$purun :function _trc_OshiUriTenin_f_purun(_thread) {
+        "use strict";
+        var _this=this;
+        //var _arguments=Tonyu.A(arguments);
+        var __pc=0;
+        
+        if (! _this.purunRun) {
+          _thread.retVal=_this;return;
+          
+        }
+        _this.rotation=_this.cos(_this.angle)*_this.radius;
+        _this.angle+=Tonyu.globals.$W*0.1;
+        if (_this.radius>0) {
+          _this.radius+=- (Tonyu.globals.$W*0.0025);
+          
+        } else {
+          _this.radius=_this.firstRadius;
+          _this.purunRun=false;
+          
+        }
+        
+        _thread.retVal=_this;return;
+      },
+      throwItem :function _trc_OshiUriTenin_throwItem(badItem) {
+        "use strict";
+        var _this=this;
+        
+        if (Tonyu.globals.$difficulty===0) {
+          _this.hp=1;
+        } else {
+          _this.hp=_this.rnd(1,5);
+        }
+        new Tonyu.classes.user.OshiUriItem({tarX: Tonyu.globals.$W*0.5,x: _this.x,y: _this.y,itemType: _this.rnd(3),badItem: badItem,scaleX: Tonyu.globals.$scrScale,hp: _this.hp});
+        _this.purunRun=true;
+        Tonyu.globals.$sound.playSE(Tonyu.globals.$se_out);
+        _this.shotCount++;
+      },
+      fiber$throwItem :function _trc_OshiUriTenin_f_throwItem(_thread,badItem) {
+        "use strict";
+        var _this=this;
+        //var _arguments=Tonyu.A(arguments);
+        var __pc=0;
+        
+        if (Tonyu.globals.$difficulty===0) {
+          _this.hp=1;
+        } else {
+          _this.hp=_this.rnd(1,5);
+        }
+        new Tonyu.classes.user.OshiUriItem({tarX: Tonyu.globals.$W*0.5,x: _this.x,y: _this.y,itemType: _this.rnd(3),badItem: badItem,scaleX: Tonyu.globals.$scrScale,hp: _this.hp});
+        _this.purunRun=true;
+        Tonyu.globals.$sound.playSE(Tonyu.globals.$se_out);
+        _this.shotCount++;
+        
+        _thread.retVal=_this;return;
+      },
+      posChange :function _trc_OshiUriTenin_posChange() {
+        "use strict";
+        var _this=this;
+        
+        if (_this.moveWait===100) {
+          Tonyu.globals.$sound.playSE(Tonyu.globals.$se_dash);
+        }
+        if (_this.moveWait>100) {
+          if (_this.posDir==="right"&&_this.posAngle<180) {
+            _this.x=Tonyu.globals.$W*0.5+_this.cos(_this.posAngle)*_this.posRadius;
+            _this.posAngle++;
+            
+          } else {
+            if (_this.posDir==="right"&&_this.posAngle>=180) {
+              _this.moveWait=0;
+              _this.shotCount=0;
+              _this.posDir="left";
+              
+            }
+          }
+          if (_this.posDir==="left"&&_this.posAngle>0) {
+            _this.x=Tonyu.globals.$W*0.5+_this.cos(_this.posAngle)*_this.posRadius;
+            _this.posAngle--;
+            
+          } else {
+            if (_this.posDir==="left"&&_this.posAngle<=0) {
+              _this.moveWait=0;
+              _this.shotCount=0;
+              _this.posDir="right";
+              
+            }
+          }
+          
+        }
+      },
+      fiber$posChange :function _trc_OshiUriTenin_f_posChange(_thread) {
+        "use strict";
+        var _this=this;
+        //var _arguments=Tonyu.A(arguments);
+        var __pc=0;
+        
+        if (_this.moveWait===100) {
+          Tonyu.globals.$sound.playSE(Tonyu.globals.$se_dash);
+        }
+        if (_this.moveWait>100) {
+          if (_this.posDir==="right"&&_this.posAngle<180) {
+            _this.x=Tonyu.globals.$W*0.5+_this.cos(_this.posAngle)*_this.posRadius;
+            _this.posAngle++;
+            
+          } else {
+            if (_this.posDir==="right"&&_this.posAngle>=180) {
+              _this.moveWait=0;
+              _this.shotCount=0;
+              _this.posDir="left";
+              
+            }
+          }
+          if (_this.posDir==="left"&&_this.posAngle>0) {
+            _this.x=Tonyu.globals.$W*0.5+_this.cos(_this.posAngle)*_this.posRadius;
+            _this.posAngle--;
+            
+          } else {
+            if (_this.posDir==="left"&&_this.posAngle<=0) {
+              _this.moveWait=0;
+              _this.shotCount=0;
+              _this.posDir="right";
+              
+            }
+          }
+          
+        }
+        
+        _thread.retVal=_this;return;
+      },
+      damageUpdate :function _trc_OshiUriTenin_damageUpdate() {
+        "use strict";
+        var _this=this;
+        
+        if (_this.alpha>=255) {
+          _this.crashBullet=_this.crashTo(Tonyu.classes.user.Bullet);
+          if (_this.crashBullet) {
+            _this.hp--;
+            Tonyu.globals.$sound.playSE(Tonyu.globals.$se_coolguydamage);
+            _this.crashBullet.die();
+            
+          }
+          ;
+          
+          
+        }
+      },
+      fiber$damageUpdate :function _trc_OshiUriTenin_f_damageUpdate(_thread) {
+        "use strict";
+        var _this=this;
+        //var _arguments=Tonyu.A(arguments);
+        var __pc=0;
+        
+        if (_this.alpha>=255) {
+          _this.crashBullet=_this.crashTo(Tonyu.classes.user.Bullet);
+          if (_this.crashBullet) {
+            _this.hp--;
+            Tonyu.globals.$sound.playSE(Tonyu.globals.$se_coolguydamage);
+            _this.crashBullet.die();
+            
+          }
+          ;
+          
+          
+        }
+        
+        _thread.retVal=_this;return;
+      },
+      dieUpdate :function _trc_OshiUriTenin_dieUpdate() {
+        "use strict";
+        var _this=this;
+        
+        if (_this.hp<=0) {
+          _this.die();
+        }
+      },
+      fiber$dieUpdate :function _trc_OshiUriTenin_f_dieUpdate(_thread) {
+        "use strict";
+        var _this=this;
+        //var _arguments=Tonyu.A(arguments);
+        var __pc=0;
+        
+        if (_this.hp<=0) {
+          _this.die();
+        }
+        
+        _thread.retVal=_this;return;
+      },
+      __dummy: false
+    };
+  },
+  decls: {"methods":{"main":{"nowait":false},"purun":{"nowait":false},"throwItem":{"nowait":false},"posChange":{"nowait":false},"damageUpdate":{"nowait":false},"dieUpdate":{"nowait":false}},"fields":{"angle":{},"firstRadius":{},"purunRun":{},"throwFlag":{},"frame":{},"shotCount":{},"moveWait":{},"posAngle":{},"posRadius":{},"posDir":{},"hp":{},"newAlpha":{},"crashBullet":{}}}
+});
+Tonyu.klass.define({
+  fullName: 'user.Uketuke',
+  shortName: 'Uketuke',
+  namespace: 'user',
+  superclass: Tonyu.classes.kernel.BodyActor,
+  includes: [],
+  methods: function (__superClass) {
+    return {
+      main :function _trc_Uketuke_main() {
+        "use strict";
+        var _this=this;
+        
+        _this.staticFrame=0;
+        _this.p=Tonyu.globals.$pat_uketuke;
+        _this.scaleX=Tonyu.globals.$W*0.001;
+        _this.manualRotation=true;
+        _this.itemType=0;
+        if (Tonyu.globals.$difficulty===0) {
+          _this.horiNageItemScl=Tonyu.globals.$W*0.001;
+        }
+        if (Tonyu.globals.$difficulty===1) {
+          _this.horiNageItemScl=Tonyu.globals.$W*0.0005;
+        }
+        if (Tonyu.globals.$difficulty===2) {
+          _this.horiNageItemScl=Tonyu.globals.$W*0.0002;
+        }
+        _this.horiNageItemList=[];
+        _this.horiNageItemOut=false;
+        while (true) {
+          Tonyu.checkLoop();
+          if (_this.y>Tonyu.globals.$H*0.3) {
+            if (_this.staticFrame===0) {
+              Tonyu.globals.$sound.playSE(Tonyu.globals.$se_get);
+              
+            }
+            if (_this.staticFrame%60===0&&_this.itemType<3) {
+              Tonyu.globals.$sound.playSE(Tonyu.globals.$se_irassyai);
+              Tonyu.globals.$sound.playSE(Tonyu.globals.$se_suburi);
+              _this.horiNageItemList.push(new Tonyu.classes.user.HoriNageItem({x: _this.x,y: _this.y,itemType: _this.itemType,badItem: false,dir: _this.rnd(2),scaleX: _this.horiNageItemScl}));
+              _this.itemType++;
+              
+            }
+            ;
+            
+            _this.staticFrame++;
+            
+          }
+          _this.horiNageItemList.map((function anonymous_890(item) {
+            
+            if (item.y>Tonyu.globals.$H*1.05) {
+              _this.horiNageItemOut=true;
+            }
+          }));
+          _this.update();
+          
+        }
+      },
+      fiber$main :function _trc_Uketuke_f_main(_thread) {
+        "use strict";
+        var _this=this;
+        //var _arguments=Tonyu.A(arguments);
+        var __pc=0;
+        
+        _this.staticFrame=0;
+        _this.p=Tonyu.globals.$pat_uketuke;
+        _this.scaleX=Tonyu.globals.$W*0.001;
+        _this.manualRotation=true;
+        _this.itemType=0;
+        if (Tonyu.globals.$difficulty===0) {
+          _this.horiNageItemScl=Tonyu.globals.$W*0.001;
+        }
+        if (Tonyu.globals.$difficulty===1) {
+          _this.horiNageItemScl=Tonyu.globals.$W*0.0005;
+        }
+        if (Tonyu.globals.$difficulty===2) {
+          _this.horiNageItemScl=Tonyu.globals.$W*0.0002;
+        }
+        _this.horiNageItemList=[];
+        _this.horiNageItemOut=false;
+        
+        _thread.enter(function _trc_Uketuke_ent_main(_thread) {
+          if (_thread.lastEx) __pc=_thread.catchPC;
+          for(var __cnt=100 ; __cnt--;) {
+            switch (__pc) {
+            case 0:
+            case 1:
+              if (_this.y>Tonyu.globals.$H*0.3) {
+                if (_this.staticFrame===0) {
+                  Tonyu.globals.$sound.playSE(Tonyu.globals.$se_get);
+                  
+                }
+                if (_this.staticFrame%60===0&&_this.itemType<3) {
+                  Tonyu.globals.$sound.playSE(Tonyu.globals.$se_irassyai);
+                  Tonyu.globals.$sound.playSE(Tonyu.globals.$se_suburi);
+                  _this.horiNageItemList.push(new Tonyu.classes.user.HoriNageItem({x: _this.x,y: _this.y,itemType: _this.itemType,badItem: false,dir: _this.rnd(2),scaleX: _this.horiNageItemScl}));
+                  _this.itemType++;
+                  
+                }
+                ;
+                
+                _this.staticFrame++;
+                
+              }
+              _this.horiNageItemList.map((function anonymous_890(item) {
+                
+                if (item.y>Tonyu.globals.$H*1.05) {
+                  _this.horiNageItemOut=true;
+                }
+              }));
+              _this.fiber$update(_thread);
+              __pc=2;return;
+            case 2:
+              
+              __pc=1;break;
+            case 3     :
+              
+              _thread.exit(_this);return;
+            }
+          }
+        });
+      },
+      __dummy: false
+    };
+  },
+  decls: {"methods":{"main":{"nowait":false}},"fields":{"staticFrame":{},"itemType":{},"horiNageItemScl":{},"horiNageItemList":{},"horiNageItemOut":{}}}
+});
+Tonyu.klass.define({
+  fullName: 'user.Back',
+  shortName: 'Back',
+  namespace: 'user',
+  superclass: Tonyu.classes.kernel.Actor,
+  includes: [],
+  methods: function (__superClass) {
+    return {
+      main :function _trc_Back_main() {
+        "use strict";
+        var _this=this;
+        
+        _this.x=0;
+        _this.y=0;
+        _this.p=Tonyu.globals.$pat_bg;
+        _this.zOrder=1;
+      },
+      fiber$main :function _trc_Back_f_main(_thread) {
+        "use strict";
+        var _this=this;
+        //var _arguments=Tonyu.A(arguments);
+        var __pc=0;
+        
+        _this.x=0;
+        _this.y=0;
+        _this.p=Tonyu.globals.$pat_bg;
+        _this.zOrder=1;
+        
+        _thread.retVal=_this;return;
+      },
+      __dummy: false
+    };
+  },
+  decls: {"methods":{"main":{"nowait":false}},"fields":{}}
+});
+Tonyu.klass.define({
+  fullName: 'user.Bullet',
+  shortName: 'Bullet',
+  namespace: 'user',
+  superclass: Tonyu.classes.kernel.BodyActor,
+  includes: [],
+  methods: function (__superClass) {
+    return {
+      main :function _trc_Bullet_main() {
+        "use strict";
+        var _this=this;
+        
+        _this.sp=Tonyu.globals.$H*0.02;
+        _this.p=Tonyu.globals.$pat_base+18;
+        _this.scaleX=Tonyu.globals.$W*0.002;
+        while (true) {
+          Tonyu.checkLoop();
+          _this.y+=- _this.sp;
+          if (_this.x<0||_this.y<Tonyu.globals.$H*0.15||_this.x>Tonyu.globals.$W||_this.y>Tonyu.globals.$H) {
+            _this.die();
+          }
+          _this.update();
+          
+        }
+      },
+      fiber$main :function _trc_Bullet_f_main(_thread) {
+        "use strict";
+        var _this=this;
+        //var _arguments=Tonyu.A(arguments);
+        var __pc=0;
+        
+        _this.sp=Tonyu.globals.$H*0.02;
+        _this.p=Tonyu.globals.$pat_base+18;
+        _this.scaleX=Tonyu.globals.$W*0.002;
+        
+        _thread.enter(function _trc_Bullet_ent_main(_thread) {
+          if (_thread.lastEx) __pc=_thread.catchPC;
+          for(var __cnt=100 ; __cnt--;) {
+            switch (__pc) {
+            case 0:
+            case 1:
+              _this.y+=- _this.sp;
+              if (_this.x<0||_this.y<Tonyu.globals.$H*0.15||_this.x>Tonyu.globals.$W||_this.y>Tonyu.globals.$H) {
+                _this.die();
+              }
+              _this.fiber$update(_thread);
+              __pc=2;return;
+            case 2:
+              
+              __pc=1;break;
+            case 3     :
+              
+              _thread.exit(_this);return;
+            }
+          }
+        });
+      },
+      __dummy: false
+    };
+  },
+  decls: {"methods":{"main":{"nowait":false}},"fields":{"sp":{}}}
+});
+Tonyu.klass.define({
+  fullName: 'user.Kira',
+  shortName: 'Kira',
+  namespace: 'user',
+  superclass: Tonyu.classes.kernel.Actor,
+  includes: [],
+  methods: function (__superClass) {
+    return {
+      main :function _trc_Kira_main() {
+        "use strict";
+        var _this=this;
+        
+        _this.p=Tonyu.globals.$pat_pika;
+        _this.scaleX=Tonyu.globals.$W*0.0001;
+        _this.frame=0;
+        while (true) {
+          Tonyu.checkLoop();
+          _this.scaleX+=_this.frame*0.001;
+          _this.alpha+=- (_this.frame*0.8);
+          if (_this.alpha<=0) {
+            _this.die();
+          }
+          _this.frame++;
+          _this.update();
+          
+        }
+      },
+      fiber$main :function _trc_Kira_f_main(_thread) {
+        "use strict";
+        var _this=this;
+        //var _arguments=Tonyu.A(arguments);
+        var __pc=0;
+        
+        _this.p=Tonyu.globals.$pat_pika;
+        _this.scaleX=Tonyu.globals.$W*0.0001;
+        _this.frame=0;
+        
+        _thread.enter(function _trc_Kira_ent_main(_thread) {
+          if (_thread.lastEx) __pc=_thread.catchPC;
+          for(var __cnt=100 ; __cnt--;) {
+            switch (__pc) {
+            case 0:
+            case 1:
+              _this.scaleX+=_this.frame*0.001;
+              _this.alpha+=- (_this.frame*0.8);
+              if (_this.alpha<=0) {
+                _this.die();
+              }
+              _this.frame++;
+              _this.fiber$update(_thread);
+              __pc=2;return;
+            case 2:
+              
+              __pc=1;break;
+            case 3     :
+              
+              _thread.exit(_this);return;
+            }
+          }
+        });
+      },
+      __dummy: false
+    };
+  },
+  decls: {"methods":{"main":{"nowait":false}},"fields":{"frame":{}}}
+});
+Tonyu.klass.define({
   fullName: 'user.Player',
   shortName: 'Player',
   namespace: 'user',
@@ -6932,10 +6630,19 @@ Tonyu.klass.define({
       main :function _trc_Player_main() {
         "use strict";
         var _this=this;
-        
+        function failed() {
+          
+          Tonyu.globals.$sound.playSE(Tonyu.globals.$se_gua);
+          Tonyu.globals.$sound.playSE(Tonyu.globals.$se_syaki);
+          Tonyu.globals.$sound.playBGM(Tonyu.globals.$se_k_40);
+          _this.all(Tonyu.classes.user.Items).die();
+          _this.p=Tonyu.globals.$pat_ojisan_damage;
+          _this.apeealTime--;
+          _this.retryText();
+        }
         _this.p=Tonyu.globals.$pat_ojisan;
         _this.crashScale=0.8;
-        _this.itemType=0;
+        _this.itemLen=0;
         _this.apeealTime=0;
         _this.firstX=Tonyu.globals.$W*0.5;
         _this.firstY=Tonyu.globals.$H*0.8;
@@ -7005,22 +6712,31 @@ Tonyu.klass.define({
           _this.ci=_this.hitBall.crashTo(Tonyu.classes.user.Items)||_this.hitBall.crashTo(Tonyu.classes.user.BodyItem);
           if (_this.ci&&_this.apeealTime>- 1) {
             if (_this.ci.badItem===false) {
-              Tonyu.globals.$sound.playSE(Tonyu.globals.$se_get);
+              _this.existItem = _this.followItemList.filter((function anonymous_2102(item) {
+                
+                return item.itemType===_this.ci.itemType;
+              }));
+              
+              if (_this.existItem.length<=0) {
+                Tonyu.globals.$sound.playSE(Tonyu.globals.$se_get);
+                _this.followItemList.push(new Tonyu.classes.user.FollowItem({x: _this.x,y: _this.y,itemType: _this.ci.itemType,badItem: _this.ci.badItem,player: _this}));
+                _this.ci.die();
+                
+              }
               
             } else {
               if (_this.ci.badItem===true) {
+                _this.ci.die();
                 _this.apeealTime--;
                 
               }
             }
-            _this.followItemList.push(new Tonyu.classes.user.FollowItem({x: _this.x,y: _this.y,itemType: _this.ci.itemType,badItem: _this.ci.badItem,player: _this}));
-            if (_this.itemType<3) {
-              _this.itemType++;
+            if (_this.itemLen<3) {
+              _this.itemLen++;
               
             }
             ;
             
-            _this.ci.die();
             
           }
           ;
@@ -7036,18 +6752,31 @@ Tonyu.klass.define({
           ;
           
           if (_this.apeealTime===- 1) {
-            Tonyu.globals.$sound.playSE(Tonyu.globals.$se_gua);
-            Tonyu.globals.$sound.playSE(Tonyu.globals.$se_syaki);
-            Tonyu.globals.$sound.playBGM(Tonyu.globals.$se_k_40);
-            _this.all(Tonyu.classes.user.Items).die();
-            _this.p=Tonyu.globals.$pat_ojisan_damage;
-            _this.apeealTime--;
-            _this.retryText();
+            
+            if (_this.ci) {
+              _this.cs=new Tonyu.classes.user.ChanceScene({itemType: _this.ci.itemType});
+              _this.cs.on("complete",(function anonymous_3322() {
+                
+                Tonyu.globals.$sound.playSE(Tonyu.globals.$se_burp1);
+                _this.apeealTime=0;
+                _this.followItemList.push(new Tonyu.classes.user.FollowItem({x: _this.x,y: _this.y,itemType: _this.ci.itemType,badItem: false,player: _this}));
+                _this.ci.die();
+              }));
+              _this.cs.on("failed",(function anonymous_3593() {
+                
+                failed();
+                _this.followItemList.push(new Tonyu.classes.user.FollowItem({x: _this.x,y: _this.y,itemType: _this.ci.itemType,badItem: true,player: _this}));
+              }));
+              
+            } else {
+              failed();
+              
+            }
             
           }
           ;
           
-          if ((_this.apeealTime<50&&_this.apeealTime>1)||(_this.apeealTime>- 1&&_this.itemType>2)) {
+          if ((_this.apeealTime<50&&_this.apeealTime>1)||(_this.apeealTime>- 1&&_this.followItemList.length-1>=2)) {
             _this.x=Tonyu.globals.$W*0.5;
             _this.y=Tonyu.globals.$H*0.5;
             _this.apeealTime++;
@@ -7094,10 +6823,19 @@ Tonyu.klass.define({
         var _this=this;
         //var _arguments=Tonyu.A(arguments);
         var __pc=0;
-        
+        function failed() {
+          
+          Tonyu.globals.$sound.playSE(Tonyu.globals.$se_gua);
+          Tonyu.globals.$sound.playSE(Tonyu.globals.$se_syaki);
+          Tonyu.globals.$sound.playBGM(Tonyu.globals.$se_k_40);
+          _this.all(Tonyu.classes.user.Items).die();
+          _this.p=Tonyu.globals.$pat_ojisan_damage;
+          _this.apeealTime--;
+          _this.retryText();
+        }
         _this.p=Tonyu.globals.$pat_ojisan;
         _this.crashScale=0.8;
-        _this.itemType=0;
+        _this.itemLen=0;
         _this.apeealTime=0;
         _this.firstX=Tonyu.globals.$W*0.5;
         _this.firstY=Tonyu.globals.$H*0.8;
@@ -7179,26 +6917,36 @@ Tonyu.klass.define({
                 
               }
               _this.ci=_this.hitBall.crashTo(Tonyu.classes.user.Items)||_this.hitBall.crashTo(Tonyu.classes.user.BodyItem);
-              if (_this.ci&&_this.apeealTime>- 1) {
-                if (_this.ci.badItem===false) {
-                  Tonyu.globals.$sound.playSE(Tonyu.globals.$se_get);
-                  
-                } else {
-                  if (_this.ci.badItem===true) {
-                    _this.apeealTime--;
-                    
-                  }
-                }
-                _this.followItemList.push(new Tonyu.classes.user.FollowItem({x: _this.x,y: _this.y,itemType: _this.ci.itemType,badItem: _this.ci.badItem,player: _this}));
-                if (_this.itemType<3) {
-                  _this.itemType++;
-                  
-                }
-                ;
+              if (!(_this.ci&&_this.apeealTime>- 1)) { __pc=7     ; break; }
+              if (!(_this.ci.badItem===false)) { __pc=5     ; break; }
+              _this.existItem = _this.followItemList.filter((function anonymous_2102(item) {
                 
+                return item.itemType===_this.ci.itemType;
+              }));
+              
+              if (_this.existItem.length<=0) {
+                Tonyu.globals.$sound.playSE(Tonyu.globals.$se_get);
+                _this.followItemList.push(new Tonyu.classes.user.FollowItem({x: _this.x,y: _this.y,itemType: _this.ci.itemType,badItem: _this.ci.badItem,player: _this}));
                 _this.ci.die();
                 
               }
+              __pc=6     ;break;
+            case 5     :
+              if (_this.ci.badItem===true) {
+                _this.ci.die();
+                _this.apeealTime--;
+                
+              }
+            case 6     :
+              
+              if (_this.itemLen<3) {
+                _this.itemLen++;
+                
+              }
+              ;
+              
+            case 7     :
+              
               ;
               
               if (_this.apeealTime===1) {
@@ -7211,22 +6959,32 @@ Tonyu.klass.define({
               }
               ;
               
-              if (!(_this.apeealTime===- 1)) { __pc=6     ; break; }
-              Tonyu.globals.$sound.playSE(Tonyu.globals.$se_gua);
-              Tonyu.globals.$sound.playSE(Tonyu.globals.$se_syaki);
-              Tonyu.globals.$sound.playBGM(Tonyu.globals.$se_k_40);
-              _this.all(Tonyu.classes.user.Items).die();
-              _this.p=Tonyu.globals.$pat_ojisan_damage;
-              _this.apeealTime--;
-              _this.fiber$retryText(_thread);
-              __pc=5;return;
-            case 5:
-              
-            case 6     :
-              
+              if (_this.apeealTime===- 1) {
+                
+                if (_this.ci) {
+                  _this.cs=new Tonyu.classes.user.ChanceScene({itemType: _this.ci.itemType});
+                  _this.cs.on("complete",(function anonymous_3322() {
+                    
+                    Tonyu.globals.$sound.playSE(Tonyu.globals.$se_burp1);
+                    _this.apeealTime=0;
+                    _this.followItemList.push(new Tonyu.classes.user.FollowItem({x: _this.x,y: _this.y,itemType: _this.ci.itemType,badItem: false,player: _this}));
+                    _this.ci.die();
+                  }));
+                  _this.cs.on("failed",(function anonymous_3593() {
+                    
+                    failed();
+                    _this.followItemList.push(new Tonyu.classes.user.FollowItem({x: _this.x,y: _this.y,itemType: _this.ci.itemType,badItem: true,player: _this}));
+                  }));
+                  
+                } else {
+                  failed();
+                  
+                }
+                
+              }
               ;
               
-              if (!((_this.apeealTime<50&&_this.apeealTime>1)||(_this.apeealTime>- 1&&_this.itemType>2))) { __pc=9     ; break; }
+              if (!((_this.apeealTime<50&&_this.apeealTime>1)||(_this.apeealTime>- 1&&_this.followItemList.length-1>=2))) { __pc=10    ; break; }
               _this.x=Tonyu.globals.$W*0.5;
               _this.y=Tonyu.globals.$H*0.5;
               _this.apeealTime++;
@@ -7234,18 +6992,18 @@ Tonyu.klass.define({
                 new Tonyu.classes.user.Kira({x: Tonyu.globals.$W*_this.rnd(3,7)*0.1,y: Tonyu.globals.$H*_this.rnd(3,7)*0.1});
                 
               }
-              if (!(_this.apeealTime>=50)) { __pc=8     ; break; }
+              if (!(_this.apeealTime>=50)) { __pc=9     ; break; }
               _this.fiber$setApeealEnd(_thread, true);
-              __pc=7;return;
-            case 7:
-              
-            case 8     :
-              
-              ;
+              __pc=8;return;
+            case 8:
               
             case 9     :
               
-              if (!(_this.apeealTime<- 1)) { __pc=12    ; break; }
+              ;
+              
+            case 10    :
+              
+              if (!(_this.apeealTime<- 1)) { __pc=13    ; break; }
               _this.x=Tonyu.globals.$W*0.5;
               _this.y=Tonyu.globals.$H*0.5;
               _this.apeealTime--;
@@ -7253,41 +7011,41 @@ Tonyu.klass.define({
                 new Tonyu.classes.user.Kira({x: Tonyu.globals.$W*_this.rnd(3,7)*0.1,y: Tonyu.globals.$H*_this.rnd(3,7)*0.1});
                 
               }
-              if (!(Tonyu.globals.$touches[0].touched===1)) { __pc=11    ; break; }
+              if (!(Tonyu.globals.$touches[0].touched===1)) { __pc=12    ; break; }
               _this.fiber$retry(_thread);
-              __pc=10;return;
-            case 10:
-              
-            case 11    :
+              __pc=11;return;
+            case 11:
               
             case 12    :
               
-              _this.fiber$gravityUpdate(_thread);
-              __pc=13;return;
-            case 13:
+            case 13    :
               
-              if (!(_this.bodyFlag)) { __pc=15    ; break; }
-              _this.fiber$bodyUpdate(_thread);
+              _this.fiber$gravityUpdate(_thread);
               __pc=14;return;
             case 14:
               
-              __pc=18    ;break;
-            case 15    :
-              if (!(_this.bodyFlag)) { __pc=17    ; break; }
-              _this.fiber$bodyDeleted(_thread);
-              __pc=16;return;
-            case 16:
+              if (!(_this.bodyFlag)) { __pc=16    ; break; }
+              _this.fiber$bodyUpdate(_thread);
+              __pc=15;return;
+            case 15:
               
-            case 17    :
+              __pc=19    ;break;
+            case 16    :
+              if (!(_this.bodyFlag)) { __pc=18    ; break; }
+              _this.fiber$bodyDeleted(_thread);
+              __pc=17;return;
+            case 17:
               
             case 18    :
               
+            case 19    :
+              
               _this.fiber$update(_thread);
-              __pc=19;return;
-            case 19:
+              __pc=20;return;
+            case 20:
               
               __pc=3;break;
-            case 20    :
+            case 21    :
               
               _thread.exit(_this);return;
             }
@@ -7455,7 +7213,148 @@ Tonyu.klass.define({
       __dummy: false
     };
   },
-  decls: {"methods":{"main":{"nowait":false},"setApeealEnd":{"nowait":false},"getApeealEnd":{"nowait":false},"hitBallFollowUpdate":{"nowait":false},"gravityUpdate":{"nowait":false},"setGunMode":{"nowait":false},"bodyUpdate":{"nowait":false},"bodyDeleted":{"nowait":false}},"fields":{"itemType":{},"apeealTime":{},"firstX":{},"firstY":{},"followItemList":{},"playSyaki":{},"vy":{},"jumpSp":{},"gravity":{},"onGround":{},"frame":{},"hitBall":{},"speed":{},"nowBullet":{},"notMove":{},"fittedGun":{},"gunMode":{},"ci":{},"bodyFlag":{},"apeealEnd":{},"body":{}}}
+  decls: {"methods":{"main":{"nowait":false},"setApeealEnd":{"nowait":false},"getApeealEnd":{"nowait":false},"hitBallFollowUpdate":{"nowait":false},"gravityUpdate":{"nowait":false},"setGunMode":{"nowait":false},"bodyUpdate":{"nowait":false},"bodyDeleted":{"nowait":false}},"fields":{"existItem":{},"itemLen":{},"apeealTime":{},"firstX":{},"firstY":{},"followItemList":{},"playSyaki":{},"vy":{},"jumpSp":{},"gravity":{},"onGround":{},"frame":{},"hitBall":{},"speed":{},"nowBullet":{},"notMove":{},"fittedGun":{},"gunMode":{},"ci":{},"cs":{},"bodyFlag":{},"apeealEnd":{},"body":{}}}
+});
+Tonyu.klass.define({
+  fullName: 'user.CountDownLabel',
+  shortName: 'CountDownLabel',
+  namespace: 'user',
+  superclass: Tonyu.classes.kernel.Actor,
+  includes: [Tonyu.classes.user.ActPattern],
+  methods: function (__superClass) {
+    return {
+      main :function _trc_CountDownLabel_main() {
+        "use strict";
+        var _this=this;
+        
+        _this.player;
+        _this.label=new Tonyu.classes.kernel.Label({x: Tonyu.globals.$W*0.5,y: Tonyu.globals.$H*0.5,text: "0",fillStyle: "black",size: Tonyu.globals.$W*0.15});
+        _this.countDown=3;
+        _this.frame=0;
+        while (true) {
+          Tonyu.checkLoop();
+          _this.frame++;
+          _this.label.text=_this.countDown;
+          if (_this.frame%60===0) {
+            _this.countDown--;
+          }
+          if (_this.countDown<=0) {
+            _this.actJump(_this.player);
+            _this.label.die();
+            _this.die();
+            
+          }
+          _this.update();
+          
+        }
+      },
+      fiber$main :function _trc_CountDownLabel_f_main(_thread) {
+        "use strict";
+        var _this=this;
+        //var _arguments=Tonyu.A(arguments);
+        var __pc=0;
+        
+        _this.player;
+        _this.label=new Tonyu.classes.kernel.Label({x: Tonyu.globals.$W*0.5,y: Tonyu.globals.$H*0.5,text: "0",fillStyle: "black",size: Tonyu.globals.$W*0.15});
+        _this.countDown=3;
+        _this.frame=0;
+        
+        _thread.enter(function _trc_CountDownLabel_ent_main(_thread) {
+          if (_thread.lastEx) __pc=_thread.catchPC;
+          for(var __cnt=100 ; __cnt--;) {
+            switch (__pc) {
+            case 0:
+            case 1:
+              _this.frame++;
+              _this.label.text=_this.countDown;
+              if (_this.frame%60===0) {
+                _this.countDown--;
+              }
+              if (!(_this.countDown<=0)) { __pc=3     ; break; }
+              _this.fiber$actJump(_thread, _this.player);
+              __pc=2;return;
+            case 2:
+              
+              _this.label.die();
+              _this.die();
+            case 3     :
+              
+              _this.fiber$update(_thread);
+              __pc=4;return;
+            case 4:
+              
+              __pc=1;break;
+            case 5     :
+              
+              _thread.exit(_this);return;
+            }
+          }
+        });
+      },
+      __dummy: false
+    };
+  },
+  decls: {"methods":{"main":{"nowait":false}},"fields":{"player":{},"label":{},"countDown":{},"frame":{}}}
+});
+Tonyu.klass.define({
+  fullName: 'user.RocketItem',
+  shortName: 'RocketItem',
+  namespace: 'user',
+  superclass: Tonyu.classes.kernel.Actor,
+  includes: [],
+  methods: function (__superClass) {
+    return {
+      main :function _trc_RocketItem_main() {
+        "use strict";
+        var _this=this;
+        
+        _this.p=Tonyu.globals.$pat_imo;
+        _this.sp=Tonyu.globals.$W*0.01;
+        _this.scaleX=Tonyu.globals.$scrScale;
+        while (true) {
+          Tonyu.checkLoop();
+          if (_this.y<Tonyu.globals.$H*0.8) {
+            _this.y+=_this.sp;
+          }
+          _this.update();
+          
+        }
+      },
+      fiber$main :function _trc_RocketItem_f_main(_thread) {
+        "use strict";
+        var _this=this;
+        //var _arguments=Tonyu.A(arguments);
+        var __pc=0;
+        
+        _this.p=Tonyu.globals.$pat_imo;
+        _this.sp=Tonyu.globals.$W*0.01;
+        _this.scaleX=Tonyu.globals.$scrScale;
+        
+        _thread.enter(function _trc_RocketItem_ent_main(_thread) {
+          if (_thread.lastEx) __pc=_thread.catchPC;
+          for(var __cnt=100 ; __cnt--;) {
+            switch (__pc) {
+            case 0:
+            case 1:
+              if (_this.y<Tonyu.globals.$H*0.8) {
+                _this.y+=_this.sp;
+              }
+              _this.fiber$update(_thread);
+              __pc=2;return;
+            case 2:
+              
+              __pc=1;break;
+            case 3     :
+              
+              _thread.exit(_this);return;
+            }
+          }
+        });
+      },
+      __dummy: false
+    };
+  },
+  decls: {"methods":{"main":{"nowait":false}},"fields":{"sp":{}}}
 });
 Tonyu.klass.define({
   fullName: 'user.CoolSentakuItem',
@@ -7560,6 +7459,779 @@ Tonyu.klass.define({
   decls: {"methods":{"main":{"nowait":false}},"fields":{"sentakuKi":{},"frame":{},"player":{},"mot":{}}}
 });
 Tonyu.klass.define({
+  fullName: 'user.SentakuItem',
+  shortName: 'SentakuItem',
+  namespace: 'user',
+  superclass: Tonyu.classes.user.Items,
+  includes: [],
+  methods: function (__superClass) {
+    return {
+      main :function _trc_SentakuItem_main() {
+        "use strict";
+        var _this=this;
+        
+        __superClass.prototype.main.apply( _this, []);
+        _this.sp;
+        _this.frame=0;
+        _this.futtobi=false;
+        _this.houriKomare=0;
+        _this.moveX;
+        _this.moveY;
+        _this.radius=300;
+        _this.angle=0;
+        _this.YHirei=0;
+        _this.YTobioriFirstPos=0;
+        _this.sentakuKi;
+        _this.player;
+        while (true) {
+          Tonyu.checkLoop();
+          _this.bullet=_this.crashTo(Tonyu.classes.user.Bullet);
+          if (_this.bullet) {
+            _this.futtobi=true;
+            _this.bullet.die();
+            
+          }
+          ;
+          
+          _this.moving();
+          _this.crash();
+          if (_this.crashTo(Tonyu.classes.user.SentakuKi)) {
+            _this.houriKomare=1;
+            new Tonyu.classes.user.CoolSentakuItem({y: Tonyu.globals.$H*0.15,x: 0,sentakuKi: _this.sentakuKi,itemType: _this.itemType,badItem: false,alpha: 0,player: _this.player});
+            _this.die();
+            
+          }
+          if (_this.houriKomare===1) {
+            Tonyu.globals.$sound.playSE(Tonyu.globals.$se_pyun);
+          }
+          _this.angle+=_this.sp;
+          _this.update();
+          
+        }
+      },
+      fiber$main :function _trc_SentakuItem_f_main(_thread) {
+        "use strict";
+        var _this=this;
+        //var _arguments=Tonyu.A(arguments);
+        var __pc=0;
+        
+        
+        _thread.enter(function _trc_SentakuItem_ent_main(_thread) {
+          if (_thread.lastEx) __pc=_thread.catchPC;
+          for(var __cnt=100 ; __cnt--;) {
+            switch (__pc) {
+            case 0:
+              __superClass.prototype.fiber$main.apply( _this, [_thread]);
+              __pc=1;return;
+            case 1:
+              
+              _this.sp;
+              _this.frame=0;
+              _this.futtobi=false;
+              _this.houriKomare=0;
+              _this.moveX;
+              _this.moveY;
+              _this.radius=300;
+              _this.angle=0;
+              _this.YHirei=0;
+              _this.YTobioriFirstPos=0;
+              _this.sentakuKi;
+              _this.player;
+            case 2:
+              _this.bullet=_this.crashTo(Tonyu.classes.user.Bullet);
+              if (_this.bullet) {
+                _this.futtobi=true;
+                _this.bullet.die();
+                
+              }
+              ;
+              
+              _this.fiber$moving(_thread);
+              __pc=3;return;
+            case 3:
+              
+              _this.fiber$crash(_thread);
+              __pc=4;return;
+            case 4:
+              
+              if (_this.crashTo(Tonyu.classes.user.SentakuKi)) {
+                _this.houriKomare=1;
+                new Tonyu.classes.user.CoolSentakuItem({y: Tonyu.globals.$H*0.15,x: 0,sentakuKi: _this.sentakuKi,itemType: _this.itemType,badItem: false,alpha: 0,player: _this.player});
+                _this.die();
+                
+              }
+              if (_this.houriKomare===1) {
+                Tonyu.globals.$sound.playSE(Tonyu.globals.$se_pyun);
+              }
+              _this.angle+=_this.sp;
+              _this.fiber$update(_thread);
+              __pc=5;return;
+            case 5:
+              
+              __pc=2;break;
+            case 6     :
+              
+              _thread.exit(_this);return;
+            }
+          }
+        });
+      },
+      moving :function _trc_SentakuItem_moving() {
+        "use strict";
+        var _this=this;
+        
+        if (_this.futtobi) {
+          return _this;
+        }
+        _this.x=_this.moveX+_this.cos(_this.angle)*_this.radius;
+        if (Tonyu.globals.$difficulty===2) {
+          _this.y=_this.moveY+_this.sin(_this.angle*2)*(_this.radius/10);
+          
+        }
+      },
+      fiber$moving :function _trc_SentakuItem_f_moving(_thread) {
+        "use strict";
+        var _this=this;
+        //var _arguments=Tonyu.A(arguments);
+        var __pc=0;
+        
+        if (_this.futtobi) {
+          _thread.retVal=_this;return;
+          
+        }
+        _this.x=_this.moveX+_this.cos(_this.angle)*_this.radius;
+        if (Tonyu.globals.$difficulty===2) {
+          _this.y=_this.moveY+_this.sin(_this.angle*2)*(_this.radius/10);
+          
+        }
+        
+        _thread.retVal=_this;return;
+      },
+      crash :function _trc_SentakuItem_crash() {
+        "use strict";
+        var _this=this;
+        
+        if (! _this.futtobi) {
+          return _this;
+        }
+        _this.rotation+=Tonyu.globals.$W*0.05;
+        _this.y+=- (Tonyu.globals.$W*0.01+_this.frame);
+      },
+      fiber$crash :function _trc_SentakuItem_f_crash(_thread) {
+        "use strict";
+        var _this=this;
+        //var _arguments=Tonyu.A(arguments);
+        var __pc=0;
+        
+        if (! _this.futtobi) {
+          _thread.retVal=_this;return;
+          
+        }
+        _this.rotation+=Tonyu.globals.$W*0.05;
+        _this.y+=- (Tonyu.globals.$W*0.01+_this.frame);
+        
+        _thread.retVal=_this;return;
+      },
+      __dummy: false
+    };
+  },
+  decls: {"methods":{"main":{"nowait":false},"moving":{"nowait":false},"crash":{"nowait":false}},"fields":{"sp":{},"frame":{},"futtobi":{},"houriKomare":{},"moveX":{},"moveY":{},"YHirei":{},"YTobioriFirstPos":{},"sentakuKi":{},"player":{},"bullet":{}}}
+});
+Tonyu.klass.define({
+  fullName: 'user.SentakuKi',
+  shortName: 'SentakuKi',
+  namespace: 'user',
+  superclass: Tonyu.classes.user.Items,
+  includes: [],
+  methods: function (__superClass) {
+    return {
+      main :function _trc_SentakuKi_main() {
+        "use strict";
+        var _this=this;
+        
+        __superClass.prototype.main.apply( _this, []);
+        _this.p=Tonyu.globals.$pat_sentaku;
+      },
+      fiber$main :function _trc_SentakuKi_f_main(_thread) {
+        "use strict";
+        var _this=this;
+        //var _arguments=Tonyu.A(arguments);
+        var __pc=0;
+        
+        
+        _thread.enter(function _trc_SentakuKi_ent_main(_thread) {
+          if (_thread.lastEx) __pc=_thread.catchPC;
+          for(var __cnt=100 ; __cnt--;) {
+            switch (__pc) {
+            case 0:
+              __superClass.prototype.fiber$main.apply( _this, [_thread]);
+              __pc=1;return;
+            case 1:
+              
+              _this.p=Tonyu.globals.$pat_sentaku;
+              _thread.exit(_this);return;
+            }
+          }
+        });
+      },
+      __dummy: false
+    };
+  },
+  decls: {"methods":{"main":{"nowait":false}},"fields":{}}
+});
+Tonyu.klass.define({
+  fullName: 'user.BigFaceScene',
+  shortName: 'BigFaceScene',
+  namespace: 'user',
+  superclass: Tonyu.classes.kernel.Actor,
+  includes: [Tonyu.classes.user.MainProcLibs],
+  methods: function (__superClass) {
+    return {
+      main :function _trc_BigFaceScene_main() {
+        "use strict";
+        var _this=this;
+        
+        _this.init();
+        _this.scr=1.5;
+        _this.frame=0;
+        _this.attackTime=0;
+        _this.goBackToFirstPos=false;
+        _this.attackArm=0;
+        _this.firstRadius=Tonyu.globals.$scrScale*100;
+        _this.firstLeftArmPosX=- (Tonyu.globals.$W*0.1);
+        _this.firstRightArmPosX=Tonyu.globals.$W*1.1;
+        _this.itemType=- 1;
+        _this.bg=new Tonyu.classes.user.BGBase({BGImg: Tonyu.globals.$pat_bigface_scene_bg,scaleX: Tonyu.globals.$scrScale});
+        _this.BGGW=new Tonyu.classes.kernel.Actor({x: Tonyu.globals.$W*0.5,y: Tonyu.globals.$H*0.5,p: Tonyu.globals.$pat_osouji_scene_bg_gw,scaleX: Tonyu.globals.$scrScale,zOrder: 100});
+        Tonyu.globals.$sound.playBGM(Tonyu.globals.$se_k_94,true);
+        _this.player=new Tonyu.classes.user.Player({speed: Tonyu.globals.$W*0.008,scaleX: Tonyu.globals.$W*0.001,gunMode: false,jump: false});
+        _this.bigFace=new Tonyu.classes.user.BigFace({x: Tonyu.globals.$W*0.5,y: Tonyu.globals.$H*0.3,img: Tonyu.globals.$pat_bigface,scaleX: Tonyu.globals.$scrScale*_this.scr});
+        _this.nowBadItem;
+        _this.goodItemList=[];
+        _this.goodItemMotList=[];
+        _this.badItemBulletList=[];
+        _this.i=2;for (; _this.i<5 ; _this.i++) {
+          Tonyu.checkLoop();
+          {
+            _this.item=new Tonyu.classes.user.Items({x: Tonyu.globals.$W*0.5,y: Tonyu.globals.$H*_this.i*0.1,scaleX: Tonyu.globals.$scrScale,itemType: _this.i-2,badItem: false,zOrder: 100});
+            _this.item.alpha=0;
+            _this.goodItemList.push(_this.item);
+          }
+        }
+        _this.i=0;for (; _this.i<3 ; _this.i++) {
+          Tonyu.checkLoop();
+          {
+            _this.goodItemMotList.push(new Tonyu.classes.user.FollMotion({firstY: _this.goodItemList[_this.i].y}));
+          }
+        }
+        _this.leftArm=new Tonyu.classes.kernel.Actor({x: _this.firstLeftArmPosX,y: 0,p: Tonyu.globals.$pat_bigface_hand+0,scaleX: Tonyu.globals.$scrScale*_this.scr*1.2,rotation: 45});
+        _this.rightArm=new Tonyu.classes.kernel.Actor({x: _this.firstRightArmPosX,y: Tonyu.globals.$H*0.7,p: Tonyu.globals.$pat_bigface_hand+0,scaleX: - (Tonyu.globals.$scrScale*_this.scr*1.2),scaleY: Tonyu.globals.$scrScale*_this.scr*1.2,rotation: - 45});
+        _this.leftRoundTripMotion=new Tonyu.classes.user.RotMotion({firstX: - (Tonyu.globals.$W*0.1),firstY: Tonyu.globals.$H*0.7,sp: Tonyu.globals.$scrScale*10,radius: Tonyu.globals.$scrScale*100,angle: 1});
+        _this.rightRoundTripMotion=new Tonyu.classes.user.RotMotion({firstX: Tonyu.globals.$W*1.1,firstY: Tonyu.globals.$H*0.7,sp: Tonyu.globals.$scrScale*10,radius: Tonyu.globals.$scrScale*100,angle: 180});
+        _this.rotMotion=new Tonyu.classes.user.RotMotion({firstX: Tonyu.globals.$W*0.1,firstY: Tonyu.globals.$H*0.9,sp: Tonyu.globals.$scrScale*10,radius: Tonyu.globals.$scrScale*200,angle: 1});
+        while (true) {
+          Tonyu.checkLoop();
+          _this.frame++;
+          _this.nextScene(_this.player.apeealEnd);
+          if (_this.itemType>2) {
+            _this.goodItemList.map((function anonymous_3119(item) {
+              
+              if (item.alpha===0) {
+                item.alpha=255;
+              }
+            }));
+            _this.bg.y+=10;
+            _this.bigFace.y+=10;
+            _this.leftArm.y+=10;
+            _this.rightArm.y+=10;
+            _this.goodItemMotList.map((function anonymous_3319(m,i) {
+              
+              _this.goodItem=_this.goodItemList[i];
+              _this.goodItem.extend(m.next());
+              if (_this.goodItem.y>=Tonyu.globals.$H+130&&_this.player.apeealTime>=0) {
+                _this.player.apeealTime=- 1;
+                
+              }
+            }));
+            _this.update();
+            continue;
+            
+            
+          }
+          if (_this.attackArm!==- 1) {
+            _this.leftArm.y=_this.leftRoundTripMotion.next().y;
+            _this.leftArm.p=Tonyu.globals.$pat_bigface_hand+0;
+            
+          } else {
+            _this.leftArm.p=Tonyu.globals.$pat_bigface_hand+1;
+            
+          }
+          if (_this.attackArm!==1) {
+            _this.rightArm.y=_this.rightRoundTripMotion.next().y;
+            _this.rightArm.p=Tonyu.globals.$pat_bigface_hand+0;
+            
+          } else {
+            _this.rightArm.p=Tonyu.globals.$pat_bigface_hand+1;
+            
+          }
+          if (_this.attackTime===1) {
+            _this.bigFace.attack=true;
+            if (Tonyu.globals.$bossDifficulty===0) {
+              _this.attackArm=- 1;
+            }
+            if (Tonyu.globals.$bossDifficulty===1) {
+              _this.attackArm=_this.rnd(0,2)?1:- 1;
+            }
+            if (Tonyu.globals.$bossDifficulty===2) {
+              _this.attackArm=_this.rnd(- 1,2);
+            }
+            if (_this.itemType<=2) {
+              _this.itemType++;
+            }
+            if (_this.attackArm===- 1) {
+              _this.leftRoundTripMotion.angle=180;
+            }
+            if (_this.attackArm===1) {
+              _this.rightRoundTripMotion.angle=180;
+            }
+            if (_this.attackArm!==0&&_this.itemType<=2) {
+              _this.nowBadItem=new Tonyu.classes.user.Items({x: Tonyu.globals.$W*0.5,y: Tonyu.globals.$H*0.5,itemType: _this.itemType,badItem: true,scaleX: Tonyu.globals.$scrScale,zOrder: - 1});
+              _this.nowBadItem.itemType=_this.itemType;
+              
+            }
+            
+          }
+          if (_this.attackTime===18) {
+            Tonyu.globals.$sound.playSE(Tonyu.globals.$se_suburi,128,0,0.5);
+          }
+          if (_this.attackTime>24) {
+            if (_this.attackArm===- 1) {
+              _this.attackUpdate(_this.leftRoundTripMotion,2,_this.leftArm,- 1);
+            }
+            if (_this.attackArm===1) {
+              _this.attackUpdate(_this.rightRoundTripMotion,2,_this.rightArm,1);
+            }
+            if (_this.attackArm===0) {
+              _this.itemBulletUpdate(_this.bigFace,_this.player,5);
+            }
+            
+          }
+          if (_this.attackTime>0&&_this.itemType<=2) {
+            _this.attackTime++;
+            if (_this.attackArm===- 1) {
+              _this.nowBadItem.extend({x: _this.leftArm.x+60,y: _this.leftArm.y+- 50});
+            }
+            if (_this.attackArm===1) {
+              _this.nowBadItem.extend({x: _this.rightArm.x+- 60,y: _this.rightArm.y+- 50});
+            }
+            
+          }
+          if (! (_this.frame%60)&&! _this.bigFace.attack) {
+            _this.attackTime=1;
+            
+          }
+          _this.update();
+          
+        }
+      },
+      fiber$main :function _trc_BigFaceScene_f_main(_thread) {
+        "use strict";
+        var _this=this;
+        //var _arguments=Tonyu.A(arguments);
+        var __pc=0;
+        
+        
+        _thread.enter(function _trc_BigFaceScene_ent_main(_thread) {
+          if (_thread.lastEx) __pc=_thread.catchPC;
+          for(var __cnt=100 ; __cnt--;) {
+            switch (__pc) {
+            case 0:
+              _this.fiber$init(_thread);
+              __pc=1;return;
+            case 1:
+              
+              _this.scr=1.5;
+              _this.frame=0;
+              _this.attackTime=0;
+              _this.goBackToFirstPos=false;
+              _this.attackArm=0;
+              _this.firstRadius=Tonyu.globals.$scrScale*100;
+              _this.firstLeftArmPosX=- (Tonyu.globals.$W*0.1);
+              _this.firstRightArmPosX=Tonyu.globals.$W*1.1;
+              _this.itemType=- 1;
+              _this.bg=new Tonyu.classes.user.BGBase({BGImg: Tonyu.globals.$pat_bigface_scene_bg,scaleX: Tonyu.globals.$scrScale});
+              _this.BGGW=new Tonyu.classes.kernel.Actor({x: Tonyu.globals.$W*0.5,y: Tonyu.globals.$H*0.5,p: Tonyu.globals.$pat_osouji_scene_bg_gw,scaleX: Tonyu.globals.$scrScale,zOrder: 100});
+              Tonyu.globals.$sound.playBGM(Tonyu.globals.$se_k_94,true);
+              _this.player=new Tonyu.classes.user.Player({speed: Tonyu.globals.$W*0.008,scaleX: Tonyu.globals.$W*0.001,gunMode: false,jump: false});
+              _this.bigFace=new Tonyu.classes.user.BigFace({x: Tonyu.globals.$W*0.5,y: Tonyu.globals.$H*0.3,img: Tonyu.globals.$pat_bigface,scaleX: Tonyu.globals.$scrScale*_this.scr});
+              _this.nowBadItem;
+              _this.goodItemList=[];
+              _this.goodItemMotList=[];
+              _this.badItemBulletList=[];
+              _this.i=2;for (; _this.i<5 ; _this.i++) {
+                Tonyu.checkLoop();
+                {
+                  _this.item=new Tonyu.classes.user.Items({x: Tonyu.globals.$W*0.5,y: Tonyu.globals.$H*_this.i*0.1,scaleX: Tonyu.globals.$scrScale,itemType: _this.i-2,badItem: false,zOrder: 100});
+                  _this.item.alpha=0;
+                  _this.goodItemList.push(_this.item);
+                }
+              }
+              _this.i=0;for (; _this.i<3 ; _this.i++) {
+                Tonyu.checkLoop();
+                {
+                  _this.goodItemMotList.push(new Tonyu.classes.user.FollMotion({firstY: _this.goodItemList[_this.i].y}));
+                }
+              }
+              _this.leftArm=new Tonyu.classes.kernel.Actor({x: _this.firstLeftArmPosX,y: 0,p: Tonyu.globals.$pat_bigface_hand+0,scaleX: Tonyu.globals.$scrScale*_this.scr*1.2,rotation: 45});
+              _this.rightArm=new Tonyu.classes.kernel.Actor({x: _this.firstRightArmPosX,y: Tonyu.globals.$H*0.7,p: Tonyu.globals.$pat_bigface_hand+0,scaleX: - (Tonyu.globals.$scrScale*_this.scr*1.2),scaleY: Tonyu.globals.$scrScale*_this.scr*1.2,rotation: - 45});
+              _this.leftRoundTripMotion=new Tonyu.classes.user.RotMotion({firstX: - (Tonyu.globals.$W*0.1),firstY: Tonyu.globals.$H*0.7,sp: Tonyu.globals.$scrScale*10,radius: Tonyu.globals.$scrScale*100,angle: 1});
+              _this.rightRoundTripMotion=new Tonyu.classes.user.RotMotion({firstX: Tonyu.globals.$W*1.1,firstY: Tonyu.globals.$H*0.7,sp: Tonyu.globals.$scrScale*10,radius: Tonyu.globals.$scrScale*100,angle: 180});
+              _this.rotMotion=new Tonyu.classes.user.RotMotion({firstX: Tonyu.globals.$W*0.1,firstY: Tonyu.globals.$H*0.9,sp: Tonyu.globals.$scrScale*10,radius: Tonyu.globals.$scrScale*200,angle: 1});
+            case 2:
+              _this.frame++;
+              _this.fiber$nextScene(_thread, _this.player.apeealEnd);
+              __pc=3;return;
+            case 3:
+              
+              if (!(_this.itemType>2)) { __pc=5     ; break; }
+              _this.goodItemList.map((function anonymous_3119(item) {
+                
+                if (item.alpha===0) {
+                  item.alpha=255;
+                }
+              }));
+              _this.bg.y+=10;
+              _this.bigFace.y+=10;
+              _this.leftArm.y+=10;
+              _this.rightArm.y+=10;
+              _this.goodItemMotList.map((function anonymous_3319(m,i) {
+                
+                _this.goodItem=_this.goodItemList[i];
+                _this.goodItem.extend(m.next());
+                if (_this.goodItem.y>=Tonyu.globals.$H+130&&_this.player.apeealTime>=0) {
+                  _this.player.apeealTime=- 1;
+                  
+                }
+              }));
+              _this.fiber$update(_thread);
+              __pc=4;return;
+            case 4:
+              
+              __pc=2; break;
+              
+            case 5     :
+              
+              if (_this.attackArm!==- 1) {
+                _this.leftArm.y=_this.leftRoundTripMotion.next().y;
+                _this.leftArm.p=Tonyu.globals.$pat_bigface_hand+0;
+                
+              } else {
+                _this.leftArm.p=Tonyu.globals.$pat_bigface_hand+1;
+                
+              }
+              if (_this.attackArm!==1) {
+                _this.rightArm.y=_this.rightRoundTripMotion.next().y;
+                _this.rightArm.p=Tonyu.globals.$pat_bigface_hand+0;
+                
+              } else {
+                _this.rightArm.p=Tonyu.globals.$pat_bigface_hand+1;
+                
+              }
+              if (_this.attackTime===1) {
+                _this.bigFace.attack=true;
+                if (Tonyu.globals.$bossDifficulty===0) {
+                  _this.attackArm=- 1;
+                }
+                if (Tonyu.globals.$bossDifficulty===1) {
+                  _this.attackArm=_this.rnd(0,2)?1:- 1;
+                }
+                if (Tonyu.globals.$bossDifficulty===2) {
+                  _this.attackArm=_this.rnd(- 1,2);
+                }
+                if (_this.itemType<=2) {
+                  _this.itemType++;
+                }
+                if (_this.attackArm===- 1) {
+                  _this.leftRoundTripMotion.angle=180;
+                }
+                if (_this.attackArm===1) {
+                  _this.rightRoundTripMotion.angle=180;
+                }
+                if (_this.attackArm!==0&&_this.itemType<=2) {
+                  _this.nowBadItem=new Tonyu.classes.user.Items({x: Tonyu.globals.$W*0.5,y: Tonyu.globals.$H*0.5,itemType: _this.itemType,badItem: true,scaleX: Tonyu.globals.$scrScale,zOrder: - 1});
+                  _this.nowBadItem.itemType=_this.itemType;
+                  
+                }
+                
+              }
+              if (_this.attackTime===18) {
+                Tonyu.globals.$sound.playSE(Tonyu.globals.$se_suburi,128,0,0.5);
+              }
+              if (!(_this.attackTime>24)) { __pc=12    ; break; }
+              if (!(_this.attackArm===- 1)) { __pc=7     ; break; }
+              _this.fiber$attackUpdate(_thread, _this.leftRoundTripMotion, 2, _this.leftArm, - 1);
+              __pc=6;return;
+            case 6:
+              
+            case 7     :
+              
+              if (!(_this.attackArm===1)) { __pc=9     ; break; }
+              _this.fiber$attackUpdate(_thread, _this.rightRoundTripMotion, 2, _this.rightArm, 1);
+              __pc=8;return;
+            case 8:
+              
+            case 9     :
+              
+              if (!(_this.attackArm===0)) { __pc=11    ; break; }
+              _this.fiber$itemBulletUpdate(_thread, _this.bigFace, _this.player, 5);
+              __pc=10;return;
+            case 10:
+              
+            case 11    :
+              
+            case 12    :
+              
+              if (_this.attackTime>0&&_this.itemType<=2) {
+                _this.attackTime++;
+                if (_this.attackArm===- 1) {
+                  _this.nowBadItem.extend({x: _this.leftArm.x+60,y: _this.leftArm.y+- 50});
+                }
+                if (_this.attackArm===1) {
+                  _this.nowBadItem.extend({x: _this.rightArm.x+- 60,y: _this.rightArm.y+- 50});
+                }
+                
+              }
+              if (! (_this.frame%60)&&! _this.bigFace.attack) {
+                _this.attackTime=1;
+                
+              }
+              _this.fiber$update(_thread);
+              __pc=13;return;
+            case 13:
+              
+              __pc=2;break;
+            case 14    :
+              
+              _thread.exit(_this);return;
+            }
+          }
+        });
+      },
+      attackUpdate :function _trc_BigFaceScene_attackUpdate(mot,sp,arm,aarm) {
+        "use strict";
+        var _this=this;
+        
+        if (_this.attackArm!==aarm) {
+          return _this;
+        }
+        if (! _this.goBackToFirstPos) {
+          _this.newPos=mot.next();
+          mot.radius+=sp;
+          arm.extend(_this.newPos);
+          if (mot.radius>250) {
+            _this.goBackToFirstPos=true;
+            
+          }
+          
+        } else {
+          _this.newPos=mot.next();
+          mot.radius+=- sp;
+          arm.extend(_this.newPos);
+          if (mot.radius<_this.firstRadius) {
+            _this.attackTime=0;
+            _this.attackArm=0;
+            _this.bigFace.attack=false;
+            _this.goBackToFirstPos=false;
+            mot.radius=_this.firstRadius;
+            _this.nowBadItem.die();
+            _this.nowBadItem=undefined;
+            if (aarm===- 1) {
+              arm.x=_this.firstLeftArmPosX;
+            }
+            if (aarm===1) {
+              arm.x=_this.firstRightArmPosX;
+            }
+            
+          }
+          
+        }
+      },
+      fiber$attackUpdate :function _trc_BigFaceScene_f_attackUpdate(_thread,mot,sp,arm,aarm) {
+        "use strict";
+        var _this=this;
+        //var _arguments=Tonyu.A(arguments);
+        var __pc=0;
+        
+        if (_this.attackArm!==aarm) {
+          _thread.retVal=_this;return;
+          
+        }
+        if (! _this.goBackToFirstPos) {
+          _this.newPos=mot.next();
+          mot.radius+=sp;
+          arm.extend(_this.newPos);
+          if (mot.radius>250) {
+            _this.goBackToFirstPos=true;
+            
+          }
+          
+        } else {
+          _this.newPos=mot.next();
+          mot.radius+=- sp;
+          arm.extend(_this.newPos);
+          if (mot.radius<_this.firstRadius) {
+            _this.attackTime=0;
+            _this.attackArm=0;
+            _this.bigFace.attack=false;
+            _this.goBackToFirstPos=false;
+            mot.radius=_this.firstRadius;
+            _this.nowBadItem.die();
+            _this.nowBadItem=undefined;
+            if (aarm===- 1) {
+              arm.x=_this.firstLeftArmPosX;
+            }
+            if (aarm===1) {
+              arm.x=_this.firstRightArmPosX;
+            }
+            
+          }
+          
+        }
+        
+        _thread.retVal=_this;return;
+      },
+      itemBulletUpdate :function _trc_BigFaceScene_itemBulletUpdate(base,pl,maxBullet) {
+        "use strict";
+        var _this=this;
+        
+        if (_this.frame%24) {
+          return _this;
+        }
+        Tonyu.globals.$sound.playSE(Tonyu.globals.$se_out,128,0,1.5);
+        if (_this.badItemBulletList.length>maxBullet) {
+          _this.attackTime=0;
+          _this.bigFace.attack=false;
+          _this.badItemBulletList=[];
+          return _this;
+          
+        }
+        ;
+        
+        _this.badItemBulletList.push(new Tonyu.classes.user.ItemBullet({firstX: base.x-30,firstY: base.y+80,itemType: 0,badItem: true,target: {x: pl.x,y: pl.y+500}}));
+      },
+      fiber$itemBulletUpdate :function _trc_BigFaceScene_f_itemBulletUpdate(_thread,base,pl,maxBullet) {
+        "use strict";
+        var _this=this;
+        //var _arguments=Tonyu.A(arguments);
+        var __pc=0;
+        
+        if (_this.frame%24) {
+          _thread.retVal=_this;return;
+          
+        }
+        Tonyu.globals.$sound.playSE(Tonyu.globals.$se_out,128,0,1.5);
+        if (_this.badItemBulletList.length>maxBullet) {
+          _this.attackTime=0;
+          _this.bigFace.attack=false;
+          _this.badItemBulletList=[];
+          _thread.retVal=_this;return;
+          
+          
+        }
+        ;
+        
+        _this.badItemBulletList.push(new Tonyu.classes.user.ItemBullet({firstX: base.x-30,firstY: base.y+80,itemType: 0,badItem: true,target: {x: pl.x,y: pl.y+500}}));
+        
+        _thread.retVal=_this;return;
+      },
+      __dummy: false
+    };
+  },
+  decls: {"methods":{"main":{"nowait":false},"attackUpdate":{"nowait":false},"itemBulletUpdate":{"nowait":false}},"fields":{"scr":{},"frame":{},"attackTime":{},"goBackToFirstPos":{},"attackArm":{},"firstRadius":{},"firstLeftArmPosX":{},"firstRightArmPosX":{},"itemType":{},"bg":{},"BGGW":{},"bigFace":{},"nowBadItem":{},"goodItemList":{},"goodItemMotList":{},"badItemBulletList":{},"item":{},"leftArm":{},"rightArm":{},"leftRoundTripMotion":{},"rightRoundTripMotion":{},"rotMotion":{},"goodItem":{},"newPos":{}}}
+});
+Tonyu.klass.define({
+  fullName: 'user.ClearScreen',
+  shortName: 'ClearScreen',
+  namespace: 'user',
+  superclass: Tonyu.classes.kernel.Actor,
+  includes: [Tonyu.classes.user.Retry],
+  methods: function (__superClass) {
+    return {
+      main :function _trc_ClearScreen_main() {
+        "use strict";
+        var _this=this;
+        
+        _this.frame=0;
+        new Tonyu.classes.kernel.Actor({x: Tonyu.globals.$W*0.5,y: Tonyu.globals.$H*0.5,p: Tonyu.globals.$pat_bg_clear_scene,scaleX: Tonyu.globals.$scrScale,zOrder: 100});
+        _this.retryText();
+        while (true) {
+          Tonyu.checkLoop();
+          _this.frame++;
+          if (Tonyu.globals.$touches[0].touched) {
+            _this.retry();
+            
+          }
+          if (_this.frame%6===0) {
+            new Tonyu.classes.user.Kira({x: Tonyu.globals.$W*_this.rndFloat(0.1,1),y: Tonyu.globals.$H*_this.rndFloat(0.1,1)});
+            
+          }
+          _this.update();
+          
+        }
+        ;
+        
+      },
+      fiber$main :function _trc_ClearScreen_f_main(_thread) {
+        "use strict";
+        var _this=this;
+        //var _arguments=Tonyu.A(arguments);
+        var __pc=0;
+        
+        _this.frame=0;
+        new Tonyu.classes.kernel.Actor({x: Tonyu.globals.$W*0.5,y: Tonyu.globals.$H*0.5,p: Tonyu.globals.$pat_bg_clear_scene,scaleX: Tonyu.globals.$scrScale,zOrder: 100});
+        
+        _thread.enter(function _trc_ClearScreen_ent_main(_thread) {
+          if (_thread.lastEx) __pc=_thread.catchPC;
+          for(var __cnt=100 ; __cnt--;) {
+            switch (__pc) {
+            case 0:
+              _this.fiber$retryText(_thread);
+              __pc=1;return;
+            case 1:
+              
+            case 2:
+              _this.frame++;
+              if (!(Tonyu.globals.$touches[0].touched)) { __pc=4     ; break; }
+              _this.fiber$retry(_thread);
+              __pc=3;return;
+            case 3:
+              
+            case 4     :
+              
+              if (_this.frame%6===0) {
+                new Tonyu.classes.user.Kira({x: Tonyu.globals.$W*_this.rndFloat(0.1,1),y: Tonyu.globals.$H*_this.rndFloat(0.1,1)});
+                
+              }
+              _this.fiber$update(_thread);
+              __pc=5;return;
+            case 5:
+              
+              __pc=2;break;
+            case 6     :
+              
+              ;
+              
+              _thread.exit(_this);return;
+            }
+          }
+        });
+      },
+      __dummy: false
+    };
+  },
+  decls: {"methods":{"main":{"nowait":false}},"fields":{"frame":{}}}
+});
+Tonyu.klass.define({
   fullName: 'user.CoolBottoms',
   shortName: 'CoolBottoms',
   namespace: 'user',
@@ -7587,6 +8259,130 @@ Tonyu.klass.define({
     };
   },
   decls: {"methods":{"main":{"nowait":false}},"fields":{}}
+});
+Tonyu.klass.define({
+  fullName: 'user.CoolGuyScene',
+  shortName: 'CoolGuyScene',
+  namespace: 'user',
+  superclass: Tonyu.classes.kernel.Actor,
+  includes: [Tonyu.classes.user.MainProcLibs],
+  methods: function (__superClass) {
+    return {
+      main :function _trc_CoolGuyScene_main() {
+        "use strict";
+        var _this=this;
+        
+        _this.init();
+        _this.frame=0;
+        _this.gun=new Tonyu.classes.user.Gun({x: Tonyu.globals.$W*0.5,y: 0});
+        if (Tonyu.globals.$difficulty<=1) {
+          _this.bg=new Tonyu.classes.kernel.Actor({x: Tonyu.globals.$W*0.5,y: Tonyu.globals.$H*0.5,p: Tonyu.globals.$pat_road_bg,scaleX: Tonyu.globals.$scrScale,zOrder: 100});
+          
+        } else {
+          _this.bg=new Tonyu.classes.user.BGBase({BGImg: Tonyu.globals.$pat_cool_guy_scene_bg2,scaleX: Tonyu.globals.$scrScale});
+          
+        }
+        _this.crashCheck=new Tonyu.classes.user.CrashCheck;
+        _this.roundTripMotion=new Tonyu.classes.user.RoundTripMotion({firstX: Tonyu.globals.$W*0.5,firstY: Tonyu.globals.$H*0.3});
+        _this.attractionMotion=new Tonyu.classes.user.AttractionMotion({sp: Tonyu.globals.$W*0.005});
+        _this.follMotion=new Tonyu.classes.user.FollMotion;
+        _this.coolGuy=new Tonyu.classes.user.CoolGuy({x: Tonyu.globals.$W*0.5,y: 0});
+        _this.player=new Tonyu.classes.user.Player({speed: Tonyu.globals.$W*0.008,scaleX: Tonyu.globals.$W*0.0008});
+        if (Tonyu.globals.$difficulty<2) {
+          Tonyu.globals.$sound.playBGM(Tonyu.globals.$se_k_94,true);
+        } else {
+          Tonyu.globals.$sound.playBGM(Tonyu.globals.$se_k_128,true);
+        }
+        while (true) {
+          Tonyu.checkLoop();
+          _this.frame++;
+          if (_this.coolGuy.follItemOut&&_this.player.apeealTime>=0) {
+            _this.player.apeealTime=- 1;
+          }
+          if (_this.player.crashTo(_this.gun)) {
+            Tonyu.globals.$sound.playSE(Tonyu.globals.$se_kamaeru);
+            _this.gun.die();
+            _this.player.setGunMode(true);
+            
+          }
+          if (_this.coolGuy.isDead()&&_this.player.getApeealEnd()) {
+            _this.nextScene(true);
+            
+          }
+          _this.update();
+          
+        }
+      },
+      fiber$main :function _trc_CoolGuyScene_f_main(_thread) {
+        "use strict";
+        var _this=this;
+        //var _arguments=Tonyu.A(arguments);
+        var __pc=0;
+        
+        
+        _thread.enter(function _trc_CoolGuyScene_ent_main(_thread) {
+          if (_thread.lastEx) __pc=_thread.catchPC;
+          for(var __cnt=100 ; __cnt--;) {
+            switch (__pc) {
+            case 0:
+              _this.fiber$init(_thread);
+              __pc=1;return;
+            case 1:
+              
+              _this.frame=0;
+              _this.gun=new Tonyu.classes.user.Gun({x: Tonyu.globals.$W*0.5,y: 0});
+              if (Tonyu.globals.$difficulty<=1) {
+                _this.bg=new Tonyu.classes.kernel.Actor({x: Tonyu.globals.$W*0.5,y: Tonyu.globals.$H*0.5,p: Tonyu.globals.$pat_road_bg,scaleX: Tonyu.globals.$scrScale,zOrder: 100});
+                
+              } else {
+                _this.bg=new Tonyu.classes.user.BGBase({BGImg: Tonyu.globals.$pat_cool_guy_scene_bg2,scaleX: Tonyu.globals.$scrScale});
+                
+              }
+              _this.crashCheck=new Tonyu.classes.user.CrashCheck;
+              _this.roundTripMotion=new Tonyu.classes.user.RoundTripMotion({firstX: Tonyu.globals.$W*0.5,firstY: Tonyu.globals.$H*0.3});
+              _this.attractionMotion=new Tonyu.classes.user.AttractionMotion({sp: Tonyu.globals.$W*0.005});
+              _this.follMotion=new Tonyu.classes.user.FollMotion;
+              _this.coolGuy=new Tonyu.classes.user.CoolGuy({x: Tonyu.globals.$W*0.5,y: 0});
+              _this.player=new Tonyu.classes.user.Player({speed: Tonyu.globals.$W*0.008,scaleX: Tonyu.globals.$W*0.0008});
+              if (Tonyu.globals.$difficulty<2) {
+                Tonyu.globals.$sound.playBGM(Tonyu.globals.$se_k_94,true);
+              } else {
+                Tonyu.globals.$sound.playBGM(Tonyu.globals.$se_k_128,true);
+              }
+            case 2:
+              _this.frame++;
+              if (_this.coolGuy.follItemOut&&_this.player.apeealTime>=0) {
+                _this.player.apeealTime=- 1;
+              }
+              if (_this.player.crashTo(_this.gun)) {
+                Tonyu.globals.$sound.playSE(Tonyu.globals.$se_kamaeru);
+                _this.gun.die();
+                _this.player.setGunMode(true);
+                
+              }
+              if (!(_this.coolGuy.isDead()&&_this.player.getApeealEnd())) { __pc=4     ; break; }
+              _this.fiber$nextScene(_thread, true);
+              __pc=3;return;
+            case 3:
+              
+            case 4     :
+              
+              _this.fiber$update(_thread);
+              __pc=5;return;
+            case 5:
+              
+              __pc=2;break;
+            case 6     :
+              
+              _thread.exit(_this);return;
+            }
+          }
+        });
+      },
+      __dummy: false
+    };
+  },
+  decls: {"methods":{"main":{"nowait":false}},"fields":{"frame":{},"gun":{},"bg":{},"crashCheck":{},"roundTripMotion":{},"attractionMotion":{},"follMotion":{},"coolGuy":{}}}
 });
 Tonyu.klass.define({
   fullName: 'user.CoolGuyFollItem',
