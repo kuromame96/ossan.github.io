@@ -1346,7 +1346,7 @@ Tonyu.klass.define({
         Tonyu.globals.$sound.stopBGM();
         Tonyu.globals.$Screen.setBGColor("#faf2ee");
         new Tonyu.classes.kernel.Label({x: _this.W*0.5,y: _this.H*0.3,text: "おっさんコーディネート",size: 30,fillStyle: "#88001b"});
-        new Tonyu.classes.kernel.Label({x: _this.W*0.5,y: _this.H*0.4,text: "ver 1.23",size: 20,fillStyle: "#88001b"});
+        new Tonyu.classes.kernel.Label({x: _this.W*0.5,y: _this.H*0.4,text: "ver 1.2.4",size: 20,fillStyle: "#88001b"});
         new Tonyu.classes.kernel.Label({x: _this.W*0.5,y: _this.H*0.7,text: "タッチでスタート",size: 20,fillStyle: "#88001b"});
         while (true) {
           Tonyu.checkLoop();
@@ -1375,7 +1375,7 @@ Tonyu.klass.define({
         Tonyu.globals.$sound.stopBGM();
         Tonyu.globals.$Screen.setBGColor("#faf2ee");
         new Tonyu.classes.kernel.Label({x: _this.W*0.5,y: _this.H*0.3,text: "おっさんコーディネート",size: 30,fillStyle: "#88001b"});
-        new Tonyu.classes.kernel.Label({x: _this.W*0.5,y: _this.H*0.4,text: "ver 1.23",size: 20,fillStyle: "#88001b"});
+        new Tonyu.classes.kernel.Label({x: _this.W*0.5,y: _this.H*0.4,text: "ver 1.2.4",size: 20,fillStyle: "#88001b"});
         new Tonyu.classes.kernel.Label({x: _this.W*0.5,y: _this.H*0.7,text: "タッチでスタート",size: 20,fillStyle: "#88001b"});
         
         _thread.enter(function _trc_Main_ent_main(_thread) {
@@ -3491,7 +3491,7 @@ Tonyu.klass.define({
         _this.face=new Tonyu.classes.kernel.Actor({x: Tonyu.globals.$W*0.15,y: Tonyu.globals.$H*0.06,p: Tonyu.globals.$pat_ojisan_face,scaleX: Tonyu.globals.$W*0.0008});
         _this.face.zOrder=- 5;
         new Tonyu.classes.kernel.Actor({x: Tonyu.globals.$W*0.5,y: Tonyu.globals.$H*0.075,width: Tonyu.globals.$W,height: Tonyu.globals.$H*0.15,fillStyle: "black",alpha: 180});
-        _this.scoreLabel=new Tonyu.classes.kernel.Label({x: Tonyu.globals.$W*0.6,y: Tonyu.globals.$H*0.1,template: "ノルマ達成まで: $norma",size: Tonyu.globals.$W*0.07});
+        _this.scoreLabel=new Tonyu.classes.kernel.Label({x: Tonyu.globals.$W*0.635,y: Tonyu.globals.$H*0.1,template: "ノルマ達成まで: $norma",size: Tonyu.globals.$W*0.07});
         while (true) {
           Tonyu.checkLoop();
           _this.update();
@@ -3509,7 +3509,7 @@ Tonyu.klass.define({
         _this.face=new Tonyu.classes.kernel.Actor({x: Tonyu.globals.$W*0.15,y: Tonyu.globals.$H*0.06,p: Tonyu.globals.$pat_ojisan_face,scaleX: Tonyu.globals.$W*0.0008});
         _this.face.zOrder=- 5;
         new Tonyu.classes.kernel.Actor({x: Tonyu.globals.$W*0.5,y: Tonyu.globals.$H*0.075,width: Tonyu.globals.$W,height: Tonyu.globals.$H*0.15,fillStyle: "black",alpha: 180});
-        _this.scoreLabel=new Tonyu.classes.kernel.Label({x: Tonyu.globals.$W*0.6,y: Tonyu.globals.$H*0.1,template: "ノルマ達成まで: $norma",size: Tonyu.globals.$W*0.07});
+        _this.scoreLabel=new Tonyu.classes.kernel.Label({x: Tonyu.globals.$W*0.635,y: Tonyu.globals.$H*0.1,template: "ノルマ達成まで: $norma",size: Tonyu.globals.$W*0.07});
         
         _thread.enter(function _trc_UI_ent_main(_thread) {
           if (_thread.lastEx) __pc=_thread.catchPC;
@@ -6642,7 +6642,6 @@ Tonyu.klass.define({
         }
         _this.p=Tonyu.globals.$pat_ojisan;
         _this.crashScale=0.8;
-        _this.itemLen=0;
         _this.apeealTime=0;
         _this.firstX=Tonyu.globals.$W*0.5;
         _this.firstY=Tonyu.globals.$H*0.8;
@@ -6711,32 +6710,25 @@ Tonyu.klass.define({
           }
           _this.ci=_this.hitBall.crashTo(Tonyu.classes.user.Items)||_this.hitBall.crashTo(Tonyu.classes.user.BodyItem);
           if (_this.ci&&_this.apeealTime>- 1) {
-            if (_this.ci.badItem===false) {
-              _this.existItem = _this.followItemList.filter((function anonymous_2102(item) {
-                
-                return item.itemType===_this.ci.itemType;
-              }));
+            _this.existItem = _this.followItemList.filter((function anonymous_2051(item) {
               
-              if (_this.existItem.length<=0) {
+              return item.itemType===_this.ci.itemType;
+            }));
+            
+            if (_this.existItem.length<=0) {
+              if (_this.ci.badItem===false) {
                 Tonyu.globals.$sound.playSE(Tonyu.globals.$se_get);
                 _this.followItemList.push(new Tonyu.classes.user.FollowItem({x: _this.x,y: _this.y,itemType: _this.ci.itemType,badItem: _this.ci.badItem,player: _this}));
-                _this.ci.die();
                 
+              } else {
+                if (_this.ci.badItem===true) {
+                  _this.apeealTime--;
+                  
+                }
               }
-              
-            } else {
-              if (_this.ci.badItem===true) {
-                _this.ci.die();
-                _this.apeealTime--;
-                
-              }
-            }
-            if (_this.itemLen<3) {
-              _this.itemLen++;
+              _this.ci.die();
               
             }
-            ;
-            
             
           }
           ;
@@ -6755,14 +6747,14 @@ Tonyu.klass.define({
             
             if (_this.ci) {
               _this.cs=new Tonyu.classes.user.ChanceScene({itemType: _this.ci.itemType});
-              _this.cs.on("complete",(function anonymous_3322() {
+              _this.cs.on("complete",(function anonymous_3194() {
                 
                 Tonyu.globals.$sound.playSE(Tonyu.globals.$se_burp1);
                 _this.apeealTime=0;
                 _this.followItemList.push(new Tonyu.classes.user.FollowItem({x: _this.x,y: _this.y,itemType: _this.ci.itemType,badItem: false,player: _this}));
                 _this.ci.die();
               }));
-              _this.cs.on("failed",(function anonymous_3593() {
+              _this.cs.on("failed",(function anonymous_3465() {
                 
                 failed();
                 _this.followItemList.push(new Tonyu.classes.user.FollowItem({x: _this.x,y: _this.y,itemType: _this.ci.itemType,badItem: true,player: _this}));
@@ -6835,7 +6827,6 @@ Tonyu.klass.define({
         }
         _this.p=Tonyu.globals.$pat_ojisan;
         _this.crashScale=0.8;
-        _this.itemLen=0;
         _this.apeealTime=0;
         _this.firstX=Tonyu.globals.$W*0.5;
         _this.firstY=Tonyu.globals.$H*0.8;
@@ -6917,35 +6908,27 @@ Tonyu.klass.define({
                 
               }
               _this.ci=_this.hitBall.crashTo(Tonyu.classes.user.Items)||_this.hitBall.crashTo(Tonyu.classes.user.BodyItem);
-              if (!(_this.ci&&_this.apeealTime>- 1)) { __pc=7     ; break; }
-              if (!(_this.ci.badItem===false)) { __pc=5     ; break; }
-              _this.existItem = _this.followItemList.filter((function anonymous_2102(item) {
+              if (!(_this.ci&&_this.apeealTime>- 1)) { __pc=5     ; break; }
+              _this.existItem = _this.followItemList.filter((function anonymous_2051(item) {
                 
                 return item.itemType===_this.ci.itemType;
               }));
               
               if (_this.existItem.length<=0) {
-                Tonyu.globals.$sound.playSE(Tonyu.globals.$se_get);
-                _this.followItemList.push(new Tonyu.classes.user.FollowItem({x: _this.x,y: _this.y,itemType: _this.ci.itemType,badItem: _this.ci.badItem,player: _this}));
+                if (_this.ci.badItem===false) {
+                  Tonyu.globals.$sound.playSE(Tonyu.globals.$se_get);
+                  _this.followItemList.push(new Tonyu.classes.user.FollowItem({x: _this.x,y: _this.y,itemType: _this.ci.itemType,badItem: _this.ci.badItem,player: _this}));
+                  
+                } else {
+                  if (_this.ci.badItem===true) {
+                    _this.apeealTime--;
+                    
+                  }
+                }
                 _this.ci.die();
                 
               }
-              __pc=6     ;break;
             case 5     :
-              if (_this.ci.badItem===true) {
-                _this.ci.die();
-                _this.apeealTime--;
-                
-              }
-            case 6     :
-              
-              if (_this.itemLen<3) {
-                _this.itemLen++;
-                
-              }
-              ;
-              
-            case 7     :
               
               ;
               
@@ -6963,14 +6946,14 @@ Tonyu.klass.define({
                 
                 if (_this.ci) {
                   _this.cs=new Tonyu.classes.user.ChanceScene({itemType: _this.ci.itemType});
-                  _this.cs.on("complete",(function anonymous_3322() {
+                  _this.cs.on("complete",(function anonymous_3194() {
                     
                     Tonyu.globals.$sound.playSE(Tonyu.globals.$se_burp1);
                     _this.apeealTime=0;
                     _this.followItemList.push(new Tonyu.classes.user.FollowItem({x: _this.x,y: _this.y,itemType: _this.ci.itemType,badItem: false,player: _this}));
                     _this.ci.die();
                   }));
-                  _this.cs.on("failed",(function anonymous_3593() {
+                  _this.cs.on("failed",(function anonymous_3465() {
                     
                     failed();
                     _this.followItemList.push(new Tonyu.classes.user.FollowItem({x: _this.x,y: _this.y,itemType: _this.ci.itemType,badItem: true,player: _this}));
@@ -6984,7 +6967,7 @@ Tonyu.klass.define({
               }
               ;
               
-              if (!((_this.apeealTime<50&&_this.apeealTime>1)||(_this.apeealTime>- 1&&_this.followItemList.length-1>=2))) { __pc=10    ; break; }
+              if (!((_this.apeealTime<50&&_this.apeealTime>1)||(_this.apeealTime>- 1&&_this.followItemList.length-1>=2))) { __pc=8     ; break; }
               _this.x=Tonyu.globals.$W*0.5;
               _this.y=Tonyu.globals.$H*0.5;
               _this.apeealTime++;
@@ -6992,18 +6975,18 @@ Tonyu.klass.define({
                 new Tonyu.classes.user.Kira({x: Tonyu.globals.$W*_this.rnd(3,7)*0.1,y: Tonyu.globals.$H*_this.rnd(3,7)*0.1});
                 
               }
-              if (!(_this.apeealTime>=50)) { __pc=9     ; break; }
+              if (!(_this.apeealTime>=50)) { __pc=7     ; break; }
               _this.fiber$setApeealEnd(_thread, true);
-              __pc=8;return;
-            case 8:
+              __pc=6;return;
+            case 6:
               
-            case 9     :
+            case 7     :
               
               ;
               
-            case 10    :
+            case 8     :
               
-              if (!(_this.apeealTime<- 1)) { __pc=13    ; break; }
+              if (!(_this.apeealTime<- 1)) { __pc=11    ; break; }
               _this.x=Tonyu.globals.$W*0.5;
               _this.y=Tonyu.globals.$H*0.5;
               _this.apeealTime--;
@@ -7011,41 +6994,41 @@ Tonyu.klass.define({
                 new Tonyu.classes.user.Kira({x: Tonyu.globals.$W*_this.rnd(3,7)*0.1,y: Tonyu.globals.$H*_this.rnd(3,7)*0.1});
                 
               }
-              if (!(Tonyu.globals.$touches[0].touched===1)) { __pc=12    ; break; }
+              if (!(Tonyu.globals.$touches[0].touched===1)) { __pc=10    ; break; }
               _this.fiber$retry(_thread);
-              __pc=11;return;
-            case 11:
+              __pc=9;return;
+            case 9:
               
-            case 12    :
+            case 10    :
               
-            case 13    :
+            case 11    :
               
               _this.fiber$gravityUpdate(_thread);
-              __pc=14;return;
-            case 14:
+              __pc=12;return;
+            case 12:
               
-              if (!(_this.bodyFlag)) { __pc=16    ; break; }
+              if (!(_this.bodyFlag)) { __pc=14    ; break; }
               _this.fiber$bodyUpdate(_thread);
+              __pc=13;return;
+            case 13:
+              
+              __pc=17    ;break;
+            case 14    :
+              if (!(_this.bodyFlag)) { __pc=16    ; break; }
+              _this.fiber$bodyDeleted(_thread);
               __pc=15;return;
             case 15:
               
-              __pc=19    ;break;
             case 16    :
-              if (!(_this.bodyFlag)) { __pc=18    ; break; }
-              _this.fiber$bodyDeleted(_thread);
-              __pc=17;return;
-            case 17:
               
-            case 18    :
-              
-            case 19    :
+            case 17    :
               
               _this.fiber$update(_thread);
-              __pc=20;return;
-            case 20:
+              __pc=18;return;
+            case 18:
               
               __pc=3;break;
-            case 21    :
+            case 19    :
               
               _thread.exit(_this);return;
             }
@@ -7213,7 +7196,7 @@ Tonyu.klass.define({
       __dummy: false
     };
   },
-  decls: {"methods":{"main":{"nowait":false},"setApeealEnd":{"nowait":false},"getApeealEnd":{"nowait":false},"hitBallFollowUpdate":{"nowait":false},"gravityUpdate":{"nowait":false},"setGunMode":{"nowait":false},"bodyUpdate":{"nowait":false},"bodyDeleted":{"nowait":false}},"fields":{"existItem":{},"itemLen":{},"apeealTime":{},"firstX":{},"firstY":{},"followItemList":{},"playSyaki":{},"vy":{},"jumpSp":{},"gravity":{},"onGround":{},"frame":{},"hitBall":{},"speed":{},"nowBullet":{},"notMove":{},"fittedGun":{},"gunMode":{},"ci":{},"cs":{},"bodyFlag":{},"apeealEnd":{},"body":{}}}
+  decls: {"methods":{"main":{"nowait":false},"setApeealEnd":{"nowait":false},"getApeealEnd":{"nowait":false},"hitBallFollowUpdate":{"nowait":false},"gravityUpdate":{"nowait":false},"setGunMode":{"nowait":false},"bodyUpdate":{"nowait":false},"bodyDeleted":{"nowait":false}},"fields":{"existItem":{},"apeealTime":{},"firstX":{},"firstY":{},"followItemList":{},"playSyaki":{},"vy":{},"jumpSp":{},"gravity":{},"onGround":{},"frame":{},"hitBall":{},"speed":{},"nowBullet":{},"notMove":{},"fittedGun":{},"gunMode":{},"ci":{},"cs":{},"bodyFlag":{},"apeealEnd":{},"body":{}}}
 });
 Tonyu.klass.define({
   fullName: 'user.CountDownLabel',
@@ -7746,9 +7729,10 @@ Tonyu.klass.define({
             _this.rightArm.y+=10;
             _this.goodItemMotList.map((function anonymous_3319(m,i) {
               
+              _this.playerItemLen=_this.player.followItemList.length-1;
               _this.goodItem=_this.goodItemList[i];
               _this.goodItem.extend(m.next());
-              if (_this.goodItem.y>=Tonyu.globals.$H+130&&_this.player.apeealTime>=0) {
+              if (_this.goodItem.y>=Tonyu.globals.$H+130&&_this.player.apeealTime>=0&&_this.playerItemLen<2) {
                 _this.player.apeealTime=- 1;
                 
               }
@@ -7906,9 +7890,10 @@ Tonyu.klass.define({
               _this.rightArm.y+=10;
               _this.goodItemMotList.map((function anonymous_3319(m,i) {
                 
+                _this.playerItemLen=_this.player.followItemList.length-1;
                 _this.goodItem=_this.goodItemList[i];
                 _this.goodItem.extend(m.next());
-                if (_this.goodItem.y>=Tonyu.globals.$H+130&&_this.player.apeealTime>=0) {
+                if (_this.goodItem.y>=Tonyu.globals.$H+130&&_this.player.apeealTime>=0&&_this.playerItemLen<2) {
                   _this.player.apeealTime=- 1;
                   
                 }
@@ -8147,7 +8132,7 @@ Tonyu.klass.define({
       __dummy: false
     };
   },
-  decls: {"methods":{"main":{"nowait":false},"attackUpdate":{"nowait":false},"itemBulletUpdate":{"nowait":false}},"fields":{"scr":{},"frame":{},"attackTime":{},"goBackToFirstPos":{},"attackArm":{},"firstRadius":{},"firstLeftArmPosX":{},"firstRightArmPosX":{},"itemType":{},"bg":{},"BGGW":{},"bigFace":{},"nowBadItem":{},"goodItemList":{},"goodItemMotList":{},"badItemBulletList":{},"item":{},"leftArm":{},"rightArm":{},"leftRoundTripMotion":{},"rightRoundTripMotion":{},"rotMotion":{},"goodItem":{},"newPos":{}}}
+  decls: {"methods":{"main":{"nowait":false},"attackUpdate":{"nowait":false},"itemBulletUpdate":{"nowait":false}},"fields":{"scr":{},"frame":{},"attackTime":{},"goBackToFirstPos":{},"attackArm":{},"firstRadius":{},"firstLeftArmPosX":{},"firstRightArmPosX":{},"itemType":{},"bg":{},"BGGW":{},"bigFace":{},"nowBadItem":{},"goodItemList":{},"goodItemMotList":{},"badItemBulletList":{},"item":{},"leftArm":{},"rightArm":{},"leftRoundTripMotion":{},"rightRoundTripMotion":{},"rotMotion":{},"playerItemLen":{},"goodItem":{},"newPos":{}}}
 });
 Tonyu.klass.define({
   fullName: 'user.ClearScreen',
